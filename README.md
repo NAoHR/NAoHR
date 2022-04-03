@@ -1,9 +1,22 @@
+
 <p align="left">&#12318;</p>
 <br>
 <p align="center">
   <samp>
-    74810507039681039101610221105689970104183573970883510796048749731058786106383863582479862572199567810561033889772
-  </samp>
+~  you, future me ~
+<br>
+have you ever got stuck in look a like void state of mind?
+<br>
+repetitive, recursive, and endless.
+<br>
+restless got its own occasions.
+<br>
+searching back through the old memories to find where this branch started.
+<br>
+and it turned out it was never a branch, but a lack of consciousness
+<br>
+~ me, the past ~
+</samp>
 </p>
 <br>
 <p align="right">&#12319;</p>
@@ -31,4 +44,3 @@
   <img alt="Top Language" src="https://github-readme-stats.vercel.app/api/top-langs/?bg_color=00000000&layout=compact&username=NAoHR&hide_border=true&title_color=373e4d&text_color=3b4252"/>
 <h2></h2><br>
 </details>
-
