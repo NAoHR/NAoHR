@@ -41,6 +41,6 @@ and it turned out it was never a branch, but a lack of consciousness
     Currently interested on backend, automation stuff and data science<br>
   </samp>
   </p>
-  <img alt="Top Language" src="https://github-readme-stats.vercel.app/api/top-langs/?bg_color=00000000&layout=compact&username=NAoHR&hide_border=true&title_color=373e4d&text_color=3b4252"/>
+  <img alt="Top Language" src="https://github-readme-stats.vercel.app/api/top-langs/?bg_color=1a1b1d&layout=compact&username=NAoHR&hide_border=true&title_color=ffffff&text_color=ffffff"/>
 <h2></h2><br>
 </details>
