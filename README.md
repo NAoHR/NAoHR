@@ -1,22 +1,8 @@
-
+  
 <p align="left">&#12318;</p>
 <br>
 <p align="center">
-  <samp>
-~  you, future me ~
-<br>
-have you ever got stuck in look a like void state of mind?
-<br>
-repetitive, recursive, and endless.
-<br>
-restless got its own occasions.
-<br>
-searching back through the old memories to find where this branch started.
-<br>
-and it turned out it was never a branch, but a lack of consciousness
-<br>
-~ me, the past ~
-</samp>
+<img src="https://c.tenor.com/VrNYXs-O3WwAAAAM/sad-cat.gif"  align="center" width="350"/> 
 </p>
 <br>
 <p align="right">&#12319;</p>
