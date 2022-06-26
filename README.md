@@ -22,11 +22,13 @@
   </samp>
 </p>
 <h2></h2><br>
-  <p align="center">
+  <p align="right">
   <samp>
     Currently interested on backend, automation stuff and data science<br>
   </samp>
   </p>
-  <img alt="Top Language" src="https://github-readme-stats.vercel.app/api/top-langs/?bg_color=1a1b1d&layout=compact&username=NAoHR&hide_border=true&title_color=ffffff&text_color=ffffff"/>
+  <img alt="Top Language" src="https://github-readme-stats.vercel.app/api/top-langs/?layout=compact&username=NAoHR&theme=tokyonight"/>
+<img alt="streaks" src="https://github-readme-streak-stats.herokuapp.com/?user=naohr&count_private=true&theme=tokyonight">
+<img alt="stats" src="https://github-readme-stats.vercel.app/api?username=naohr&show_icons=true&theme=tokyonight&include_all_commits=true&count_private=true">
 <h2></h2><br>
 </details>
