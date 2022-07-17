@@ -1,0 +1,97 @@
+.welcoming{
+    width: 100vw;
+    height: 100vh;
+    max-width:100%;
+    padding: 85px 20px 20px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.decoration{
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    bottom: 20px;
+    gap: 10px;
+}
+.dots{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--light);
+}
+.sup-g{
+    font-size: 1.5em;
+}
+.name{
+    font-size: 3em;
+    letter-spacing: 5px;
+}
+
+.wc-svg{
+    width: 90%;
+    margin-bottom: 30px;
+    display: none;
+}
+.social-media-side{
+    padding-top: 10px;
+    width: 250px;
+    display: flex;
+    gap: 5px;
+}
+.sm-perk{
+    font-size: 2em;
+}
+
+.download-porto{
+    margin-top: 10px;
+    width: 200px;
+    height: 45px;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.dporto-t{
+    letter-spacing: 2px;
+    font-size: 1.2em;
+}
+
+.auto-resize{
+    width: 100vw;
+    max-width: 100vw;
+}
+
+.mexplanation{
+    width: 100vw;
+    max-width:100%;
+    padding: 50px 10px 10px 10px;
+}
+.hastag{
+    margin-right: 10px;
+}
+.title-text{
+    font-size: 1.5em;
+}
+@media screen and (min-width: 682px) {
+    .welcoming{
+        flex-direction: row-reverse;
+        justify-content: center;
+        gap: 70px;
+    }
+    .wc-svg{
+        width: 300px;
+        display: inline-block;
+    }
+}
+@media screen and (min-width: 900px) {
+    .welcoming{
+        gap: 150px;
+    }
+}
+@media screen and (min-height: 768px){
+    .welcoming{
+        height: 768px;
+    }
+}

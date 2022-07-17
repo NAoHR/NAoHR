@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500&display=swap');
+:root {
+    --light: #fff;
+    --white-base: #eee;
+    --black: #484554;
+    --text-color: #fff;
+    --purple: #6C63FF;
+    --d-blue: #3A5673;
+    --thin-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+*{
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+    text-decoration: none;
+}
+html,body{
+    background-color: var(--black);
+}
+/* color related - open */
+    .c-black{
+        color: var(--black);
+    }
+    .c-light{
+        color: var(--light);
+    }
+    .c-purple{
+        color: var(--purple);
+    }
+    .c-dblue{
+        color: var(--d-blue);
+    }
+    
+    .b-black{
+        background: var(--black);
+    }
+    .b-light{
+        background: var(--light);
+    }
+    .b-purple{
+        background: var(--purple);
+    }
+    .b-dblue{
+        background: var(--d-blue);
+    }
+
+    .glowing{
+        background: -webkit-linear-gradient(45deg, var(--purple), #00ff95);
+    }
+    .glowing-t{
+        background: -webkit-linear-gradient(45deg, var(--purple), #00ff95);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+/* text related - open */
+    .bebas{
+        font-family: 'Bebas Neue', cursive;
+    }
+    .poppins{
+        font-family: 'Poppins', sans-serif;
+    }
+
