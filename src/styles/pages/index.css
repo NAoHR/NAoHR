@@ -63,7 +63,7 @@
     max-width: 100vw;
 }
 
-.mexplanation{
+.base-align{
     width: 100vw;
     max-width:100%;
     padding: 50px 10px 10px 10px;
@@ -72,7 +72,17 @@
     margin-right: 10px;
 }
 .title-text{
-    font-size: 1.5em;
+    font-size: 2em;
+    padding-bottom: 20px;
+}
+.main-text{
+    font-weight: 400;
+    font-size: 1.1em;
+    padding-bottom: 20px;
+}
+
+.tech-stack{
+    width: 100;
 }
 @media screen and (min-width: 682px) {
     .welcoming{
@@ -88,6 +98,10 @@
 @media screen and (min-width: 900px) {
     .welcoming{
         gap: 150px;
+    }
+    .base-align{
+        width: 900px;
+        margin: 0 auto;
     }
 }
 @media screen and (min-height: 768px){

@@ -55,6 +55,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    z-index: 9;
 }
 .scroll-up{
     width: 40px;
@@ -68,8 +70,9 @@
 }
 .sc-t{
     font-size: 1.2em;
+    transform: rotate(180deg);
     position: relative;
-    top: 4px;
+    top: -4px;
 }
 @media screen and (max-width: 1200px) {
     .navbar-content{

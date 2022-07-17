@@ -16,6 +16,7 @@
 }
 html,body{
     background-color: var(--black);
+    scroll-behavior: smooth;
 }
 /* color related - open */
     .c-black{

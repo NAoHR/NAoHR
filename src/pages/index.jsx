@@ -61,7 +61,7 @@ export default function Index() {
                     </a>
                 </div>
             </div>
-            <div className="mexplanation">
+            <div className="base-align">
                 <div className="main-title">
                     <h1 className="title-text c-light poppins">
                         <span className="hastag poppins glowing-t">
@@ -69,6 +69,46 @@ export default function Index() {
                         </span>
                         MExplanation
                     </h1>
+                </div>
+                <div className="main-text">
+                    <p className="text-m poppins c-light">
+                        i got nothing to tell yet, but i promise ill give it out one day.
+                    </p>
+                    <br />
+                    <p className="text-m poppins c-light">
+                        passionate (?)
+                        <span className="glowing-t">
+                             <b> full-stack developer </b>
+                        </span>
+                         wannabe. i love the way machine works. either to get all the things done or help to overcome daily-basis. currently i am learning <b>typescript</b> and <b>postgresql</b> (just start).
+                         I made this website to share all my <span className="glowing-t">
+                             <b> code-journey </b>
+                        </span>
+                        and all the project that i have done.
+                    </p>
+                    <br />
+                    <p className="text-m poppins c-light">
+                        for me living is simply just saying enough, well i know we all aint got no real definition on what <b>enough</b> really mean. it's not depends on them, it's on you     <span className="glowing-t">
+                             <b> always </b>
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div className="base-align">
+                <div className="main-title">
+                    <h1 className="title-text c-light poppins">
+                        <span className="hastag poppins glowing-t">
+                            #
+                        </span>
+                        Tech Stack
+                    </h1>
+                </div>
+                <div className="main-text">
+                    <p className="text-m poppins c-light">
+                        here lies those <span className="glowing-t">
+                             <b> tech-stack </b>
+                        </span> that i have learnt
+                    </p>
                 </div>
             </div>
         </>
