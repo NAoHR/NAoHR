@@ -169,7 +169,7 @@ export default function Index() {
                     }
                 </div>
             </div>
-            <div className="base-align" id="stack">
+            <div className="base-align" id="project">
                 <div className="main-title">
                     <h1 className="title-text c-light poppins">
                         <span className="hastag poppins glowing-t">

@@ -19,6 +19,11 @@ export default function Navbar() {
         })
     },[])
 
+    function scrollToSub(idName){
+        const idTobeScrolled = document.getElementById(idName).offsetTop;
+        window.scrollTo(0, idTobeScrolled - 20);
+    }
+
     useEffect(()=>{
         if(navbar){
             navbar.style = `background: ${displaybg ? "var(--black)" : "none"}; transition: .5s;`
@@ -37,17 +42,17 @@ export default function Navbar() {
                     HR</p>
                 </div>
                 <div className="nb-rightside">
-                    <a href="#">
+                    <a onClick={()=> scrollToSub("me")}>
                         <div className="nb-perks">
                             <p className="rs-perks poppins c-light">Me</p>
                         </div>
                     </a>
-                    <a href="#">
+                    <a onClick={()=> scrollToSub("stack")}>
                         <div className="nb-perks">
                             <p className="rs-perks poppins c-light">Stack</p>
                         </div>
                     </a>
-                    <a href="#">
+                    <a onClick={()=> scrollToSub("project")}>
                         <div className="nb-perks">
                             <p className="rs-perks poppins c-light">Project</p>
                         </div>
