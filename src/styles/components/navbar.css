@@ -37,6 +37,9 @@
     justify-content: center;
     align-items: center;
 }
+.nb-perks:hover{
+    cursor: pointer;
+}
 .title{
     font-weight: bold;
     font-size: 1.2em;
