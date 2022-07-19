@@ -98,9 +98,9 @@
 }
 
 .ts-card{
-    max-width: 200px;
+    max-width: 160px;
     width: 100%;
-    height: 200px;
+    height: 160px;
     border-radius: 10px;
     background: -webkit-linear-gradient(45deg, var(--purple), #00ff95);
     box-shadow: var(--light-black);
@@ -120,6 +120,44 @@
 .ts-image{
     width: 70%;
     height: 70%;
+}
+
+.project-main{
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+
+}
+.project-card{
+    width: 100%;
+    background: var(--light-black);
+    padding: 10px;
+}
+.pc-title{
+    margin-bottom: 20px;
+}
+.wrapper-color{
+    padding: 10px;
+    width: 100%;
+}
+.pc-tag{
+    width: 100%;
+    margin-top: 20px;
+}
+.pc-tag-text{
+    display: inline-block;
+    padding: 5px 10px 5px 10px;
+    background-color: var(--purple);
+    border: 2px solid var(--light);
+    margin: 5px;
+    font-size: .8em;
+    border-radius: 20px;
+}
+.link-t{
+    text-decoration: underline var(--light);
 }
 @media screen and (min-width: 682px) {
     .tech-stack-content{

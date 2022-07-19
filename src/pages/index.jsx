@@ -37,12 +37,99 @@ const dataTech = [
     }
 ]
 
+const projectData = [
+    {
+        title : "Lyrics-Finder-Bot",
+        link: "https://github.com/NAoHR/lyrics-bot",
+        description: "bot to find lyrics based on its title, or its certain lyrics. this bot scrape azylyrics website. to make this bot work, get your own azlyric's X parameter",
+        tag: ["typeScript", "cheerio", "bot"]
+    },
+    {
+        title : "Syncronize-media-server",
+        link: "https://github.com/NAoHR/synchronize-media-server",
+        description: "expressJs based server intended for my friend's project.",
+        tag: ["expressJS", "nodeJS", "mongoDB","mongoose"]
+    },
+    {
+        title : "Detailku-Sija",
+        link: "https://github.com/NAoHR/detailku-sija",
+        description: "nextJS based website, platform to show the details of each vocation of vocational high school including school's detail, student, job and such.this platform provide all information about all project that has been done by the student, skill, and certificate of each studen",
+        tag: ["nodeJS","NextJS"]
+    },
+    {
+        title : "Detailku-Server",
+        link: "https://github.com/NAoHR/detailku-sija",
+        description: "ExpressJs Based server to reserve school Aula with synchronize date, automatic cancellation, and automatic active status. this also my first attempt using express library",
+        tag: ["nodeJS","ExpressJS","MongoDB","Mongoose"]
+    },
+    {
+        title : "ppdbData",
+        link: "https://github.com/NAoHR/ppdbData",
+        description: "python based dataset creator to parse each student on ppdb website and structure it based on its vocational type (currently only in jakarta)",
+        tag: ["python"]
+    }
+]
+
 function CardImage({image,id}){
     
     return (
         <div className="ts-card">
             <div className="ts-main">
                 <img src={image} alt="" className="ts-image"/>
+            </div>
+        </div>
+    )
+}
+
+function CardProject({title,link,description,tag}){
+    return (
+        <div className="wrapper-color glowing">
+        <div className="project-card">
+            <h2 className="pc-title poppins c-light">
+                <span className="glowing-t"># </span> {title}
+            </h2>
+            <p className="pc-text poppins c-light">
+                {description}
+            </p>
+            <a href={link}>
+                <h4 className="poppins c-light link-t">
+                    source code
+                </h4>
+            </a>
+            <div className="pc-tag">
+                {tag.map((val) => {
+                    return(
+                        <span className="pc-tag-text poppins c-light" key={val}>
+                        {val}
+                        </span>
+                    )
+                })}
+            </div>
+        </div>
+    </div>
+    )
+}
+function ProjectCard({title, description, tag, link}){
+    return(
+        <div className="wrapper-color glowing">
+            <div className="project-card">
+                <h2 className="pc-title poppins c-light">
+                    <span className="glowing-t"># </span> Synchronize-media-server
+                </h2>
+                <p className="pc-text poppins c-light">
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odit veritatis saepe corporis amet illum eligendi atque cupiditate praesentium laborum! Minima optio deleniti dicta nulla veritatis consequatur laborum similique tempore dignissimos!
+                </p>
+                <div className="pc-tag">
+                    <span className="pc-tag-text poppins c-light">
+                        expressJS
+                    </span>
+                    <span className="pc-tag-text poppins c-light">
+                        MongoDB
+                    </span>
+                    <span className="pc-tag-text poppins c-light">
+                        Mongoose
+                    </span>
+                </div>
             </div>
         </div>
     )
@@ -180,10 +267,17 @@ export default function Index() {
                 </div>
                 <div className="main-text">
                     <p className="text-m poppins c-light">
-                        Will be added <span className="glowing-t">
-                             <b> Soon </b>
-                        </span>, just sit tight
+                        a few of my  <span className="glowing-t">
+                             <b> code-journey </b>
+                        </span>, see on my github to get a clear explanation
                     </p>
+                </div>
+                <div className="project-main">
+                    {
+                        projectData.map((val)=>{
+                            return <CardProject title={val.title} description={val.description} link={val.link} tag={val.tag} />
+                        })
+                    }
                 </div>
             </div>
         </>
