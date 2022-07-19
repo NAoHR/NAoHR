@@ -47,6 +47,14 @@
 .rs-perks{
     font-weight: 600;
     font-size: 1.2em;
+    transition: .5s;
+}
+.rs-perks:hover{
+    background: -webkit-linear-gradient(45deg, var(--purple), #00ff95);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: .5s;
 }
 .sc-wrap{
     width: 50px;
@@ -64,7 +72,6 @@
 .scroll-up{
     width: 40px;
     height: 40px;
-    /* background: var(--black); */
     box-shadow: var(--thin-shadow);
     display: flex;
     justify-content: center;
