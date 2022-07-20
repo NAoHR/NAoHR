@@ -1,6 +1,6 @@
 import "../styles/pages/index.css";
 import Navbar from "../components/Navbar";
-import {FaInstagramSquare, FaGithub, FaTwitterSquare, FaTelegram,FaDownload, FaLinkedin} from "react-icons/fa";
+import {FaInstagramSquare, FaGithub, FaTwitterSquare, FaTelegram,FaDownload, FaLinkedin, FaCopyright, FaHeart} from "react-icons/fa";
 
 const dataTech = [
     {
@@ -278,6 +278,38 @@ export default function Index() {
                             return <CardProject title={val.title} description={val.description} link={val.link} tag={val.tag} />
                         })
                     }
+                </div>
+            </div>
+
+            <div className="footer base-align">
+                <div className="footer-content">
+                    <div className="content-left">
+                        <a href="https://instagram.com/najmi_2821">
+                            <h3 className="ftc-perks poppins c-light">
+                                <FaInstagramSquare />
+                            </h3>
+                        </a>
+                        <a href="https://github.com/naohr">
+                            <h3 className="ftc-perks poppins c-light">
+                                <FaGithub />
+                            </h3>
+                        </a>
+                        <a href="https://twitter.com/bintangbhsarab">
+                            <h3 className="ftc-perks poppins c-light">
+                                <FaTwitterSquare />
+                            </h3>
+                        </a>
+                        <a href="">
+                            <h3 className="ftc-perks poppins c-light">
+                                <FaTelegram />
+                            </h3>
+                        </a>
+                    </div>
+                    <div className="content-right">
+                        <h3 className="poppins c-light">
+                            Ⓒ | 2022 Najmi
+                        </h3>
+                    </div>
                 </div>
             </div>
         </>

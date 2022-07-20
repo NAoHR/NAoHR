@@ -159,6 +159,21 @@
 .link-t{
     text-decoration: underline var(--light);
 }
+.footer-content{
+    width: 100%;
+    display: flex;
+    gap: 5px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.ftc-perks{
+    font-size: 1.6em;
+}
+.content-left{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
 @media screen and (min-width: 682px) {
     .tech-stack-content{
         justify-content: flex-start;
