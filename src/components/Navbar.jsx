@@ -60,7 +60,9 @@ export default function Navbar() {
                 </div>
             </div>
         </nav>
-        <div className="sc-wrap glowing" onClick={scrollToUp}>
+        <div className="sc-wrap glowing" onClick={scrollToUp} style={{
+            display : `${displaybg ? "flex" : "none"}`
+        }}>
             <div className="scroll-up b-light">
                 <p className="poppins c-black sc-t">
                     <FaHeart />
