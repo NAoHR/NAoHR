@@ -1,6 +1,7 @@
 import "../styles/pages/index.css";
 import Navbar from "../components/Navbar";
-import {FaInstagramSquare, FaGithub, FaTwitterSquare, FaTelegram,FaDownload, FaLinkedin, FaCopyright, FaHeart} from "react-icons/fa";
+import {FaInstagramSquare, FaGithub, FaTwitterSquare, FaTelegram,FaDownload, FaLinkedin} from "react-icons/fa";
+import {SiCodewars} from "react-icons/si";
 
 const dataTech = [
     {
@@ -142,6 +143,11 @@ export default function Index() {
                         <a href="https://github.com/NAoHR">
                             <h4 className="sm-perk c-light">
                                 <FaGithub />
+                            </h4>
+                        </a>
+                        <a href="https://www.codewars.com/users/Najmi">
+                            <h4 className="sm-perk c-light">
+                                <SiCodewars />
                             </h4>
                         </a>
                         <a href="https://instagram.com/najmi_2821">
