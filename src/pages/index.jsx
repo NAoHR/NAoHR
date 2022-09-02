@@ -109,31 +109,6 @@ function CardProject({title,link,description,tag}){
     </div>
     )
 }
-function ProjectCard({title, description, tag, link}){
-    return(
-        <div className="wrapper-color glowing">
-            <div className="project-card">
-                <h2 className="pc-title poppins c-light">
-                    <span className="glowing-t"># </span> Synchronize-media-server
-                </h2>
-                <p className="pc-text poppins c-light">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odit veritatis saepe corporis amet illum eligendi atque cupiditate praesentium laborum! Minima optio deleniti dicta nulla veritatis consequatur laborum similique tempore dignissimos!
-                </p>
-                <div className="pc-tag">
-                    <span className="pc-tag-text poppins c-light">
-                        expressJS
-                    </span>
-                    <span className="pc-tag-text poppins c-light">
-                        MongoDB
-                    </span>
-                    <span className="pc-tag-text poppins c-light">
-                        Mongoose
-                    </span>
-                </div>
-            </div>
-        </div>
-    )
-}
 
 export default function Index() {
     return (
