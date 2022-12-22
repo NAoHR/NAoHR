@@ -18,7 +18,7 @@ function App() {
       <Container 
       size={"xl"} 
       h="100vh"
-      w="100vw"
+      maw="800px"
       >
         <Flex
         mih="100%"
