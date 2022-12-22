@@ -63,7 +63,7 @@ const Quotes = () => {
                     if(isDone) setQuote(quotesList[Math.floor(Math.random() * quotesList.length)])
 
                 }}>
-                    {isDone ? <IconRefresh size={24} /> : <Loader size="sm" color="white" variant="bars" />}
+                    {isDone ? <IconRefresh size={24} /> : <Loader size="xs" color={"#DA77F2"} variant="bars" />}
                 </Avatar>
             }
         </>
