@@ -5,6 +5,7 @@ import NavbarComponents from "./components/NavbarComponents";
 
 import Quotes from "./components/misc/Quotes";
 import Greetings from "./components/Greetings";
+import TechStack from "./components/Techstack";
 
 function App() {
 
@@ -39,7 +40,7 @@ function App() {
         >
 
           <Greetings />
-
+          <TechStack />
         </Flex>
       </Container>
 
