@@ -6,6 +6,7 @@ import NavbarComponents from "./components/NavbarComponents";
 import Quotes from "./components/misc/Quotes";
 import Greetings from "./components/Greetings";
 import TechStack from "./components/Techstack";
+import Projects from "./components/Projects";
 
 function App() {
 
@@ -14,7 +15,7 @@ function App() {
       <NavbarComponents />
 
       <Container 
-      size={"xl"} 
+      size={"lg"} 
       h="100vh"
       maw="800px"
       >
@@ -30,7 +31,7 @@ function App() {
       </Container>
 
       <Container 
-        size={"xl"}
+        size={"md"}
         >
           
         <Flex
@@ -41,6 +42,8 @@ function App() {
 
           <Greetings />
           <TechStack />
+          <Projects />
+
         </Flex>
       </Container>
 
