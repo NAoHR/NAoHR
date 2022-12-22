@@ -7,6 +7,7 @@ import Quotes from "./components/misc/Quotes";
 import Greetings from "./components/Greetings";
 import TechStack from "./components/Techstack";
 import Projects from "./components/Projects";
+import Footer from "./components/Footer";
 
 function App() {
 
@@ -43,10 +44,10 @@ function App() {
           <Greetings />
           <TechStack />
           <Projects />
-
+          <Footer />
+          
         </Flex>
       </Container>
-
     </>
   );
 }
