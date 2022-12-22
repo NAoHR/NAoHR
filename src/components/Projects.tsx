@@ -1,21 +1,21 @@
 import { Title, Text, Flex, Group, Paper, ThemeIcon, Timeline } from '@mantine/core';
 import Underline from './misc/Underline';
 import projects from "../utils/projects.json";
-import { IconCode } from '@tabler/icons';
+import { IconCode, IconExternalLink } from '@tabler/icons';
 
 
 const Projects = () => {
     
     return (
         <>
-        <Group>
+        <Group id="projects">
                 <Title fw={500} className="unbounded" order={3}>
-                    My Beloved Tech Stack
+                    Projects I Have Done
                   <Underline />
                 </Title>
 
                 <Text fw={400} size="lg">
-                    Here are <span className="glowing glowingT bold">Tech Stack</span> i have experienced of using. I am currently on MENN Stack (MongoDB, ExpressJS, NodeJs, NextJS).
+                    Here are <span className="glowing glowingT bold">Projects</span> i have made throughout my coding career, for more please visit my <Text component='a' href="https://github.com" className='glowing glowingT' fw={700} >github</Text>
                 </Text>
 
 
@@ -43,11 +43,25 @@ const Projects = () => {
                                             {v.title}
                                             <Underline st={true} w="35px"/>
                                         </Title>
-                                        <Text size={"md"}>
+                                        <Text size={"lg"}>
                                             {v.description}
                                         </Text>
-                                        <Text component='a' href={v.link} fw={700}>
-                                            Visit
+                                        <Flex gap={8} pt={"sm"}>
+                                            {
+                                                v.tag.map((v) => {
+                                                    return (
+                                                        <span style={{borderRadius: "3px"}}>
+                                                            <Text fw={500} size={"sm"}>
+                                                                {v}
+                                                                <Underline st={true} w="100%" />
+                                                            </Text>
+                                                        </span>
+                                                    )
+                                                })
+                                            }
+                                        </Flex>
+                                        <Text component='a' href={v.link} fw={700} size={"lg"} style={{alignSelf: "flex-end"}}>
+                                            Visit <IconExternalLink size={20} />
                                         </Text>
                                     </Flex>
                                 </Paper>

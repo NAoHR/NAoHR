@@ -16,6 +16,7 @@ const TechStack = () => {
             direction={"column"}
             gap="lg"
             align={"flex-start"}
+            id="stack"
             >
                 <Title fw={500} className="unbounded" order={3}>
                     My Beloved Tech Stack

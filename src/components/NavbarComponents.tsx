@@ -15,6 +15,12 @@ const NavbarComponents = () => {
         })
     },[])
 
+    function scrollToSub(idName: string){
+        
+        const idTobeScrolled = document?.getElementById(idName)?.offsetTop;
+        if(idTobeScrolled) window.scrollTo(0, idTobeScrolled - 90);
+    }
+
     return (
         <>
             <Header height={80} style={{
@@ -38,13 +44,13 @@ const NavbarComponents = () => {
                     </Text>
 
                     <Group>
-                        <Text>
+                        <Text component="a" className="pointer" onClick={() => scrollToSub("me")}>
                             Me
                         </Text>
-                        <Text>
+                        <Text className="pointer" onClick={() => scrollToSub("stack")}>
                             Stack
                         </Text>
-                        <Text>
+                        <Text className="pointer" onClick={() => scrollToSub("projects")}>
                             Projects
                         </Text>
                     </Group>
@@ -53,7 +59,7 @@ const NavbarComponents = () => {
             {
                 sto
                 &&
-                <Avatar className={"pointer"} style={{position: "fixed", bottom: "10px", right: "10px" ,border: "2px solid #DA77F2"}} radius={"xl"} onClick={()=> window.scrollTo(0,0)}>
+                <Avatar className={"pointer"} style={{position: "fixed", bottom: "10px", right: "10px" ,border: "2px solid #DA77F2", zIndex: 8}} radius={"xl"} onClick={()=> window.scrollTo(0,0)}>
                     <IconArrowBigUpLines size={24} />
                 </Avatar>
             }

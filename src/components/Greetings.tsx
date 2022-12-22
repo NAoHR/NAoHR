@@ -16,8 +16,9 @@ const Greetings = () => {
             direction={"column"}
             gap="lg"
             align={"flex-start"}
+            id="me"
             >
-                <Title fw={500} className="unbounded" order={2}>
+                <Title fw={500} className="unbounded" order={2} >
                     Hello People, Najmi's Here
                   <Underline />
                 </Title>
