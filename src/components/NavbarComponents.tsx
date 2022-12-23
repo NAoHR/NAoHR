@@ -5,12 +5,36 @@ import {IconArrowBigUpLines} from "@tabler/icons";
 
 const NavbarComponents = () => {
     const [sto, setSTO] = useState(false)
+    const [currentScroll, setCS] = useState<null | string>(null);
+
+    function compareAndSetCS(offTop: number, height: number, current: number, val: string){
+        if(offTop - 120 <= current && current <= (offTop - 120 + height * 60/100)){
+            if(currentScroll !== val){
+                setCS(val)
+            }
+        }
+    }
+
     useEffect(()=>{
         document.addEventListener("scroll", function(){
+
             if(window.pageYOffset >= 60){
                 setSTO(true)
             }else{
                 setSTO(false);
+            }
+
+            const currentY = window.pageYOffset;
+
+            const me = document?.getElementById("me");
+            const stack = document?.getElementById("stack");
+            const projects = document?.getElementById("projects");
+
+            if(me && stack && projects && currentY){
+                if(currentY <= (me.offsetTop- 300) ) setCS(null);
+                compareAndSetCS(me.offsetTop, me.offsetHeight, currentY, "me");
+                compareAndSetCS(stack.offsetTop, stack.offsetHeight, currentY, "stack");
+                compareAndSetCS(projects.offsetTop, projects.offsetHeight, currentY, "projects");
             }
         })
     },[])
@@ -18,7 +42,7 @@ const NavbarComponents = () => {
     function scrollToSub(idName: string){
         
         const idTobeScrolled = document?.getElementById(idName)?.offsetTop;
-        if(idTobeScrolled) window.scrollTo(0, idTobeScrolled - 90);
+        if(idTobeScrolled) window.scrollTo(0, idTobeScrolled - 100);
     }
 
     return (
@@ -46,12 +70,15 @@ const NavbarComponents = () => {
                     <Group>
                         <Text component="a" className="pointer" onClick={() => scrollToSub("me")}>
                             Me
+                            {currentScroll == "me" ? <Underline /> : <></>}
                         </Text>
                         <Text className="pointer" onClick={() => scrollToSub("stack")}>
                             Stack
+                            {currentScroll == "stack" ? <Underline /> : <></>}
                         </Text>
                         <Text className="pointer" onClick={() => scrollToSub("projects")}>
                             Projects
+                            {currentScroll == "projects" ? <Underline /> : <></>}
                         </Text>
                     </Group>
                 </Flex>
