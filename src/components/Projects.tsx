@@ -48,9 +48,9 @@ const Projects = () => {
                                         </Text>
                                         <Flex gap={8} pt={"sm"}>
                                             {
-                                                v.tag.map((v) => {
+                                                v.tag.map((v,i ) => {
                                                     return (
-                                                        <span style={{borderRadius: "3px"}}>
+                                                        <span style={{borderRadius: "3px"}} key={i}>
                                                             <Text fw={500} size={"sm"}>
                                                                 {v}
                                                                 <Underline st={true} w="100%" />
