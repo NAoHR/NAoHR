@@ -1,11 +1,16 @@
 import { Header, Flex, Text, Group, Avatar } from "@mantine/core";
 import Underline from "./misc/Underline";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import {IconArrowBigUpLines} from "@tabler/icons";
+import { ThemeCtx } from "../contexts/ThemeContexts";
+import { ThemeCtxInterface } from "../contexts/ThemeContexts";
+import {IconMoon, IconMoonOff, IconStar} from "@tabler/icons"
 
 const NavbarComponents = () => {
     const [sto, setSTO] = useState(false)
     const [currentScroll, setCS] = useState<null | string>(null);
+
+    const { currentTheme, toggleTheme } = useContext<ThemeCtxInterface>(ThemeCtx);
 
     function compareAndSetCS(offTop: number, height: number, current: number, val: string){
         if(offTop - 120 <= current && current <= (offTop - 120 + height * 60/100)){
@@ -79,6 +84,11 @@ const NavbarComponents = () => {
                         <Text className="pointer" onClick={() => scrollToSub("projects")}>
                             Projects
                             {currentScroll == "projects" ? <Underline /> : <></>}
+                        </Text>
+                        <Text className="pointer" onClick={() => toggleTheme(currentTheme == "dark" ? "light" : "dark")} >
+                            <Flex justify={"center"}>
+                                {currentTheme == "dark" ? <IconMoon  /> : <IconMoonOff />}
+                            </Flex>
                         </Text>
                     </Group>
                 </Flex>
