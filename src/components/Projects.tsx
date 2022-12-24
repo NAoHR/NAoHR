@@ -60,7 +60,7 @@ const Projects = () => {
                                                 })
                                             }
                                         </Flex>
-                                        <Text component='a' href={v.link} fw={700} size={"lg"} style={{alignSelf: "flex-end"}}>
+                                        <Text component='a' href={v.link} fw={700} size={"lg"} style={{alignSelf: "flex-end"}} target="_blank" >
                                             Visit <IconExternalLink size={20} />
                                         </Text>
                                     </Flex>
