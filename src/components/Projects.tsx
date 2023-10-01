@@ -15,7 +15,8 @@ const Projects = () => {
                 </Title>
 
                 <Text fw={400} size="lg">
-                    Here are <span className="glowing glowingT bold">Projects</span> i have made throughout my coding career, for more please visit my <Text component='a' href="https://github.com" className='glowing glowingT' fw={700} >github</Text>
+                    Here are the latests <span className="glowing glowingT bold">Projects</span> i have made throughout my coding career, 
+                    for more please visit my <Text component='a' href="https://github.com" className='glowing glowingT' fw={700} >github</Text>
                 </Text>
 
 
@@ -41,7 +42,6 @@ const Projects = () => {
                                     <Flex direction={"column"} justify="flex-start" gap={"xs"} align={"flex-start"}>
                                         <Title order={3}>
                                             {v.title}
-                                            <Underline st={true} w="35px"/>
                                         </Title>
                                         <Text size={"lg"}>
                                             {v.description}
@@ -50,10 +50,10 @@ const Projects = () => {
                                             {
                                                 v.tag.map((v,i ) => {
                                                     return (
-                                                        <span style={{borderRadius: "3px"}} key={i}>
+                                                        <span key={i}>
                                                             <Text fw={500} size={"sm"}>
+                                                                <span className='glowing glowingT bold'>| </span>
                                                                 {v}
-                                                                <Underline st={true} w="100%" />
                                                             </Text>
                                                         </span>
                                                     )

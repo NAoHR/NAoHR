@@ -24,7 +24,7 @@ const TechStack = () => {
                 </Title>
 
               <Text fw={400} size="lg">
-                Here are <span className="glowing glowingT bold">Tech Stack</span> i have experienced of using. I am currently on MENN Stack (MongoDB, ExpressJS, NodeJs, NextJS).
+                Here are <span className="glowing glowingT bold">Tech Stack</span> i have experience of using.
                 <Flex
                 pt={30}
                 gap={8}
