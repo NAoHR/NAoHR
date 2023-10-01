@@ -1,34 +1,42 @@
 [
     {
-        "name": "javascript",
+        "name" : "Postgresql",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/180px-Postgresql_elephant.svg.png"
+    },
+    {
+        "name": "Java",
+        "image": "https://upload.wikimedia.org/wikipedia/en/thumb/3/30/Java_programming_language_logo.svg/234px-Java_programming_language_logo.svg.png?20210624193855"
+    },
+    {
+        "name": "Javascript",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/512px-Unofficial_JavaScript_logo_2.svg.png?20141107110902"
     },
     {
-        "name": "python",
+        "name": "Python",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/2048px-Python-logo-notext.svg.png"
     },
     {
-        "name" : "typescript",
+        "name" : "Typescript",
         "image": "https://www.saashub.com/images/app/service_logos/11/ad388324edad/large.png?1531424414"
     },
     {
-        "name" : "nodejs",
+        "name" : "NodeJs",
         "image" : "https://seeklogo.com/images/N/nodejs-logo-FBE122E377-seeklogo.com.png"
     },
     {
-        "name" : "mongodb",
+        "name" : "Mongodb",
         "image" : "https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,f_auto,q_auto:eco,dpr_1/erkxwhl1gd48xfhe2yld"
     },
     {
-        "name" : "react",
+        "name" : "React",
         "image" : "https://cdn1.iconfinder.com/data/icons/programing-development-8/24/react_logo-512.png"
     },
     {
-        "name" : "nextjs",
+        "name" : "NextJs",
         "image" : "https://seeklogo.com/images/N/next-js-logo-8FCFF51DD2-seeklogo.com.png"
     },
     {
-        "name" : "expressjs",
+        "name" : "ExpressJs",
         "image" : "https://tylersharpdeveloper.vercel.app/static/media/express.d638bd34.png"
     }
 ]

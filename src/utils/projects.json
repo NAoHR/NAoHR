@@ -1,5 +1,11 @@
 [
     {
+        "title" : "Banking Mini Project",
+        "link": "https://github.com/NAoHR/nbank-m5-najmi",
+        "description": "Mini Project that i submit for a company selection, this project is a REST API with springboot framework as its barebone. ",
+        "tag": ["Java", "Springboot", "PostgreSql", "Spring Security", "Spring JPA", "Unit Testing"]
+    },
+    {
         "title" : "Lyrics-Finder-Bot",
         "link": "https://github.com/NAoHR/lyrics-bot",
         "description": "bot to find lyrics based on its title, or its certain lyrics. this bot scrape azylyrics website. to make this bot work, get your own azlyric's X parameter",
