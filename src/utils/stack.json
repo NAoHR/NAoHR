@@ -1,11 +1,11 @@
 [
     {
         "name" : "Postgresql",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/180px-Postgresql_elephant.svg.png"
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1T8GORgP8B3gqrZuYttrzOAYRAKqVbbcdqJEHrt8uyyaIwOsp3XdGlBfcsz68BTvAEho"
     },
     {
         "name": "Java",
-        "image": "https://upload.wikimedia.org/wikipedia/en/thumb/3/30/Java_programming_language_logo.svg/234px-Java_programming_language_logo.svg.png?20210624193855"
+        "image": "https://cdn0.iconfinder.com/data/icons/flat-round-system/512/java-512.png"
     },
     {
         "name": "Javascript",

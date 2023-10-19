@@ -71,7 +71,7 @@ const Greetings = () => {
                 </a>
               </Flex>
               <a href="https://drive.google.com/file/d/130HyCE5WHPPNVo-XJ7QFYtqlAXZKPki6/view?usp=sharing">
-                <Button size="md" className="glowing">
+                <Button size="md" variant="gradient" gradient={{ from: '#E64980', to: '#4C6EF5', deg: 83 }}>
                   Curriculum Vitae
                 </Button>
               </a>

@@ -46,16 +46,17 @@ const Projects = () => {
                                         <Text size={"lg"}>
                                             {v.description}
                                         </Text>
-                                        <Flex gap={8} pt={"sm"}>
+                                        <Flex 
+                                        gap={8} 
+                                        pt={"sm"}
+                                        wrap={"wrap"}
+                                        >
                                             {
                                                 v.tag.map((v,i ) => {
                                                     return (
-                                                        <span key={i}>
-                                                            <Text fw={500} size={"sm"}>
-                                                                <span className='glowing glowingT bold'>| </span>
-                                                                {v}
-                                                            </Text>
-                                                        </span>
+                                                        <Text fw={700} size={"sm"} key={i} >
+                                                            {v}
+                                                        </Text>
                                                     )
                                                 })
                                             }

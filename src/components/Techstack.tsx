@@ -36,7 +36,8 @@ const TechStack = () => {
                         stacks.map((v, i) => {
                             return (
                                 <Button key={i}
-                                className={"glowing"}
+                                variant="gradient"
+                                gradient={{ from: '#E64980', to: '#4C6EF5', deg: 83 }}
                                 leftIcon={<Avatar src={v.image} size={20} />}
                                 >                      
                                     {v.name}
