@@ -1,13 +1,13 @@
 import { 
   Container, Flex, 
 } from "@mantine/core";
-import NavbarComponents from "./components/NavbarComponents";
+import NavbarComponents from "../components/NavbarComponents";
 
-import Quotes from "./components/misc/Quotes";
-import Greetings from "./components/Greetings";
-import TechStack from "./components/Techstack";
-import Projects from "./components/Projects";
-import Footer from "./components/Footer";
+import Quotes from "../components/misc/Quotes";
+import Greetings from "../components/Greetings";
+import TechStack from "../components/Techstack";
+import Projects from "../components/Projects";
+import Footer from "../components/Footer";
 
 function App() {
 
