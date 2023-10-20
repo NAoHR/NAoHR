@@ -1,7 +1,6 @@
 import { Text, Container, Flex } from "@mantine/core";
-import { IconHeart } from "@tabler/icons";
-
-const NotFound = () => {
+import poetList from "../utils/poet.json";
+const CustomElement = () => {
     return (
         <>
             <Container
@@ -20,13 +19,12 @@ const NotFound = () => {
                         404
                     </Text>
                     <Text>
-                        Even If I Was Born Color Blind, You'd Still Be My Favorite Shades
+                        {poetList[Math.floor(Math.random() * poetList.length)]}
                     </Text>
                 </Flex>
-
             </Container>
         </>
     );
 }
 
-export default NotFound;
+export default CustomElement;

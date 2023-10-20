@@ -4,14 +4,14 @@ import App from './pages/App';
 import reportWebVitals from './reportWebVitals';
 import Theme from './contexts/ThemeContexts';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import NotFound from './pages/NotFound';
+import CustomElement from './pages/CustomElement';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    errorElement: <NotFound />
-  },
+    errorElement: <CustomElement />,
+  }
 ]);
 
 const root = ReactDOM.createRoot(

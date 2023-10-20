@@ -57,6 +57,10 @@ const Theme = (props: Props) => {
                 },
                 ".bottomBorderPurple" : {
                     borderBottom: ".5px solid #DA77F2"
+                },
+                "a" : {
+                    color: "inherit", /* blue colors for links too */
+                    textDecoration: "inherit" /* no underline */
                 }
             }),
             }}

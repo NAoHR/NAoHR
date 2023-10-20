@@ -1,45 +1,11 @@
 import { Header, Flex, Text, Group, Avatar, Stack } from "@mantine/core";
 import Underline from "./misc/Underline";
 import { useEffect, useState, useContext } from "react";
-import {IconArrowBigUpLines, IconBooks,  IconFlower, IconQuote, } from "@tabler/icons";
-import Theme, { ThemeCtx } from "../contexts/ThemeContexts";
+import {IconArrowBigUpLines,  } from "@tabler/icons";
+import { ThemeCtx } from "../contexts/ThemeContexts";
 import { ThemeCtxInterface } from "../contexts/ThemeContexts";
-import {IconMoon, IconMoonOff, IconStar} from "@tabler/icons"
-
-
-const SubNavbar = (props: {sto: boolean}) => {
-    const { currentTheme, toggleTheme } = useContext<ThemeCtxInterface>(ThemeCtx);
-    
-    return (
-        <Flex
-            style={{
-                position: "fixed",
-                right: "10px",
-                top: "90px",
-                zIndex: 9,
-                borderRadius: "4px"
-            }}
-            p="xs"
-            direction={"column"}
-            gap={"sm"}
-            
-            bg={currentTheme == 'dark' ? "dark.7" : "white"}
-            >
-                <Flex 
-                className={`${props.sto && "bottomBorderPurple"} pointer`}
-                gap={"sm"} justify={"space-evenly"} pb={"3px"}>
-                    <Text size={"sm"} fw={"bold"}>Notes</Text>
-                    <IconBooks />
-                </Flex>
-                <Flex 
-                className={`${props.sto && "bottomBorderPurple"} pointer`}
-                gap={"sm"} justify={"space-evenly"} pb={"3px"}>
-                    <Text size={"sm"} fw={"bold"}>Poetry</Text>
-                    <IconQuote />
-                </Flex>
-            </Flex>
-    )
-}
+import {IconMoon, IconMoonOff, IconStar} from "@tabler/icons";
+import { Link } from "react-router-dom";
 
 const NavbarComponents = () => {
     const [sto, setSTO] = useState(false)
@@ -103,12 +69,14 @@ const NavbarComponents = () => {
                 fw={700}
                 >
                     <Text >
-                        NA
-                        <span className="glowing glowingT">
-                        o
-                        </span>
-                        HR
-                        <Underline />
+                        <Link to="/">
+                            NA
+                            <span className="glowing glowingT">
+                            o
+                            </span>
+                            HR
+                            <Underline />
+                        </Link>
                     </Text>
 
                     <Group>
@@ -129,15 +97,9 @@ const NavbarComponents = () => {
                                 {currentTheme == "dark" ? <IconMoon  /> : <IconMoonOff />}
                             </Flex>
                         </Text>
-                        <Text className="pointer" onClick={() => setSub(!sub)} >
-                            <Flex justify={"center"}>
-                                <IconFlower />
-                            </Flex>
-                        </Text>
                     </Group>
                 </Flex>
             </Header>
-            {sub && <SubNavbar sto={sto} />}
             {
                 sto
                 &&
