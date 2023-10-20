@@ -54,8 +54,10 @@ const Theme = (props: Props) => {
                 backgroundClip: "text",
                 WebkitBackgroundClip : "text",
                 WebkitTextFillColor: "transparent"
+                },
+                ".bottomBorderPurple" : {
+                    borderBottom: ".5px solid #DA77F2"
                 }
-
             }),
             }}
             >
