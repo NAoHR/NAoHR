@@ -3,36 +3,42 @@
         "title" : "Banking Mini Project",
         "link": "https://github.com/NAoHR/nbank-m5-najmi",
         "description": "Mini Project that i submit for a company selection, this project is a REST API with springboot framework as its barebone. ",
+        "image" : "https://images.unsplash.com/photo-1517650862521-d580d5348145?auto=format&fit=crop&q=80&w=2069&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "tag": ["Java", "Springboot", "PostgreSql", "Spring Security", "Spring JPA", "Unit Testing"]
     },
     {
         "title" : "Lyrics-Finder-Bot",
         "link": "https://github.com/NAoHR/lyrics-bot",
         "description": "bot to find lyrics based on its title, or its certain lyrics. this bot scrape azylyrics website. to make this bot work, get your own azlyric's X parameter",
+        "image" : "https://images.unsplash.com/photo-1600049780189-60f39be1949f?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "tag": ["typeScript", "cheerio", "bot"]
     },
     {
         "title" : "Syncronize-media-server",
         "link": "https://github.com/NAoHR/synchronize-media-server",
         "description": "expressJs based server intended for my friend's project.",
+        "image" : "https://images.unsplash.com/photo-1627398242454-45a1465c2479?auto=format&fit=crop&q=80&w=1974&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "tag": ["expressJS", "nodeJS", "mongoDB","mongoose"]
     },
     {
         "title" : "Detailku-Sija",
         "link": "https://github.com/NAoHR/detailku-sija",
         "description": "nextJS based website, platform to show the details of each vocation of vocational high school including school's detail, student, job and such.this platform provide all information about all project that has been done by the student, skill, and certificate of each studen",
+        "image" : "https://images.unsplash.com/photo-1619410283995-43d9134e7656?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "tag": ["nodeJS","NextJS"]
     },
     {
         "title" : "Detailku-Server",
         "link": "https://github.com/NAoHR/detailku-sija",
         "description": "ExpressJs Based server to reserve school Aula with synchronize date, automatic cancellation, and automatic active status. this also my first attempt using express library",
+        "image" : "https://images.unsplash.com/photo-1627398242454-45a1465c2479?auto=format&fit=crop&q=80&w=1974&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "tag": ["nodeJS","ExpressJS","MongoDB","Mongoose"]
     },
     {
         "title" : "ppdbData",
         "link": "https://github.com/NAoHR/ppdbData",
         "description": "python based dataset creator to parse each student on ppdb website and structure it based on its vocational type (currently only in jakarta)",
+        "image" : "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&q=80&w=2069&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "tag": ["python"]
     }
 ]
