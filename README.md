@@ -1,7 +1,6 @@
 <br/>
-<img src="https://c.tenor.com/RvhWswweSakAAAAC/miitens-cat-cat-fire.gif"  align="right" width="350"/> 
 
-## Hello Yall
+## Hi
 
 
 <p align="justify">
