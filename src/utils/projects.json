@@ -1,44 +1,44 @@
 [
-    {
-        "title" : "Banking Mini Project",
-        "link": "https://github.com/NAoHR/nbank-m5-najmi",
-        "description": "Mini Project that i submit for a company selection, this project is a REST API with springboot framework as its barebone. ",
-        "image" : "https://images.unsplash.com/photo-1517650862521-d580d5348145?auto=format&fit=crop&q=80&w=2069&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "tag": ["Java", "Springboot", "PostgreSql", "Spring Security", "Spring JPA", "Unit Testing"]
-    },
-    {
-        "title" : "Lyrics-Finder-Bot",
-        "link": "https://github.com/NAoHR/lyrics-bot",
-        "description": "bot to find lyrics based on its title, or its certain lyrics. this bot scrape azylyrics website. to make this bot work, get your own azlyric's X parameter",
-        "image" : "https://images.unsplash.com/photo-1600049780189-60f39be1949f?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "tag": ["typeScript", "cheerio", "bot"]
-    },
-    {
-        "title" : "Syncronize-media-server",
-        "link": "https://github.com/NAoHR/synchronize-media-server",
-        "description": "expressJs based server intended for my friend's project.",
-        "image" : "https://images.unsplash.com/photo-1627398242454-45a1465c2479?auto=format&fit=crop&q=80&w=1974&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "tag": ["expressJS", "nodeJS", "mongoDB","mongoose"]
-    },
-    {
-        "title" : "Detailku-Sija",
-        "link": "https://github.com/NAoHR/detailku-sija",
-        "description": "nextJS based website, platform to show the details of each vocation of vocational high school including school's detail, student, job and such.this platform provide all information about all project that has been done by the student, skill, and certificate of each studen",
-        "image" : "https://images.unsplash.com/photo-1619410283995-43d9134e7656?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "tag": ["nodeJS","NextJS"]
-    },
-    {
-        "title" : "Detailku-Server",
-        "link": "https://github.com/NAoHR/detailku-sija",
-        "description": "ExpressJs Based server to reserve school Aula with synchronize date, automatic cancellation, and automatic active status. this also my first attempt using express library",
-        "image" : "https://images.unsplash.com/photo-1627398242454-45a1465c2479?auto=format&fit=crop&q=80&w=1974&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "tag": ["nodeJS","ExpressJS","MongoDB","Mongoose"]
-    },
-    {
-        "title" : "ppdbData",
-        "link": "https://github.com/NAoHR/ppdbData",
-        "description": "python based dataset creator to parse each student on ppdb website and structure it based on its vocational type (currently only in jakarta)",
-        "image" : "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&q=80&w=2069&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "tag": ["python"]
-    }
+  {
+    "title": "Banking Mini Project",
+    "link": "https://github.com/NAoHR/nbank-m5-najmi",
+    "description": "Mini project I submitted for a company selection. A REST API with Spring Boot as its backbone.",
+    "image": "https://images.unsplash.com/photo-1517650862521-d580d5348145?auto=format&fit=crop&q=75&w=900",
+    "tag": ["Java", "Spring Boot", "PostgreSQL", "Spring Security", "Spring JPA", "Unit Testing"]
+  },
+  {
+    "title": "Lyrics-Finder-Bot",
+    "link": "https://github.com/NAoHR/lyrics-bot",
+    "description": "A bot that finds lyrics by title or by a fragment of the lyrics themselves, scraping the AZLyrics website. To make this bot work, get your own AZLyrics X parameter.",
+    "image": "https://images.unsplash.com/photo-1600049780189-60f39be1949f?auto=format&fit=crop&q=75&w=900",
+    "tag": ["TypeScript", "Cheerio", "Bot"]
+  },
+  {
+    "title": "Synchronize-media-server",
+    "link": "https://github.com/NAoHR/synchronize-media-server",
+    "description": "An Express.js based server built for a friend's project.",
+    "image": "https://images.unsplash.com/photo-1627398242454-45a1465c2479?auto=format&fit=crop&q=75&w=900",
+    "tag": ["Express.js", "Node.js", "MongoDB", "Mongoose"]
+  },
+  {
+    "title": "Detailku-Sija",
+    "link": "https://github.com/NAoHR/detailku-sija",
+    "description": "A Next.js website showing the details of each vocation in a vocational high school, including the school, its students and jobs. The platform gathers every project, skill and certificate belonging to each student.",
+    "image": "https://images.unsplash.com/photo-1619410283995-43d9134e7656?auto=format&fit=crop&q=75&w=900",
+    "tag": ["Node.js", "Next.js"]
+  },
+  {
+    "title": "Detailku-Server",
+    "link": "https://github.com/NAoHR/detailku-server",
+    "description": "An Express.js based server for reserving the school Aula, with synchronised dates, automatic cancellation and automatic active status. Also my first attempt at using the Express library.",
+    "image": "https://images.unsplash.com/photo-1627398242454-45a1465c2479?auto=format&fit=crop&q=75&w=900",
+    "tag": ["Node.js", "Express.js", "MongoDB", "Mongoose"]
+  },
+  {
+    "title": "ppdbData",
+    "link": "https://github.com/NAoHR/ppdbData",
+    "description": "A Python dataset creator that parses every student on the PPDB website and structures them by vocational type (currently Jakarta only).",
+    "image": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&q=75&w=900",
+    "tag": ["Python"]
+  }
 ]

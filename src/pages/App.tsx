@@ -1,51 +1,27 @@
-import { 
-  Container, Flex, 
-} from "@mantine/core";
-import NavbarComponents from "../components/NavbarComponents";
+import { Container, Flex } from "@mantine/core";
 
-import Quotes from "../components/misc/Quotes";
+import NavbarComponents from "../components/NavbarComponents";
 import Greetings from "../components/Greetings";
 import TechStack from "../components/Techstack";
 import Projects from "../components/Projects";
 import Footer from "../components/Footer";
 
 function App() {
-
   return (
     <>
+      <a className="skip-link" href="#me">
+        Skip to content
+      </a>
+
       <NavbarComponents />
 
-      <Container 
-      size={"lg"} 
-      h="100vh"
-      maw="800px"
-      >
-        <Flex
-        mih="100%"
-        miw="100%"
-        justify="center"
-        align={"center"}
-        >
-          <Quotes />
-        </Flex>
-
-      </Container>
-
-      <Container 
-        size={"md"}
-        >
-          
-        <Flex
-        p={"lg"}
-        direction="column"
-        gap={"40px"}
-        >
-
+      {/* pt clears the fixed 80px header. */}
+      <Container size="md" component="main" pt={110}>
+        <Flex p="lg" direction="column" gap="40px">
           <Greetings />
           <TechStack />
           <Projects />
           <Footer />
-          
         </Flex>
       </Container>
     </>

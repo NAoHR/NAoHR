@@ -1,22 +1,16 @@
-import { Text, Center } from "@mantine/core"
-import {IconHeart} from "@tabler/icons";
+import { Center, Text } from "@mantine/core";
+import { IconHeart } from "@tabler/icons-react";
 
 const Footer = () => {
-    return (
-        <>
-            <Center fw={700}>
-                <Text>
-                    Made With 
-                </Text>
-                <Text pl={"xs"} pr={"xs"} className="glowing glowingT">
-                    <IconHeart size={18} />
-                </Text>
-                <Text>
-                    by Najmi
-                </Text>
-            </Center>
-        </>
-    )
-}
+  return (
+    <Center component="footer" fw={700} pb="xl">
+      <Text>Made with</Text>
+      <Text pl="xs" pr="xs" c="pink" component="span" aria-label="love">
+        <IconHeart size={18} />
+      </Text>
+      <Text>by Najmi</Text>
+    </Center>
+  );
+};
 
-export default Footer
+export default Footer;

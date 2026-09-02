@@ -1,42 +1,13 @@
 [
-    {
-        "name" : "Postgresql",
-        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1T8GORgP8B3gqrZuYttrzOAYRAKqVbbcdqJEHrt8uyyaIwOsp3XdGlBfcsz68BTvAEho"
-    },
-    {
-        "name": "Java",
-        "image": "https://cdn0.iconfinder.com/data/icons/flat-round-system/512/java-512.png"
-    },
-    {
-        "name": "Javascript",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/512px-Unofficial_JavaScript_logo_2.svg.png?20141107110902"
-    },
-    {
-        "name": "Python",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/2048px-Python-logo-notext.svg.png"
-    },
-    {
-        "name" : "Typescript",
-        "image": "https://www.saashub.com/images/app/service_logos/11/ad388324edad/large.png?1531424414"
-    },
-    {
-        "name" : "NodeJs",
-        "image" : "https://seeklogo.com/images/N/nodejs-logo-FBE122E377-seeklogo.com.png"
-    },
-    {
-        "name" : "Mongodb",
-        "image" : "https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,f_auto,q_auto:eco,dpr_1/erkxwhl1gd48xfhe2yld"
-    },
-    {
-        "name" : "React",
-        "image" : "https://cdn1.iconfinder.com/data/icons/programing-development-8/24/react_logo-512.png"
-    },
-    {
-        "name" : "NextJs",
-        "image" : "https://seeklogo.com/images/N/next-js-logo-8FCFF51DD2-seeklogo.com.png"
-    },
-    {
-        "name" : "ExpressJs",
-        "image" : "https://tylersharpdeveloper.vercel.app/static/media/express.d638bd34.png"
-    }
+  { "name": "Java", "icon": "openjdk" },
+  { "name": "Spring Boot", "icon": "spring" },
+  { "name": "TypeScript", "icon": "typescript" },
+  { "name": "JavaScript", "icon": "javascript" },
+  { "name": "Python", "icon": "python" },
+  { "name": "React", "icon": "react" },
+  { "name": "Next.js", "icon": "nextdotjs" },
+  { "name": "Node.js", "icon": "nodedotjs" },
+  { "name": "Express.js", "icon": "express" },
+  { "name": "PostgreSQL", "icon": "postgresql" },
+  { "name": "MongoDB", "icon": "mongodb" }
 ]

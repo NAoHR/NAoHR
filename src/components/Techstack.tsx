@@ -1,59 +1,32 @@
-import { 
-    Title, Flex, 
-    Group, Button, 
-    Text, Avatar 
-  } from "@mantine/core";
-import Underline from "./misc/Underline";
+import { Button, Flex, Group, Title } from "@mantine/core";
 
 import stacks from "../utils/stack.json";
-
+import BrandIcon from "./misc/BrandIcon";
 
 const TechStack = () => {
-    return (
-        <>
-        <Group>
-            <Flex
-            direction={"column"}
-            gap="lg"
-            align={"flex-start"}
-            id="stack"
+  return (
+    <Group>
+      <Flex direction="column" gap="lg" align="flex-start" id="stack">
+        <Title fw={500} order={3}>
+          Tooling System
+        </Title>
+
+        <Flex pt={10} gap={8} wrap="wrap" justify="flex-start" align="flex-start">
+          {stacks.map((stack) => (
+            <Button
+              key={stack.name}
+              variant="default"
+              leftSection={<BrandIcon slug={stack.icon} />}
+              style={{ cursor: "default" }}
+              component="div"
             >
-                <Title fw={500} className="unbounded" order={3}>
-                    My Beloved Tech Stack
-                  <Underline />
-                </Title>
-
-              <Text fw={400} size="lg">
-                Here are <span className="glowing glowingT bold">Tech Stack</span> i have experience of using.
-                <Flex
-                pt={30}
-                gap={8}
-                wrap="wrap"
-                justify={"flex-start"}
-                align="flex-start"
-                >
-                    {
-                        stacks.map((v, i) => {
-                            return (
-                                <Button key={i}
-                                variant="filled"
-                                color={"violet.5"}
-                                leftIcon={<Avatar src={v.image} size={20} />}
-                                >                      
-                                    {v.name}
-                                </Button>
-                            )
-                        })
-                    }
-
-                </Flex>
-
-              </Text>
-            </Flex>
-
-          </Group>
-        </>
-    )
-}
+              {stack.name}
+            </Button>
+          ))}
+        </Flex>
+      </Flex>
+    </Group>
+  );
+};
 
 export default TechStack;
