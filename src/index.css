@@ -1,18 +1,54 @@
-@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@800&display=swap');
-html, body {
+html,
+body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
 }
 
-.pointer:hover{
-  cursor: pointer;
-}
-.progress:hover{
-  cursor: progress;
-}
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+/* Pink -> indigo gradient, used as a fill and as text. */
+.gradient {
+  background: linear-gradient(45deg, #e64980, #4c6ef5);
+}
+
+.gradient-text {
+  background: linear-gradient(45deg, #e64980, #4c6ef5);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-weight: 700;
+}
+
+/* Skip link: visible only once focused. */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  background: var(--mantine-color-body);
+  border: 1px solid var(--mantine-color-violet-4);
+}
+
+.skip-link:focus {
+  left: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html,
+  body {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

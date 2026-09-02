@@ -1,73 +1,83 @@
-import { Blockquote, Text, Avatar } from "@mantine/core";
-import Underline from "./Underline";
-import quotesList from "../../utils/quotes.json";
-import { useEffect, useState } from "react";
-import { IconRefresh } from '@tabler/icons';
-import { Loader } from '@mantine/core';
+import { useEffect, useRef, useState } from "react";
+import { Blockquote, Text } from "@mantine/core";
+import { IconPodium } from "@tabler/icons-react";
 
+import quotesList from "../../utils/quotes.json";
+
+/** How long a finished quote stays on screen before the next one starts. */
+const HOLD_MS = 5000;
+
+/** Delay between typed letters. */
+const LETTER_MS = 50;
+
+const randomQuote = () => quotesList[Math.floor(Math.random() * quotesList.length)];
+
+const waitForMs = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const prefersReducedMotion = () =>
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const Quotes = () => {
-    const [quote, setQuote] = useState(quotesList[Math.floor(Math.random() * quotesList.length)])
-    const [isDone, setIsDone] = useState(false);
-    const [displayQuotesShuffler, setDQS] = useState(true);
+  const [quote, setQuote] = useState(randomQuote);
+  const [typed, setTyped] = useState("");
+  const [isDone, setIsDone] = useState(false);
 
+  // Bumped on every quote change and on unmount, so a still-running
+  // typewriter aborts itself instead of interleaving with the next one.
+  const runIdRef = useRef(0);
 
-    async function typeSentence(sentence: String, eleRef: HTMLElement, delay = 100) {
-        setIsDone(false);
-        const letters = sentence.split("");
-        let i = 0;
-        while(i < letters.length) {
-          await waitForMs(delay);
-          eleRef.textContent += letters[i]
-          i++
-        }
-        setIsDone(true)
-        return;
+  // Type the current quote out letter by letter.
+  useEffect(() => {
+    const runId = ++runIdRef.current;
+
+    if (prefersReducedMotion()) {
+      setTyped(quote.quote);
+      setIsDone(true);
+      return;
+    }
+
+    setTyped("");
+    setIsDone(false);
+
+    (async () => {
+      for (const letter of quote.quote) {
+        await waitForMs(LETTER_MS);
+        if (runIdRef.current !== runId) return;
+        setTyped((prev) => prev + letter);
       }
-      
-      
-      function waitForMs(ms: number) {
-        return new Promise(resolve => setTimeout(resolve, ms))
-      }
+      setIsDone(true);
+    })();
 
-    useEffect(()=> {
-        const doc = document.getElementById("innerQuotes");
-        if(doc){
-            doc.textContent = "";
-            typeSentence(quote.quote, doc, 50)
-        }
-      }, [quote])
+    return () => {
+      runIdRef.current++;
+    };
+  }, [quote]);
 
-    useEffect(()=>{
-        document.addEventListener("scroll", function(){
-            if(window.pageYOffset >= 60){
-                setDQS(false)
-            }else{
-                setDQS(true);
-            }
-        })
-    },[])
+  // Once it has finished typing, hold for a beat and move to the next quote.
+  // Skipped under reduced motion, where content should not swap on its own.
+  useEffect(() => {
+    if (!isDone || prefersReducedMotion()) return;
 
-    return (
-        <>
-            <Blockquote cite={`– ${quote.author}`} color={"violet"}>
-                <Text fw={400} size="lg" id="innerQuotes" >
-                    
-                </Text>
-                <Underline mtop="10px"/>
-            </Blockquote>
-            {
-                displayQuotesShuffler 
-                && 
-                <Avatar className={`${isDone ? "pointer" : "progress"}`} style={{position: "absolute", bottom: "10px", right: "10px", border: "2px solid #DA77F2"}} radius={"xl"} onClick={()=> {
-                    if(isDone) setQuote(quotesList[Math.floor(Math.random() * quotesList.length)])
+    const id = setTimeout(() => {
+      setQuote((current) => {
+        let next = randomQuote();
+        // Never follow a quote with itself — that reads as a stall.
+        while (quotesList.length > 1 && next.quote === current.quote) next = randomQuote();
+        return next;
+      });
+    }, HOLD_MS);
 
-                }}>
-                    {isDone ? <IconRefresh size={24} /> : <Loader size="xs" color={"#DA77F2"} variant="bars" />}
-                </Avatar>
-            }
-        </>
-    )
-}
+    return () => clearTimeout(id);
+  }, [isDone]);
+
+  return (
+    <Blockquote color="violet" cite={`– ${quote.author}`} icon={<IconPodium />} mt="sm" w="100%">
+      <Text fw={400} size="lg">
+        {typed}
+        {!isDone && <span aria-hidden="true">▌</span>}
+      </Text>
+    </Blockquote>
+  );
+};
 
 export default Quotes;

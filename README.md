@@ -31,10 +31,44 @@ Najmi, A passionate fullstack-developer (?). It is indeed interesting to see how
 <p align="center">
   <samp>
 	<img alt="Top Language" src="https://github-readme-stats.vercel.app/api/top-langs/?layout=compact&username=NAoHR&theme=tokyonight"/>
-	<br/>e
-	<img alt="streaks" src="https://github-readme-streak-stats.herokuapp.com/?user=naohr&count_private=true&theme=tokyonight">
+	<br/>
+	<img alt="streaks" src="https://streak-stats.demolab.com/?user=naohr&count_private=true&theme=tokyonight">
 	<br/>
 	<img alt="stats" src="https://github-readme-stats.vercel.app/api?username=naohr&show_icons=true&theme=tokyonight&include_all_commits=true&count_private=true">
   </samp>
 </p>
 </details>
+
+<h2></h2>
+
+## This site
+
+The source of [naohr.vercel.app](https://naohr.vercel.app/) — a single-page
+portfolio built with **Vite**, **React 19**, **TypeScript** and **Mantine 9**.
+
+### Running it
+
+```bash
+npm install
+npm run dev        # dev server on http://localhost:5173
+npm run build      # typecheck + production build into dist/
+npm run preview    # serve the production build locally
+npm test           # vitest
+npm run typecheck  # tsc --noEmit
+```
+
+### Where things live
+
+| Path | What it holds |
+| --- | --- |
+| `src/utils/*.json` | All page content — projects, tech stack, quotes, 404 poems |
+| `src/components/` | Section components (`Greetings`, `Techstack`, `Projects`, …) |
+| `src/components/misc/` | Shared bits — `Underline`, `Quotes`, `BrandIcon` |
+| `src/hooks/` | `useScrolledPast`, `useActiveSection` (scroll spy) |
+| `src/theme.ts` | Mantine theme and the shared pink → indigo gradient |
+| `index.html` | Page metadata: title, description, Open Graph, JSON-LD |
+
+To add a project or a stack entry, edit the JSON in `src/utils/` — no component
+changes needed. Stack icons come from
+[simple-icons](https://simpleicons.org/) and are referenced by slug, so they
+ship with the bundle rather than being hot-linked.

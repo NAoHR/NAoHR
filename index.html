@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Najmi — Full-stack Developer</title>
+    <meta
+      name="description"
+      content="Najmi (NAoHR) — full-stack developer working with Java, Spring Boot, TypeScript and React. Projects, tech stack and CV."
+    />
+    <meta name="author" content="Najmi" />
+    <link rel="canonical" href="https://naohr.vercel.app/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://naohr.vercel.app/" />
+    <meta property="og:title" content="Najmi — Full-stack Developer" />
+    <meta
+      property="og:description"
+      content="Full-stack developer working with Java, Spring Boot, TypeScript and React. Projects, tech stack and CV."
+    />
+    <meta property="og:image" content="https://naohr.vercel.app/assets/profile.jpg" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Najmi — Full-stack Developer" />
+    <meta
+      name="twitter:description"
+      content="Full-stack developer working with Java, Spring Boot, TypeScript and React. Projects, tech stack and CV."
+    />
+    <meta name="twitter:image" content="https://naohr.vercel.app/assets/profile.jpg" />
+
+    <link rel="icon" href="/assets/profile.jpg" />
+    <link rel="apple-touch-icon" href="/assets/profile.jpg" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#1a1b1e" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Najmi",
+        "alternateName": "NAoHR",
+        "url": "https://naohr.vercel.app/",
+        "jobTitle": "Full-stack Developer",
+        "sameAs": [
+          "https://github.com/NAoHR",
+          "https://www.linkedin.com/in/najmi207",
+          "https://www.codewars.com/users/Najmi"
+        ]
+      }
+    </script>
+
+    <!-- Apply the saved colour scheme before first paint to avoid a flash. -->
+    <script>
+      (function () {
+        try {
+          var key = "mantine-color-scheme-value";
+          var saved = localStorage.getItem(key);
+          var scheme =
+            saved === "light" || saved === "dark"
+              ? saved
+              : window.matchMedia("(prefers-color-scheme: light)").matches
+                ? "light"
+                : "dark";
+          document.documentElement.setAttribute("data-mantine-color-scheme", scheme);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
