@@ -1,22 +1,14 @@
-import { render, screen, within } from "@testing-library/react";
-import { MantineProvider } from "@mantine/core";
-import { MemoryRouter } from "react-router-dom";
-import { describe, expect, it } from "vitest";
+import { act, fireEvent, render, screen, within } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 
-import App from "./pages/App";
+import Portfolio from "./app/Portfolio";
 import experience from "./utils/experience.json";
 import projects from "./utils/projects.json";
 import quotes from "./utils/quotes.json";
 import stacks from "./utils/stack.json";
 
-const renderApp = () =>
-  render(
-    <MantineProvider>
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>
-    </MantineProvider>,
-  );
+// Portfolio brings its own MantineProvider — it is the island root.
+const renderApp = () => render(<Portfolio />);
 
 describe("App", () => {
   it("renders the introduction", () => {
@@ -84,6 +76,25 @@ describe("App", () => {
 
     expect(images.every(Boolean)).toBe(true);
     expect(new Set(images).size).toBe(images.length);
+  });
+
+  it("covers the page with an entry curtain that dismisses on click", () => {
+    vi.useFakeTimers();
+    try {
+      renderApp();
+
+      const curtain = screen.getByTestId("intro");
+      expect(curtain).toBeInTheDocument();
+      // The site renders underneath, so the fade reveals it rather than mounting it.
+      expect(screen.getByText(/Najmi's Here/i)).toBeInTheDocument();
+
+      fireEvent.click(curtain);
+      act(() => void vi.advanceTimersByTime(1000));
+
+      expect(screen.queryByTestId("intro")).toBeNull();
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it("has no duplicate project links", () => {

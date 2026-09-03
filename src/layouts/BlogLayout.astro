@@ -1,0 +1,35 @@
+---
+import "../styles/blog.css";
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  publishedDate?: Date;
+}
+
+const { title, description, publishedDate } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} publishedDate={publishedDate}>
+  <div class="shell">
+    <header class="topbar">
+      <a href="/">NA<span aria-hidden="true">o</span>HR</a>
+      <button class="theme-toggle" type="button" id="theme-toggle">Theme</button>
+    </header>
+
+    <slot />
+  </div>
+
+  <script is:inline>
+    document.getElementById("theme-toggle")?.addEventListener("click", () => {
+      const root = document.documentElement;
+      const next =
+        root.getAttribute("data-mantine-color-scheme") === "dark" ? "light" : "dark";
+      root.setAttribute("data-mantine-color-scheme", next);
+      try {
+        localStorage.setItem("mantine-color-scheme-value", next);
+      } catch (e) {}
+    });
+  </script>
+</BaseLayout>

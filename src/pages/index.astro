@@ -1,0 +1,31 @@
+---
+import "@mantine/core/styles.css";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Portfolio from "../app/Portfolio";
+
+const description =
+  "Najmi (NAoHR) — software engineer specialising in backend development and system integration. Middleware, payment platforms and e-wallets in Java and Spring Boot.";
+---
+
+<BaseLayout title="Najmi — Backend & Integration Engineer" description={description}>
+  <script
+    is:inline
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      name: "Najmi",
+      alternateName: "NAoHR",
+      url: "https://naohr.vercel.app/",
+      jobTitle: "Software Engineer",
+      sameAs: [
+        "https://github.com/NAoHR",
+        "https://www.linkedin.com/in/najmi207",
+        "https://www.codewars.com/users/Najmi",
+      ],
+    })}
+  />
+
+  <Portfolio client:load />
+</BaseLayout>

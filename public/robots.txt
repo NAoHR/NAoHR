@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://naohr.vercel.app/sitemap.xml
+Sitemap: https://naohr.vercel.app/sitemap-index.xml
