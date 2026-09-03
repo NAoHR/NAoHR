@@ -1,17 +1,27 @@
-import { Container, Flex } from "@mantine/core";
+import { StrictMode } from "react";
+import { MantineProvider } from "@mantine/core";
 
+import Intro from "../components/Intro";
 import NavbarComponents from "../components/NavbarComponents";
 import Greetings from "../components/Greetings";
 import TechStack from "../components/Techstack";
 import Projects from "../components/Projects";
 import Footer from "../components/Footer";
+import { theme } from "../theme";
+import { Container, Flex } from "@mantine/core";
 
-function App() {
-  return (
-    <>
+/**
+ * Root of the single React island. Astro owns routing and the document, so
+ * this provides only what Mantine needs and renders the portfolio sections.
+ */
+const Portfolio = () => (
+  <StrictMode>
+    <MantineProvider theme={theme} defaultColorScheme="auto">
       <a className="skip-link" href="#me">
         Skip to content
       </a>
+
+      <Intro />
 
       <NavbarComponents />
 
@@ -24,8 +34,8 @@ function App() {
           <Footer />
         </Flex>
       </Container>
-    </>
-  );
-}
+    </MantineProvider>
+  </StrictMode>
+);
 
-export default App;
+export default Portfolio;

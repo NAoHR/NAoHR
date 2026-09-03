@@ -1,0 +1,77 @@
+---
+import "../styles/index.css";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Absolute or root-relative image for link previews. */
+  image?: string;
+  /** Set for blog posts so the OG type and article dates are emitted. */
+  publishedDate?: Date;
+}
+
+const { title, description, image = "/assets/profile.jpg", publishedDate } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Najmi" />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content={publishedDate ? "article" : "website"} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    {publishedDate && (
+      <meta property="article:published_time" content={publishedDate.toISOString()} />
+    )}
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="icon" href="/assets/profile.jpg" />
+    <link rel="apple-touch-icon" href="/assets/profile.jpg" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#1a1b1e" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <slot name="head" />
+
+    {/* Apply the saved colour scheme before first paint to avoid a flash.
+        Shares Mantine's storage key so the toggle carries across pages. */}
+    <script is:inline>
+      (function () {
+        try {
+          var saved = localStorage.getItem("mantine-color-scheme-value");
+          var scheme =
+            saved === "light" || saved === "dark"
+              ? saved
+              : window.matchMedia("(prefers-color-scheme: light)").matches
+                ? "light"
+                : "dark";
+          document.documentElement.setAttribute("data-mantine-color-scheme", scheme);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

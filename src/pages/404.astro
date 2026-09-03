@@ -1,0 +1,16 @@
+---
+import BlogLayout from "../layouts/BlogLayout.astro";
+import poetList from "../utils/poet.json";
+
+const poem = poetList[Math.floor(Math.random() * poetList.length)];
+---
+
+<BlogLayout title="404 — Najmi" description="That page does not exist.">
+  <div style="text-align:center; padding:4rem 0">
+    <h1 class="page-title">404</h1>
+    <p class="meta" style="max-width:32rem; margin:1rem auto">{poem}</p>
+    <p style="margin-top:2rem">
+      <a href="/" style="color:var(--accent)">Take me home</a>
+    </p>
+  </div>
+</BlogLayout>

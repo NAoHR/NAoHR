@@ -1,0 +1,65 @@
+---
+title: "ISO 8583 is not going anywhere"
+description: "Why a 1987 binary message format still sits underneath modern JSON payment APIs, and what that means when you have to bridge the two."
+date: 2026-09-02
+tags: ["payments", "integration", "java"]
+draft: false
+---
+
+Every few years someone declares ISO 8583 dead. It is not. It is underneath a
+large share of card transactions, and if you build payment integrations you will
+meet it.
+
+## The shape of the problem
+
+Modern payment APIs speak JSON over HTTPS. Core banking systems frequently still
+speak ISO 8583 over a persistent TCP socket. Bridging them is less about parsing
+and more about reconciling two different ideas of what a request *is*.
+
+A JSON API call is request/response over a connection that exists for the life of
+the call. ISO 8583 is messages on a long-lived socket, where responses come back
+whenever they come back, correlated by fields in the message itself.
+
+## Correlating on a multiplexed socket
+
+The naive approach opens one connection per transaction. That does not survive
+load. The alternative is a single persistent socket with concurrent requests in
+flight, correlated by a composite key — typically the STAN and the transmission
+timestamp.
+
+```java
+public record TransactionKey(String stan, String transmissionDateTime) {}
+
+private final Map<TransactionKey, CompletableFuture<IsoMessage>> pending =
+        new ConcurrentHashMap<>();
+
+public CompletableFuture<IsoMessage> send(IsoMessage request) {
+    var key = new TransactionKey(request.field(11), request.field(7));
+    var future = new CompletableFuture<IsoMessage>();
+
+    pending.put(key, future);
+    socket.write(request.toBytes());
+
+    return future.orTimeout(30, TimeUnit.SECONDS)
+                 .whenComplete((result, error) -> pending.remove(key));
+}
+```
+
+The reader thread pulls messages off the socket, rebuilds the key, and completes
+the matching future. Note the `whenComplete` — without it, a timed-out
+transaction leaks its entry and the map grows until the process dies.
+
+## What actually bites
+
+The format is the easy part. What costs time is everything around it:
+
+- **No callback is not the same as failure.** If a response never arrives, the
+  transaction may still have succeeded. You need a reconciliation path that asks
+  the core system what happened, rather than assuming.
+- **Field padding and encoding vary by institution.** The spec is a starting
+  point; the implementation guide you are handed is the real contract.
+- **Socket lifecycle is your problem.** Reconnects, keepalives and in-flight
+  requests during a drop all need deliberate handling.
+
+None of this is intellectually hard. It is just unforgiving, and the failure mode
+is money in the wrong place.

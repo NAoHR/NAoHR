@@ -1,54 +1,78 @@
 # NAoHR — project context
 
 Working notes for anyone (human or agent) picking this repo up cold.
-Last updated: 2026-09-02.
+Last updated: 2026-09-03.
 
 ## What this is
 
 The source of **https://naohr.vercel.app/** — Najmi's personal portfolio / CV
-site. A single-page site: an intro, a tech stack, a project timeline and a
-footer. Deployed on Vercel from `main`.
+site plus a blog. Deployed on Vercel from `main`.
 
-It is a personal site, not a product. There is no backend, no database, no
-auth, no analytics and no CI. All content is static JSON committed to the repo.
+Astro owns the document and routing. The site is **two very different things
+under one build**:
+
+- **`/` — the portfolio.** The original React + Mantine components, mounted as a
+  single hydrated island (`client:load`). Prerendered to static HTML, then
+  hydrated. Ships ~390 KB JS and Mantine's 233 KB stylesheet.
+- **`/blog` — the posts.** Pure Astro and MDX. **Zero JavaScript and zero
+  external CSS** — a post is one ~8 KB HTML file. Verified: blog pages reference
+  no `/_astro/` assets at all.
+
+It is a personal site, not a product. No backend, no database, no auth, no
+analytics, no CI. All content is committed to the repo as JSON and MDX.
 
 ## Stack
 
 | | |
 | --- | --- |
-| Build | Vite 8 (`vite.config.ts`) |
-| UI | React 19.2 + Mantine 9 |
-| Language | TypeScript 5.9, `strict` + `noUnusedLocals`/`noUnusedParameters` |
-| Routing | react-router-dom 7 (`createBrowserRouter`) |
+| Framework | Astro 7 (`astro.config.mjs`), static output |
+| Portfolio island | React 19.2 + Mantine 9 via `@astrojs/react` |
+| Content | `@astrojs/mdx` + content collections, Zod-validated frontmatter |
+| Highlighting | Shiki at build time, dual `github-light` / `github-dark` |
+| Language | TypeScript, `astro/tsconfigs/strict` |
 | Icons | `@tabler/icons-react` for UI, `simple-icons` for brand marks |
-| Tests | Vitest + Testing Library (jsdom) |
-| Deploy | Vercel, pinned by `vercel.json` (framework `vite`, output `dist`) |
+| Tests | Vitest + Testing Library (jsdom), `vitest.config.ts` |
+| Deploy | Vercel, pinned by `vercel.json` (framework `astro`, output `dist`) |
+
+There is **no router library**. Astro's file-based routing replaced
+react-router; a link out of the island is a plain `<a href>`.
 
 ```bash
 npm install
-npm run dev        # http://localhost:5173
-npm run build      # tsc --noEmit && vite build  -> dist/
+npm run dev        # http://localhost:4321
+npm run build      # astro check && astro build -> dist/
 npm run preview
 npm test           # vitest run
-npm run typecheck
+npm run typecheck  # astro check
+npx astro sync     # regenerate content types after schema changes
 ```
 
 ## Layout
 
 ```
-index.html                  page metadata: title, description, OG, JSON-LD,
-                            and the pre-paint colour-scheme script
-src/main.tsx                entry: MantineProvider + router
+astro.config.mjs            integrations, site URL, Shiki themes
+src/content.config.ts       blog collection schema (Zod)
+src/content/blog/*.mdx      the posts
+src/pages/index.astro       portfolio: mounts the React island
+src/pages/blog/index.astro  post list
+src/pages/blog/[...id].astro  one post
+src/pages/404.astro         random poem from poet.json
+src/layouts/BaseLayout.astro  <head>, meta, pre-paint colour-scheme script
+src/layouts/BlogLayout.astro  blog chrome + theme toggle
+src/app/Portfolio.tsx       island root: MantineProvider + sections
 src/theme.ts                Mantine theme + the shared GRADIENT constant
-src/index.css               global CSS (.gradient, .gradient-text, .skip-link)
-src/pages/App.tsx           the one real page
-src/pages/NotFound.tsx      404, prints a random poem from poet.json
-src/components/             section components
-src/components/misc/        Underline, Quotes, BrandIcon
-src/hooks/                  useScrolledPast, useActiveSection
-src/utils/*.json            ALL page content
-public/                     favicon, profile.jpg, manifest, robots, sitemap
+src/styles/index.css        global CSS (.gradient, .gradient-text, .wave, .breathe)
+src/styles/blog.css         blog tokens + typography (no Mantine)
+src/components/             section components (React)
+src/components/misc/        Underline, Quotes, BrandIcon, ProfileMark
+src/hooks/                  useScrolledPast, useActiveSection, useScrollProgress
+src/utils/*.json            portfolio content
+public/                     favicon, profile.jpg, hermes-agent.png, manifest, robots
 ```
+
+**`src/pages/` is Astro's route table.** Never put a `.tsx` component there —
+Astro would turn it into a page. React lives in `src/app/` and
+`src/components/`.
 
 **All content lives in `src/utils/`.** To add a project or a stack entry, edit
 the JSON — no component changes needed.
@@ -68,9 +92,19 @@ the JSON — no component changes needed.
   page load and typed out in the blockquote inside `Greetings`
 - `poet.json` — short poems, one shown at random on the 404 page
 
-Adding a stack entry with a new slug also requires registering the icon in the
-`ICONS` map in `src/components/misc/BrandIcon.tsx` — the import is explicit so
-the bundle only carries the icons actually used.
+Adding a stack entry with a new slug also requires registering the icon in
+`src/components/misc/BrandIcon.tsx` — the import is explicit so the bundle only
+carries the icons actually used. That file has two maps and a fallback:
+
+- `ICONS` — simple-icons marks, tinted with the brand hex
+- `IMAGE_ICONS` — tools with no simple-icons entry, pointing at a file
+  **self-hosted in `public/assets/`**. Download the logo into the repo; never
+  hot-link a CDN, which is the thing this whole setup exists to avoid.
+- anything unmatched renders a neutral wrench glyph, so a missing mark degrades
+  instead of vanishing
+
+Note simple-icons *does* ship a `hermes`, but it is the German parcel courier
+(`myhermes.de`) — deliberately not wired up.
 
 ## History
 
@@ -149,6 +183,44 @@ of the old static blockquote, types a quote out letter by letter, holds for
 `HOLD_MS`, then moves to the next. Under `prefers-reduced-motion` it renders
 the quote whole and does not auto-advance.
 
+`Intro` is a full-screen entry curtain over the whole site, dismissed by
+click or keyboard. The page renders underneath it the entire time, so
+dismissing only fades the curtain — nothing mounts late, and the content is in
+the DOM for crawlers and tests from the first paint. It shows on **every load**;
+gate it on `sessionStorage` if that becomes annoying.
+
+`ProfileMark` is a vector trace of `public/assets/profile.jpg`, generated by
+thresholding at 110 with a 3px blur and simplifying the contours to four closed
+loops (even-odd fill keeps the eyes and mouth open). Path data lives in
+`profileMarkPath.ts`. It carries the site gradient on dark and solid black on
+light — the gradient washes out on a white ground. The trace is a **stylised
+interpretation, not a reproduction**: the source is fine white tracery on black,
+and no threshold keeps that filigree without fusing it into solid shapes.
+
+## Writing a post
+
+Drop an `.mdx` (or `.md`) file in `src/content/blog/`. The filename becomes the
+URL slug. Frontmatter is validated by the Zod schema in `src/content.config.ts`:
+
+```yaml
+---
+title: "Post title"
+description: "Shown in the list and as the meta/OG description."
+date: 2026-09-03
+tags: ["payments", "java"]
+draft: true          # omitted from the build entirely
+---
+```
+
+A malformed post **fails the build** rather than shipping broken — that is the
+point of the schema. Code fences are highlighted by Shiki at build time, so no
+highlighter ships to the browser; `blog.css` swaps the light/dark token sets.
+MDX means a React component can be imported into a post when one is genuinely
+needed, but a post that is only prose and code should stay plain so the page
+keeps shipping no JS.
+
+After changing the schema, run `npx astro sync` to regenerate content types.
+
 ## Conventions
 
 - Section wrappers carry the `id` used by the nav: `me`, `stack`, `projects`.
@@ -167,21 +239,23 @@ the quote whole and does not auto-advance.
   typecheck, Vitest (jsdom) and a dev-server smoke test, but nobody has looked
   at the rendered page in a browser. Mantine 9 replaced the styling engine
   wholesale, so a visual pass in both themes is the first thing to do.
-- **Bundle size.** `dist` is 452 kB JS (146 kB gzip) plus a separate 235 kB CSS
-  file (34 kB gzip) that is almost entirely `@mantine/core/styles.css`.
-  Importing only the per-component styles actually used would cut the CSS a
-  lot.
+- **The portfolio island is still heavy** — ~390 kB JS plus Mantine's 233 kB
+  stylesheet, loaded only on `/`. Astro fixed the *prerendering* problem, not
+  the payload one; that would take rewriting the portfolio as `.astro` with
+  plain CSS, which was considered on 2026-09-03 and deliberately deferred.
+  The blog already ships nothing.
 - **The CV is a Google Drive link** (`CV_URL` in `Greetings.tsx`). Not
   indexable and it rots if the file moves.
 - **No work-experience section.** For a CV site this is the biggest content
   gap; the site currently shows projects only.
-- **The intro copy promises a blog** that does not exist.
 - **`Spring Boot` was added to `stack.json`** during the 2026-09 pass because
   the site's own copy and a project already referenced it. Unconfirmed with
   Najmi — remove if wrong.
 - **Project cover images are generic Unsplash photos**, dimmed by an overlay.
   Real screenshots would serve the site better.
-- **Deferred: migrating to Next.js.** Considered on 2026-09-02 and explicitly
-  turned down in favour of modernising in place. It remains the option that
-  would buy server-rendered per-page metadata and MDX blog support if the blog
-  ever happens.
+- **`src/content/blog/iso-8583-and-json-apis.mdx` is `draft: true`.** It was
+  written by Claude as a pipeline demo, not by Najmi — review, rewrite or
+  delete it before publishing. `hello.mdx` is published.
+- **Deferred: Next.js.** Considered 2026-09-02, turned down for modernising in
+  place; Astro (2026-09-03) covered the same need for the blog with less
+  disruption, since the React components carried over unchanged.

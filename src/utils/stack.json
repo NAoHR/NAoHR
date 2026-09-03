@@ -1,13 +1,54 @@
 [
-  { "name": "Java", "icon": "openjdk" },
-  { "name": "Spring Boot", "icon": "spring" },
-  { "name": "TypeScript", "icon": "typescript" },
-  { "name": "JavaScript", "icon": "javascript" },
-  { "name": "Python", "icon": "python" },
-  { "name": "React", "icon": "react" },
-  { "name": "Next.js", "icon": "nextdotjs" },
-  { "name": "Node.js", "icon": "nodedotjs" },
-  { "name": "Express.js", "icon": "express" },
-  { "name": "PostgreSQL", "icon": "postgresql" },
-  { "name": "MongoDB", "icon": "mongodb" }
+  {
+    "name": "Java",
+    "icon": "openjdk"
+  },
+  {
+    "name": "Spring Boot",
+    "icon": "spring"
+  },
+  {
+    "name": "TypeScript",
+    "icon": "typescript"
+  },
+  {
+    "name": "JavaScript",
+    "icon": "javascript"
+  },
+  {
+    "name": "Python",
+    "icon": "python"
+  },
+  {
+    "name": "React",
+    "icon": "react"
+  },
+  {
+    "name": "Next.js",
+    "icon": "nextdotjs"
+  },
+  {
+    "name": "Node.js",
+    "icon": "nodedotjs"
+  },
+  {
+    "name": "Express.js",
+    "icon": "express"
+  },
+  {
+    "name": "PostgreSQL",
+    "icon": "postgresql"
+  },
+  {
+    "name": "MongoDB",
+    "icon": "mongodb"
+  },
+  {
+    "name": "Claude",
+    "icon": "claude"
+  },
+  {
+    "name": "Hermes",
+    "icon": "hermes"
+  }
 ]

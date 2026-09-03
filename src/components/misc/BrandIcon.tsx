@@ -1,6 +1,8 @@
 import { useComputedColorScheme } from "@mantine/core";
+import { IconTool } from "@tabler/icons-react";
 import type { SimpleIcon } from "simple-icons";
 import {
+  siClaude,
   siExpress,
   siJavascript,
   siMongodb,
@@ -19,6 +21,7 @@ import {
  * party CDNs, so they cannot rot or be blocked.
  */
 const ICONS: Record<string, SimpleIcon> = {
+  claude: siClaude,
   express: siExpress,
   javascript: siJavascript,
   mongodb: siMongodb,
@@ -30,6 +33,14 @@ const ICONS: Record<string, SimpleIcon> = {
   react: siReact,
   spring: siSpring,
   typescript: siTypescript,
+};
+
+/**
+ * Marks with no simple-icons entry, self-hosted under `public/assets/` rather
+ * than hot-linked. Keyed by the same slug used in the data files.
+ */
+const IMAGE_ICONS: Record<string, string> = {
+  hermes: "/assets/hermes-agent.png",
 };
 
 /** Perceived brightness of a `RRGGBB` string, 0 (black) to 1 (white). */
@@ -45,9 +56,25 @@ interface BrandIconProps {
 
 const BrandIcon = ({ slug, size = 18 }: BrandIconProps) => {
   const scheme = useComputedColorScheme("dark");
+  const image = IMAGE_ICONS[slug];
+  if (image) {
+    return (
+      <img
+        src={image}
+        alt=""
+        aria-hidden="true"
+        width={size}
+        height={size}
+        style={{ borderRadius: 3, display: "block" }}
+      />
+    );
+  }
+
   const icon = ICONS[slug];
 
-  if (!icon) return null;
+  // simple-icons has no mark for every tool — and its "Hermes" is the parcel
+  // courier, not this one. A neutral glyph beats shipping the wrong logo.
+  if (!icon) return <IconTool size={size} stroke={1.5} aria-hidden="true" />;
 
   const brightness = luminance(icon.hex);
   // Near-black marks vanish on dark backgrounds (and vice versa) — fall back

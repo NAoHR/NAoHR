@@ -24,22 +24,27 @@ const Greetings = () => {
     <Group>
       <Flex direction="column" gap="lg" align="flex-start" id="me">
         <Title fw={800} order={2}>
-          Hello People, Najmi&apos;s Here
+          Hi{" "}
+          <span className="wave" role="img" aria-label="waving hand">
+            👋
+          </span>
+          , Najmi&apos;s Here
           <Underline />
         </Title>
 
         <Text fw={400} size="lg">
-          Someone who wants to be a{" "}
-          <span className="gradient-text">passionate (?) full-stack developer</span>. I love
-          the way machines work, either to get all the things done or to help overcome the
-          daily basis. Currently improving my skills related to Java and Spring technology
-          (Spring Boot).
+          A <span className="gradient-text">backend developer</span>.
+        </Text>
+        <Text>
+          I love the way machines work — how a message leaves one system, crosses three
+          more, and still balances at the end. Most of my work is Java and Spring Boot:
+          middleware, e-wallets and payment rails.
         </Text>
 
         <Text fw={400} size="lg">
-          I made this website to share all my code journey and all the projects that I have
-          done. Probably I am going to write a little bit of a blog about my daily basis and
-          my software engineering job as a Java developer.
+          I made this website to share my code journey and the things I have built — client
+          work under Professional, my own projects under Personal. A blog about the job is
+          probably coming too.
         </Text>
 
         <Quotes />

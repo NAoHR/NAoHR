@@ -13,10 +13,10 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconArrowBigUpLines, IconMoon, IconSun } from "@tabler/icons-react";
-import { Link } from "react-router-dom";
 
 import Underline from "./misc/Underline";
 import { useActiveSection } from "../hooks/useActiveSection";
+import { useScrollProgress } from "../hooks/useScrollProgress";
 import { useScrolledPast } from "../hooks/useScrolledPast";
 
 const SECTIONS = [
@@ -43,6 +43,7 @@ function scrollToSection(id: string) {
 
 const NavbarComponents = () => {
   const scrolled = useScrolledPast(60);
+  const progress = useScrollProgress();
   const active = useActiveSection(SECTION_IDS);
 
   const { setColorScheme } = useMantineColorScheme();
@@ -78,11 +79,10 @@ const NavbarComponents = () => {
           right: 0,
           zIndex: 100,
           backgroundColor: "var(--mantine-color-body)",
-          borderBottom: scrolled ? "1.5px solid #DA77F2" : "1.5px solid transparent",
         }}
       >
         <Flex p="lg" mih="100%" align="center" justify="space-between" fw={700}>
-          <Text component={Link} to="/" aria-label="Home"  >
+          <Text component="a" href="/" aria-label="Home">
             NA<span className="gradient-text">o</span>HR
             <Underline />
           </Text>
@@ -90,6 +90,9 @@ const NavbarComponents = () => {
           <Group>
             <Group visibleFrom="xs" component="nav" aria-label="Sections">
               {navLinks}
+              <Text component="a" href="/blog/" fw={700}>
+                Blog
+              </Text>
             </Group>
 
             <ActionIcon
@@ -111,6 +114,20 @@ const NavbarComponents = () => {
             />
           </Group>
         </Flex>
+
+        {/* Reading progress: nothing at the top, full width at the bottom. */}
+        <Box
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            left: 0,
+            bottom: 0,
+            height: "1.5px",
+            width: `${progress * 100}%`,
+            backgroundColor: "#DA77F2",
+            willChange: "width",
+          }}
+        />
       </Box>
 
       <Drawer
@@ -122,7 +139,12 @@ const NavbarComponents = () => {
         hiddenFrom="xs"
         zIndex={200}
       >
-        <Stack gap="lg">{navLinks}</Stack>
+        <Stack gap="lg">
+          {navLinks}
+          <Text component="a" href="/blog/" fw={700}>
+            Blog
+          </Text>
+        </Stack>
       </Drawer>
 
       {scrolled && (

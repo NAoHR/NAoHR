@@ -23,6 +23,52 @@ code {
   font-weight: 700;
 }
 
+/* Waving hand in the greeting. Pivots at the wrist, then rests for most of
+   the cycle so it reads as an occasional wave rather than a constant jitter. */
+.wave {
+  display: inline-block;
+  transform-origin: 70% 75%;
+  animation: wave 2.6s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%,
+  55%,
+  100% {
+    transform: rotate(0deg);
+  }
+  10%,
+  30% {
+    transform: rotate(14deg);
+  }
+  20%,
+  40% {
+    transform: rotate(-8deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+}
+
+/* Slow breath on the entry mark. Long ease at the extremes so it holds at the
+   top and bottom of each cycle rather than pulsing mechanically. */
+.breathe {
+  transform-origin: center;
+  animation: breathe 5s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.88;
+  }
+  50% {
+    transform: scale(1.045);
+    opacity: 1;
+  }
+}
+
 /* Skip link: visible only once focused. */
 .skip-link {
   position: absolute;
