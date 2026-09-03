@@ -18,9 +18,18 @@ const prefersReducedMotion = () =>
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const Quotes = () => {
-  const [quote, setQuote] = useState(randomQuote);
+  // Deterministic on the first render. Picking at random during render makes
+  // the server and the client disagree on the cite text, and React treats a
+  // hydration text mismatch as fatal (#418) — the whole island then fails to
+  // hydrate and nothing on the page is interactive.
+  const [quote, setQuote] = useState(quotesList[0]);
   const [typed, setTyped] = useState("");
   const [isDone, setIsDone] = useState(false);
+
+  // Randomise once we are safely on the client.
+  useEffect(() => {
+    setQuote(randomQuote());
+  }, []);
 
   // Bumped on every quote change and on unmount, so a still-running
   // typewriter aborts itself instead of interleaving with the next one.
