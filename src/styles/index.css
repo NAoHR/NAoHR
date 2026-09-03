@@ -69,6 +69,81 @@ code {
   }
 }
 
+/* Tech stack. Reads as a spec sheet: the group name sits in a left rail on
+   wide screens and above the row on narrow ones. The items are labels, not
+   controls, so they carry no button chrome — nothing here is clickable. */
+.stack {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+}
+
+/* dl/dt/dd carry UA margins that would knock the grid columns out. */
+.stack dt,
+.stack dd {
+  margin: 0;
+}
+
+.stack-group {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+  padding: 0.9rem 0;
+  border-top: 1px solid light-dark(rgba(0, 0, 0, 0.07), rgba(255, 255, 255, 0.07));
+}
+
+.stack-group:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+@media (min-width: 48em) {
+  .stack-group {
+    grid-template-columns: 9rem 1fr;
+    gap: 1.25rem;
+    align-items: baseline;
+  }
+}
+
+.stack-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: light-dark(#6b6b7b, #7e808a);
+  line-height: 1.9;
+}
+
+.stack-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.4rem;
+}
+
+.stack-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.28rem 0.6rem 0.28rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1.5;
+  white-space: nowrap;
+  background: light-dark(rgba(0, 0, 0, 0.045), rgba(255, 255, 255, 0.055));
+}
+
+/* Fixed box so ragged brand marks still line their labels up. */
+.stack-chip__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
 /* Skip link: visible only once focused. */
 .skip-link {
   position: absolute;

@@ -2,7 +2,9 @@ import { useComputedColorScheme } from "@mantine/core";
 import { IconTool } from "@tabler/icons-react";
 import type { SimpleIcon } from "simple-icons";
 import {
+  siApachekafka,
   siClaude,
+  siDocker,
   siExpress,
   siJavascript,
   siMongodb,
@@ -12,6 +14,8 @@ import {
   siPostgresql,
   siPython,
   siReact,
+  siRedhat,
+  siRedis,
   siSpring,
   siTypescript,
 } from "simple-icons";
@@ -21,7 +25,9 @@ import {
  * party CDNs, so they cannot rot or be blocked.
  */
 const ICONS: Record<string, SimpleIcon> = {
+  apachekafka: siApachekafka,
   claude: siClaude,
+  docker: siDocker,
   express: siExpress,
   javascript: siJavascript,
   mongodb: siMongodb,
@@ -31,6 +37,8 @@ const ICONS: Record<string, SimpleIcon> = {
   postgresql: siPostgresql,
   python: siPython,
   react: siReact,
+  redhat: siRedhat,
+  redis: siRedis,
   spring: siSpring,
   typescript: siTypescript,
 };
@@ -43,11 +51,29 @@ const IMAGE_ICONS: Record<string, string> = {
   hermes: "/assets/hermes-agent.png",
 };
 
-/** Perceived brightness of a `RRGGBB` string, 0 (black) to 1 (white). */
+/** WCAG relative luminance of a `RRGGBB` string, with sRGB gamma expansion. */
 function luminance(hex: string) {
-  const [r, g, b] = [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
+  const [r, g, b] = [0, 2, 4].map((i) => {
+    const c = parseInt(hex.slice(i, i + 2), 16) / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
+
+function contrastRatio(a: number, b: number) {
+  const [hi, lo] = a > b ? [a, b] : [b, a];
+  return (hi + 0.05) / (lo + 0.05);
+}
+
+/** Luminance of the page behind the mark: Mantine's dark body, and white. */
+const BODY_LUMINANCE = { dark: luminance("1a1b1e"), light: 1 };
+
+/**
+ * Below this, the brand colour is too close to the background to read. Judged
+ * by contrast rather than raw brightness, so a saturated red keeps its colour
+ * on dark even though its luminance is low.
+ */
+const MIN_CONTRAST = 2;
 
 interface BrandIconProps {
   slug: string;
@@ -76,11 +102,10 @@ const BrandIcon = ({ slug, size = 18 }: BrandIconProps) => {
   // courier, not this one. A neutral glyph beats shipping the wrong logo.
   if (!icon) return <IconTool size={size} stroke={1.5} aria-hidden="true" />;
 
-  const brightness = luminance(icon.hex);
-  // Near-black marks vanish on dark backgrounds (and vice versa) — fall back
-  // to the surrounding text colour when the brand colour would not read.
+  // Near-black marks vanish on dark backgrounds (and pale ones on light) —
+  // fall back to the surrounding text colour when the brand colour cannot read.
   const washedOut =
-    (scheme === "dark" && brightness < 0.2) || (scheme === "light" && brightness > 0.85);
+    contrastRatio(luminance(icon.hex), BODY_LUMINANCE[scheme]) < MIN_CONTRAST;
 
   return (
     <svg
