@@ -672,8 +672,8 @@ main h2 {
   }
 }
 
-/* ------------------------------------------------------- work + projects */
-/* Both sections are rows: a date column, then the entry. */
+/* ----------------------------------------------- rows, routes, employers */
+/* Rows: a date column, then the entry (employer header, side projects). */
 
 .rows {
   display: flex;
@@ -812,26 +812,166 @@ main h2 {
   border-top: 1px solid var(--line);
 }
 
-details {
-  margin-top: 0.85rem;
+/* ------------------------------------------------------------------ work */
+/* Current roles as cards (results visible), earlier roles as a log whose
+   rows open in place. A depth layer and the cards move at different speeds
+   while the section scrolls by (CSS scroll-driven animations; browsers
+   without them, and reduced motion, get the static layout). */
+
+#work {
+  position: relative;
+  isolation: isolate;
 }
 
-summary {
+.work-depth {
+  position: absolute;
+  z-index: -1;
+  top: -6rem;
+  bottom: -6rem;
+  left: 50%;
+  width: 100vw;
+  pointer-events: none;
+  transform: translateX(-50%);
+  -webkit-mask-image: linear-gradient(transparent, #000 15%, #000 85%, transparent);
+  mask-image: linear-gradient(transparent, #000 15%, #000 85%, transparent);
+}
+
+.work-depth > * {
+  position: absolute;
+  inset: 0;
+}
+
+.work-depth-glow {
+  background: radial-gradient(40rem 22rem at 50% 28%, var(--glow), transparent 70%);
+}
+
+.work-depth-grid {
+  background-image:
+    linear-gradient(var(--rule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+  background-size: 48px 48px;
+  -webkit-mask-image: radial-gradient(ellipse 55% 30% at 50% 28%, #000 15%, transparent 70%);
+  mask-image: radial-gradient(ellipse 55% 30% at 50% 28%, #000 15%, transparent 70%);
+}
+
+.role-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  gap: 1.5rem;
+}
+
+.role-card {
+  position: relative;
+  padding: 1.5rem 1.5rem 1.25rem;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--accent) 6%, var(--surface)),
+    var(--surface) 60%
+  );
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+}
+
+/* A lit edge along the top: the card is "live". */
+.role-card::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 1.5rem;
+  right: 1.5rem;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  border-radius: 2px;
+}
+
+.role-when {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.role-when::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.role-card h4 {
+  margin-top: 0.6rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.role-card .subtitle {
+  margin-top: 0.15rem;
+}
+
+.role-wins {
+  margin-top: 0.9rem;
+  padding-left: 1.1rem;
+}
+
+.role-wins li + li {
+  margin-top: 0.35rem;
+}
+
+.role-wins li::marker {
+  color: var(--accent);
+}
+
+/* Disclosures: the card's "Details" and every log row. Both open with a
+   short slide where the browser can animate to auto height. */
+.role-more,
+.role-log details {
+  interpolate-size: allow-keywords;
+}
+
+.role-more::details-content,
+.role-log details::details-content {
+  block-size: 0;
+  overflow: clip;
+  transition:
+    block-size 0.35s ease,
+    content-visibility 0.35s allow-discrete;
+}
+
+.role-more[open]::details-content,
+.role-log details[open]::details-content {
+  block-size: auto;
+}
+
+.role-more summary,
+.role-log summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.role-more summary::-webkit-details-marker,
+.role-log summary::-webkit-details-marker {
+  display: none;
+}
+
+.role-more {
+  margin-top: 1rem;
+}
+
+.role-more summary {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
   color: var(--accent);
   font-size: 0.9375rem;
   font-weight: 500;
-  cursor: pointer;
-  list-style: none;
 }
 
-summary::-webkit-details-marker {
-  display: none;
-}
-
-summary::before {
+.role-more summary::before {
   content: "";
   width: 0.4rem;
   height: 0.4rem;
@@ -841,27 +981,167 @@ summary::before {
   transition: transform 0.15s ease-out;
 }
 
-details[open] summary::before {
+.role-more[open] summary::before {
   transform: rotate(45deg);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  summary::before {
-    transition: none;
-  }
+.role-more .role-detail {
+  padding-top: 0.85rem;
 }
 
-details > p,
-details > ul {
-  margin-top: 0.85rem;
+.role-detail > * + * {
+  margin-top: 0.75rem;
 }
 
-details ul {
+.role-detail ul {
   padding-left: 1.1rem;
 }
 
-details li + li {
-  margin-top: 0.45rem;
+.role-detail li + li {
+  margin-top: 0.4rem;
+}
+
+.role-log-wrap {
+  margin-top: 3rem;
+}
+
+.role-log-title {
+  margin-bottom: 0.75rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.role-log {
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--rule);
+}
+
+.role-log > li {
+  border-bottom: 1px solid var(--rule);
+}
+
+/* The whole row is the toggle. */
+.role-log summary {
+  display: grid;
+  grid-template-columns: 11rem minmax(0, 1fr) auto;
+  column-gap: 2rem;
+  align-items: baseline;
+  margin: 0 -0.75rem;
+  padding: 0.95rem 0.75rem;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: background-color 0.15s ease-out;
+}
+
+.role-log summary:hover {
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+}
+
+.role-log .when {
+  padding-top: 0;
+  font-weight: 400;
+}
+
+.role-log details[open] .role-log-headline {
+  color: var(--accent);
+}
+
+.role-log-chevron {
+  align-self: center;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-right: 1.5px solid var(--muted);
+  border-bottom: 1.5px solid var(--muted);
+  transform: rotate(45deg);
+  transition: transform 0.15s ease-out;
+}
+
+.role-log details[open] .role-log-chevron {
+  transform: rotate(-135deg);
+}
+
+.role-log .role-detail {
+  max-width: calc(var(--measure) + 13rem);
+  padding: 0 0 1.25rem 13rem;
+}
+
+@media (max-width: 40rem) {
+  .role-log summary {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .role-log .when {
+    grid-column: 1 / -1;
+  }
+
+  .role-log .role-detail {
+    padding-left: 0;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Longhands on purpose: the minifier folds a shorthand + timeline into
+       `animation: … view()`, which browsers reject (timeline is reset-only). */
+    .work-depth {
+      animation-name: work-drift;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: cover;
+    }
+
+    /* Side by side, the two cards rise at different speeds: depth. Stacked
+       on narrow screens they would just leave gaps, so they stay put. */
+    @media (min-width: 52rem) {
+      .role-card {
+        animation-name: card-near;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 55%;
+      }
+
+      .role-card:nth-child(even) {
+        animation-name: card-far;
+      }
+    }
+  }
+}
+
+@keyframes work-drift {
+  from {
+    transform: translate(-50%, -90px);
+  }
+  to {
+    transform: translate(-50%, 90px);
+  }
+}
+
+@keyframes card-near {
+  from {
+    opacity: 0.35;
+    transform: translateY(70px);
+  }
+}
+
+@keyframes card-far {
+  from {
+    opacity: 0.35;
+    transform: translateY(150px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .role-more::details-content,
+  .role-log details::details-content,
+  .role-more summary::before,
+  .role-log summary,
+  .role-log-chevron {
+    transition: none;
+  }
 }
 
 @media (max-width: 40rem) {

@@ -38,8 +38,8 @@ const Role = z
     period: z.string(),
     description: z.string(),
     route: Route,
-    /** One-paragraph result shown without expanding the details. */
-    impact: z.string(),
+    /** 1–3 short results, shown without opening anything. */
+    wins: z.array(z.string()).min(1).max(3),
     highlights: z.array(z.string()).min(1),
     tag: z.array(z.string()),
   })
@@ -99,11 +99,21 @@ for (const role of roles) {
   }
 }
 
-/** Employers in employers.json order, each with its roles in experience.json order. */
-export const work = employers.map((employer) => ({
-  ...employer,
-  roles: roles.filter((role) => role.company === employer.name),
-}));
+/**
+ * Employers in employers.json order. Roles still running ("… — Present")
+ * are `current` and get full cards; the rest are `earlier`, one line each
+ * until opened. Both keep experience.json order.
+ */
+export const work = employers.map((employer) => {
+  const own = roles.filter((role) => role.company === employer.name);
+  const current = own.filter((role) => /present$/i.test(role.period.trim()));
+  return {
+    ...employer,
+    roleCount: own.length,
+    current,
+    earlier: own.filter((role) => !current.includes(role)),
+  };
+});
 
 export const projects = Projects.parse(projectsJson);
 

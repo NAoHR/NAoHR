@@ -112,6 +112,12 @@ const spelled = (n: number) => NUMBER_WORDS[n] ?? String(n);
   </div>
 
   <section id="work" aria-labelledby="work-title">
+    {/* Depth layer: drifts slower than the content while the section scrolls by. */}
+    <div class="work-depth" aria-hidden="true">
+      <div class="work-depth-glow"></div>
+      <div class="work-depth-grid"></div>
+    </div>
+
     <h2 id="work-title">Work</h2>
     {
       work.map((employer) => (
@@ -123,8 +129,8 @@ const spelled = (n: number) => NUMBER_WORDS[n] ?? String(n);
                 {employer.name}, {employer.place}
               </h3>
               <p class="employer-summary">
-                {employer.summary} {spelled(employer.roles.length)}{" "}
-                {employer.roles.length === 1 ? "engagement" : "engagements"} so far.
+                {employer.summary} {spelled(employer.roleCount)}{" "}
+                {employer.roleCount === 1 ? "engagement" : "engagements"} so far.
               </p>
               <ol class="ladder" aria-label={`Job titles at ${employer.name}`}>
                 {employer.ladder.map(({ title, since }) => (
@@ -137,33 +143,76 @@ const spelled = (n: number) => NUMBER_WORDS[n] ?? String(n);
             </div>
           </div>
 
-          <ol class="rows">
-            {employer.roles.map((role) => (
-              <li class="row">
-                <p class="when">{role.period}</p>
-                <div class="row-body">
+          {employer.current.length > 0 && (
+            <div class="role-cards">
+              {employer.current.map((role) => (
+                <article class="role-card">
+                  <p class="role-when">{role.period}</p>
                   <h4>{role.headline}</h4>
                   <p class="subtitle">
                     {role.title}, {role.role}
                   </p>
                   <Route nodes={role.route} />
-                  <p class="impact">{role.impact}</p>
-                  <details>
+                  <ul class="role-wins">
+                    {role.wins.map((win) => (
+                      <li>{win}</li>
+                    ))}
+                  </ul>
+                  <details class="role-more">
                     <summary>
                       Details<span class="visually-hidden"> about {role.headline}</span>
                     </summary>
-                    <p>{role.description}</p>
-                    <ul>
-                      {role.highlights.map((highlight) => (
-                        <li>{highlight}</li>
-                      ))}
-                    </ul>
-                    <p class="tech">{role.tag.join(", ")}</p>
+                    <div class="role-detail">
+                      <p>{role.description}</p>
+                      <ul>
+                        {role.highlights.map((highlight) => (
+                          <li>{highlight}</li>
+                        ))}
+                      </ul>
+                      <p class="tech">{role.tag.join(", ")}</p>
+                    </div>
                   </details>
-                </div>
-              </li>
-            ))}
-          </ol>
+                </article>
+              ))}
+            </div>
+          )}
+
+          {employer.earlier.length > 0 && (
+            <div class="role-log-wrap">
+              <h4 class="role-log-title">Earlier at {employer.name}</h4>
+              <ol class="role-log">
+                {employer.earlier.map((role) => (
+                  <li>
+                    <details>
+                      <summary>
+                        <span class="when">{role.period}</span>
+                        <span class="role-log-headline">{role.headline}</span>
+                        <span class="role-log-chevron" aria-hidden="true" />
+                      </summary>
+                      <div class="role-detail">
+                        <p class="subtitle">
+                          {role.title}, {role.role}
+                        </p>
+                        <Route nodes={role.route} />
+                        <ul class="role-wins">
+                          {role.wins.map((win) => (
+                            <li>{win}</li>
+                          ))}
+                        </ul>
+                        <p>{role.description}</p>
+                        <ul>
+                          {role.highlights.map((highlight) => (
+                            <li>{highlight}</li>
+                          ))}
+                        </ul>
+                        <p class="tech">{role.tag.join(", ")}</p>
+                      </div>
+                    </details>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
         </div>
       ))
     }

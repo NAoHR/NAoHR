@@ -71,13 +71,16 @@ tool, edit the JSON; `content.ts` rejects anything malformed.
 - `employers.json` — `{ name, place, period, summary, ladder[{ title, since }] }`.
   Work is grouped under these; the ladder is the job titles held there.
 - `experience.json` — `{ headline, title, company, role, period, description,
-  route[], impact, highlights[], tag[] }`, reverse-chronological, transcribed
+  route[], wins[], highlights[], tag[] }`, reverse-chronological, transcribed
   from Najmi's CV. `company` must match an employer `name` (the build fails
   otherwise). `headline` says what the work achieved and is the visible
-  heading; `title` is the project's own name, shown under it. `impact` is the
-  one result shown without opening Details. `route` is the chain of systems
-  the engagement connected, in message order. Headlines, impacts and routes
-  were written from the CV — Najmi should correct any that are off.
+  heading; `title` is the project's own name, shown under it. `wins` are 1–3
+  short results shown without opening anything; `description` + `highlights`
+  are the full write-up behind Details. A role whose `period` ends in
+  "Present" is current and gets a card; the rest go in the "Earlier" log.
+  `route` is the chain of systems the engagement connected, in message order.
+  Headlines, wins and routes were written from the CV — Najmi should correct
+  any that are off.
 - `projects.json` — `{ featured[], earlier[] }`. Featured: `{ title, year,
   note?, link?, route[], description, tag[] }`, shown like work rows (no link
   for private repos; `note` says why). Earlier: `{ title, link, summary }`,
@@ -113,10 +116,21 @@ balances at the end.*
   down to sit around the illustration.
 - **Lower sections** keep the box-and-line motif: each work role and featured
   project has a small route (`Route.astro`); the employer ladder reuses it.
-  No cards, no stock photos, no icon chips.
-- **Work** is grouped by employer, then one row per engagement: outcome
-  headline, project name + role, route, one visible result, Details for the
-  rest.
+  No stock photos, no icon chips.
+- **Work** is grouped by employer. Current roles are cards side by side
+  (headline, project + role, route, wins visible, Details for the full
+  write-up). Earlier roles are an "Earlier at …" log: one line each (date +
+  headline); the whole row opens in place to the full detail, and any number
+  of rows can be open at once. Recruiters skim (~7 s, Ladders 2018), so the
+  recent results are never hidden; older detail is a click away (NN/g on
+  accordions).
+- **Parallax** (Work only): a faded grid + glow layer behind the section
+  drifts slower than the content, and on wide screens the two cards rise at
+  different speeds as they scroll in. CSS scroll-driven animations
+  (`animation-timeline: view()`); browsers without them and reduced motion
+  get the static layout. Keep these as longhands in `site.css`: the minifier
+  turns a shorthand + timeline into `animation: … view()`, which browsers
+  reject.
 - **Palette** (`site.css` `:root`): cheque-ink navy on cool paper, and one
   cobalt accent (`#2F5BD3` light / `#7FA2FF` dark) for things that move or
   settle: pulses, the ledger, links' hover, Details toggles, focus rings.
@@ -201,7 +215,7 @@ is only prose and code ships no JavaScript.
 - **`src/content/blog/iso-8583-and-json-apis.mdx` is `draft: true`** (unpublished
   2026-10-26). It was written by Claude as a pipeline demo, not by Najmi —
   rewrite or delete it before publishing.
-- **Headlines, impacts and routes in `experience.json`, and the Indivara
+- **Headlines, wins and routes in `experience.json`, and the Indivara
   summary in `employers.json`, need Najmi's check** (written from the CV).
 - **naohr-lab copy in `projects.json` describes the plan**, not a running
   tunnel; update it once the Cloudflare Tunnel is live.
