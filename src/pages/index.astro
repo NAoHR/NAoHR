@@ -1,11 +1,11 @@
 ---
 import { getCollection } from "astro:content";
 
-import MessageRoute from "../components/MessageRoute.astro";
 import Route from "../components/Route.astro";
+import SignalField from "../components/SignalField.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { projects, stack, work } from "../utils/content";
-import { LINKS } from "../utils/links";
+import { now, projects, stack, work } from "../utils/content";
+import { AVAILABILITY, LINKS } from "../utils/links";
 
 const description =
   "Najmi (NAoHR) — software engineer specialising in backend development and system integration. Middleware, payment platforms and e-wallets in Java and Spring Boot.";
@@ -47,37 +47,69 @@ const spelled = (n: number) => NUMBER_WORDS[n] ?? String(n);
     })}
   />
 
-  <section class="hero" aria-labelledby="hero-title">
-    <h1 id="hero-title">
-      A message leaves one system, crosses three more, and still balances at the end.
-    </h1>
-
-    <MessageRoute />
-
-    <div class="intro">
-      <p>
-        I’m Najmi, a backend and integration engineer at Indivara in Jakarta. I build that
-        path in Java and Spring Boot: e-wallets, middleware and payment rails, and lately I
-        lead the teams that build them.
-      </p>
-      <ul class="intro-links">
-        {
-          heroLinks.map(({ label, href }) => (
-            <li>
-              {href.startsWith("mailto:") ? (
-                <a href={href}>{label}</a>
-              ) : (
-                <a href={href} target="_blank" rel="noopener noreferrer">
-                  {label}
-                </a>
-              )}
-            </li>
-          ))
-        }
-        <li><a href="/cv.pdf">CV (PDF)</a></li>
-      </ul>
+  <div class="first">
+    <div class="backdrop" aria-hidden="true">
+      <div class="backdrop-glow"></div>
+      <div class="backdrop-grid"></div>
+      <div class="backdrop-beams">
+        <i style="top: 191px; --t: 7s; --d: 0s"></i>
+        <i style="top: 383px; --t: 9s; --d: -3s"></i>
+        <i style="top: 527px; --t: 8s; --d: -6s"></i>
+        <i style="top: 719px; --t: 10s; --d: -2s"></i>
+      </div>
+      <div class="backdrop-grain"></div>
     </div>
-  </section>
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-text">
+        <a class="status" href={AVAILABILITY.href}>
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>{AVAILABILITY.status}</span>
+          <span class="status-where">{AVAILABILITY.where}</span>
+        </a>
+        <h1 id="hero-title">
+          A message leaves one system, crosses three more, and still balances at the end.
+        </h1>
+        <div class="intro">
+          <p>
+            I’m Najmi, a backend and integration engineer at Indivara in Jakarta. I build that
+            path in Java and Spring Boot: e-wallets, middleware and payment rails, and lately I
+            lead the teams that build them.
+          </p>
+          <ul class="intro-links">
+            {
+              heroLinks.map(({ label, href }) => (
+                <li>
+                  {href.startsWith("mailto:") ? (
+                    <a href={href}>{label}</a>
+                  ) : (
+                    <a href={href} target="_blank" rel="noopener noreferrer">
+                      {label}
+                    </a>
+                  )}
+                </li>
+              ))
+            }
+            <li><a href="/cv.pdf">CV (PDF)</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="hero-art">
+        <SignalField />
+      </div>
+    </section>
+
+    <dl class="now">
+      {
+        now.map(({ label, text }) => (
+          <div>
+            <dt>{label}</dt>
+            <dd>{text}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
 
   <section id="work" aria-labelledby="work-title">
     <h2 id="work-title">Work</h2>

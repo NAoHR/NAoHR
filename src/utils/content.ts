@@ -2,6 +2,7 @@ import { z } from "astro/zod";
 
 import employersJson from "./employers.json";
 import experienceJson from "./experience.json";
+import nowJson from "./now.json";
 import projectsJson from "./projects.json";
 import stackJson from "./stack.json";
 
@@ -105,6 +106,13 @@ export const work = employers.map((employer) => ({
 }));
 
 export const projects = Projects.parse(projectsJson);
+
+/** The hero's facts strip: short label, one-sentence fact. */
+export const now = z
+  .array(z.object({ label: z.string(), text: z.string() }).strict())
+  .min(1)
+  .max(4)
+  .parse(nowJson);
 
 export const stack = STACK_GROUPS.map((group) => ({
   group,

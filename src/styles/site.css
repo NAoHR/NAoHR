@@ -3,8 +3,9 @@
  * choice they follow the OS through color-scheme; the theme toggle pins
  * data-theme on <html>, which pins color-scheme.
  *
- * Palette: cheque-ink navy on cool paper, and one "settled" green that only
- * marks things that moved or completed (the message trace, links, focus).
+ * Palette: cheque-ink navy on cool paper, and one cobalt accent that only
+ * marks things that move or settle (message pulses, links, focus, "Δ 0.00").
+ * Green is kept for exactly one job: the "available" status dot.
  */
 :root {
   color-scheme: light dark;
@@ -15,7 +16,11 @@
   --muted: light-dark(#596079, #9aa3b8);
   --rule: light-dark(#d8dce5, #262f45);
   --line: light-dark(#a9b0c2, #3d4863);
-  --accent: light-dark(#0b7a62, #3fc8a4);
+  --accent: light-dark(#2f5bd3, #7fa2ff);
+  /* Soft accent light behind the hero art. */
+  --glow: light-dark(rgb(47 91 211 / 0.12), rgb(127 162 255 / 0.18));
+  /* "Online / available" status dot only. */
+  --status: light-dark(#1f8a5b, #4cc38a);
 
   --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
@@ -39,6 +44,8 @@
 }
 
 html {
+  /* The hero's settled line runs to the window edge; never scroll sideways. */
+  overflow-x: clip;
   scroll-behavior: smooth;
   scroll-padding-top: 1.5rem;
   -webkit-text-size-adjust: 100%;
@@ -150,6 +157,9 @@ main h2 {
 /* ---------------------------------------------------------------- header */
 
 .site-header {
+  /* Above the hero backdrop, which extends up behind it. */
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 1.75rem;
@@ -223,22 +233,43 @@ main h2 {
 }
 
 /* ------------------------------------------------------------------ hero */
+/* The first screen: hero (text left, signal field right) plus the "Now"
+   strip, filling the viewport under the header, over an animated backdrop. */
+
+.first {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: calc(100svh - 5.5rem);
+  padding-bottom: 2rem;
+}
+
+.first + section {
+  margin-top: 5rem;
+}
 
 .hero {
-  padding-top: clamp(3rem, 8vw, 6rem);
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 2rem;
+  align-items: center;
+  padding-top: clamp(2.5rem, 7vw, 5rem);
 }
 
 .hero h1 {
-  max-width: 30ch;
-  font-size: clamp(1.85rem, 1.2rem + 2.6vw, 2.9rem);
+  font-size: clamp(2rem, 1.3rem + 2.4vw, 3rem);
   font-weight: 500;
-  line-height: 1.15;
+  line-height: 1.12;
   letter-spacing: -0.015em;
   text-wrap: balance;
 }
 
 .intro {
   max-width: var(--measure);
+  margin-top: 1.5rem;
 }
 
 .intro p {
@@ -255,141 +286,360 @@ main h2 {
   font-weight: 500;
 }
 
-/* The hero schematic (MessageRoute.astro): an inline SVG drawn in a 720x180
-   viewBox, so it scales with its width on every screen. Sizes below are in
-   viewBox units; colours are the site tokens, so both themes work. */
-
-.trip {
-  margin: clamp(2.5rem, 6vw, 4rem) 0;
+/* Availability badge: a green "online" dot plus plain-language status,
+   linked to email. */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 1.5rem;
+  padding: 0.35rem 0.85rem 0.35rem 0.7rem;
+  color: var(--ink);
+  font-size: 0.875rem;
+  text-decoration: none;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
 }
 
-.trip-svg {
+.status:hover {
+  color: var(--ink);
+  border-color: var(--accent);
+}
+
+.status-dot {
+  position: relative;
+  flex: none;
+  width: 8px;
+  height: 8px;
+  background: var(--status);
+  border-radius: 50%;
+}
+
+.status-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--status);
+  border-radius: 50%;
+  animation: status-ping 2s ease-out infinite;
+}
+
+.status-where {
+  color: var(--muted);
+}
+
+@keyframes status-ping {
+  to {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+.now {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem 2.5rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+}
+
+.now dt {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.now dd {
+  margin-top: 0.25rem;
+  font-size: 0.9375rem;
+}
+
+/* Signal field (SignalField.astro): an inline SVG in a 560x440 viewBox.
+   Sizes are viewBox units. Resting styles are the finished picture; the
+   load animations use `backwards` fill and only say where things start. */
+
+.signal {
   display: block;
   width: 100%;
-  max-width: 45rem;
   height: auto;
   overflow: visible;
 }
 
-.trip-dot {
-  fill: var(--line);
-  opacity: 0.5;
+.signal-fade-from {
+  stop-color: var(--muted);
+  stop-opacity: 0.08;
 }
 
-.trip-frame {
-  fill: none;
-  stroke: var(--line);
-  stroke-width: 1.5;
+.signal-fade-to {
+  stop-color: var(--muted);
+  stop-opacity: 0.5;
 }
 
-/* Lanes are the channels themselves: lit faintly in the accent. */
-.trip-lane {
-  stroke: var(--accent);
-  stroke-opacity: 0.3;
-  stroke-width: 1.5;
+.signal-halo-from {
+  stop-color: var(--accent);
+  stop-opacity: 0.22;
 }
 
-.trip-lane.is-reply {
-  stroke-opacity: 0.22;
-  stroke-dasharray: 4 5;
-}
-
-.trip-tail-from {
+.signal-halo-to {
   stop-color: var(--accent);
   stop-opacity: 0;
 }
 
-.trip-tail-to {
-  stop-color: var(--accent);
-  stop-opacity: 1;
+.signal-halo {
+  fill: url(#signal-halo);
 }
 
-.trip-chip rect {
+/* Threads draw themselves in once, staggered. */
+.signal-thread {
+  fill: none;
+  stroke: url(#signal-fade);
+  stroke-width: 1.3;
+  stroke-dasharray: 100;
+  animation: signal-draw 1.4s cubic-bezier(0.3, 0.7, 0.2, 1) backwards;
+  animation-delay: calc(var(--i) * 70ms);
+}
+
+.signal-source {
+  fill: var(--muted);
+  font-family: var(--mono);
+  font-size: 13px;
+  text-anchor: end;
+  animation: signal-appear 0.6s ease-out backwards;
+  animation-delay: calc(0.4s + var(--i) * 70ms);
+}
+
+/* Pulses, ledger readout and halo arrive once the threads are drawn. */
+.signal-pulses,
+.signal-late {
+  animation: signal-appear 0.6s ease-out 1.5s backwards;
+}
+
+.signal-pulse {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-dasharray: 7 100;
+  stroke-dashoffset: 7;
+  animation: signal-run var(--duration) linear infinite;
+  animation-delay: var(--offset);
+}
+
+.signal-trunk {
+  fill: none;
+  stroke: var(--accent);
+  stroke-opacity: 0.45;
+  stroke-width: 1.6;
+}
+
+.signal-node {
   fill: var(--surface);
-  stroke: var(--line);
-  stroke-width: 1.5;
+  stroke: var(--accent);
+  stroke-width: 2;
 }
 
-.trip-chip text {
-  fill: var(--ink);
-  font-family: var(--sans);
-  font-size: 22px;
-  font-weight: 500;
-  text-anchor: middle;
+.signal-ring {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.2;
+  transform-box: view-box;
+  transform-origin: 400px 220px;
+  animation: signal-ring 2.4s ease-out infinite;
 }
 
-.trip-led {
-  fill: var(--accent);
-  animation: trip-led 2.4s ease-in-out infinite;
-  animation-delay: calc(var(--i) * 0.6s);
-}
-
-.trip-note,
-.trip-delta {
+.signal-delta,
+.signal-caption {
   font-family: var(--mono);
   text-anchor: middle;
 }
 
-.trip-note {
-  fill: var(--muted);
-  font-size: 15px;
-}
-
-.trip-delta {
+.signal-delta {
   fill: var(--accent);
-  font-size: 20px;
+  font-size: 18px;
 }
 
-/* Three packets per lane, a third of a cycle apart, slide the whole lane and
-   pass under the middle chips. Replies run the other way, fainter. */
-.trip-packet {
-  --peak: 1;
-  opacity: 0;
-  animation: trip-flow 3.6s linear infinite;
-  animation-delay: calc(var(--p) * -1.2s);
+.signal-caption {
+  fill: var(--muted);
+  font-size: 14px;
 }
 
-.trip-packet.is-reply {
-  --peak: 0.55;
-  animation-delay: calc(var(--p) * -1.2s - 0.6s);
-}
-
-@keyframes trip-flow {
-  0% {
-    transform: translateX(0);
-    opacity: 0;
+@keyframes signal-draw {
+  from {
+    stroke-dashoffset: 100;
   }
-  6%,
-  94% {
-    opacity: var(--peak);
-  }
-  100% {
-    transform: translateX(var(--dx));
+}
+
+@keyframes signal-appear {
+  from {
     opacity: 0;
   }
 }
 
-@keyframes trip-led {
-  0%,
-  100% {
-    opacity: 0.35;
-  }
-  50% {
-    opacity: 1;
+@keyframes signal-run {
+  to {
+    stroke-dashoffset: -100;
   }
 }
 
-/* No motion: the packets sit spread along their lanes and the lights stay
-   on, so the still picture shows the same traffic. */
+@keyframes signal-ring {
+  from {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  to {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+/* Backdrop: full-bleed behind the first screen (and up behind the header).
+   Ledger-ruled grid faded around the art, beams of light running along it
+   like messages on a bus, a soft accent glow and fine grain. */
+.backdrop {
+  position: absolute;
+  z-index: -1;
+  top: -5.5rem;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  overflow: hidden;
+  pointer-events: none;
+  transform: translateX(-50%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent);
+  mask-image: linear-gradient(to bottom, #000 70%, transparent);
+}
+
+.backdrop > * {
+  position: absolute;
+  inset: 0;
+}
+
+.backdrop-glow {
+  background: radial-gradient(42rem 30rem at 72% 46%, var(--glow), transparent 70%);
+}
+
+.backdrop-grid {
+  background-image:
+    linear-gradient(var(--rule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+  background-position: center -1px;
+  background-size: 48px 48px;
+  -webkit-mask-image: radial-gradient(ellipse 60% 70% at 68% 45%, #000 20%, transparent 75%);
+  mask-image: radial-gradient(ellipse 60% 70% at 68% 45%, #000 20%, transparent 75%);
+}
+
+/* Beams stay on the art side so they never cross the text. */
+.backdrop-beams {
+  -webkit-mask-image: radial-gradient(ellipse 45% 70% at 70% 45%, #000 30%, transparent 75%);
+  mask-image: radial-gradient(ellipse 45% 70% at 70% 45%, #000 30%, transparent 75%);
+}
+
+.backdrop-beams i {
+  position: absolute;
+  left: 0;
+  width: 18rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.55;
+  animation: backdrop-beam var(--t) linear infinite;
+  animation-delay: var(--d);
+}
+
+@keyframes backdrop-beam {
+  from {
+    transform: translateX(-20rem);
+  }
+  to {
+    transform: translateX(110vw);
+  }
+}
+
+.backdrop-grain {
+  opacity: 0.07;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+[data-theme="dark"] .backdrop-grain {
+  opacity: 0.1;
+  mix-blend-mode: screen;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .backdrop-grain {
+    opacity: 0.1;
+    mix-blend-mode: screen;
+  }
+}
+
+/* Narrow screens: art below the text, facts stacked, badge on two lines. */
+@media (max-width: 52rem) {
+  .first {
+    min-height: 0;
+  }
+
+  /* The art sits below the text here, so keep the backdrop around it and
+     drop the beams, which would otherwise run under the intro. */
+  .backdrop-grid {
+    -webkit-mask-image: radial-gradient(ellipse 90% 35% at 60% 78%, #000 20%, transparent 75%);
+    mask-image: radial-gradient(ellipse 90% 35% at 60% 78%, #000 20%, transparent 75%);
+  }
+
+  .backdrop-glow {
+    background: radial-gradient(28rem 20rem at 70% 78%, var(--glow), transparent 70%);
+  }
+
+  .backdrop-beams {
+    display: none;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-art {
+    margin-top: 1rem;
+  }
+
+  .now {
+    grid-template-columns: 1fr;
+  }
+
+  .status {
+    display: inline-grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.1rem 0.6rem;
+    padding: 0.55rem 0.9rem 0.55rem 0.75rem;
+    border-radius: 0.9rem;
+  }
+
+  .status-dot {
+    grid-row: 1;
+    align-self: center;
+  }
+
+  .status-where {
+    grid-column: 2;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .trip-packet,
-  .trip-led {
+  .signal-thread,
+  .signal-source,
+  .signal-pulses,
+  .signal-late,
+  .signal-pulse,
+  .signal-ring,
+  .status-dot::after,
+  .backdrop-beams i {
     animation: none;
   }
 
-  .trip-packet {
-    opacity: var(--peak);
-    transform: translateX(calc(var(--dx) * (var(--p) + 0.5) / 3));
+  .signal-ring,
+  .status-dot::after,
+  .backdrop-beams {
+    display: none;
   }
 }
 

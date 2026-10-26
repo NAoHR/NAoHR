@@ -47,7 +47,7 @@ astro.config.mjs              integrations, site URL, Shiki themes
 src/layouts/BaseLayout.astro  <head>, meta, theme bootstrap, header + footer
 src/components/Header.astro   name, nav, theme toggle (+ its script)
 src/components/Footer.astro   contact links
-src/components/MessageRoute.astro  the hero schematic (inline SVG, CSS motion only)
+src/components/SignalField.astro   the hero illustration (inline SVG, CSS motion only)
 src/components/Route.astro    the miniature of that diagram under each role/project
 src/pages/index.astro         portfolio: hero, work, side projects, tools, writing
 src/pages/blog/index.astro    post list (empty state when nothing is published)
@@ -56,7 +56,7 @@ src/pages/404.astro           not-found page with a random line from poet.json
 src/content.config.ts         blog collection schema (Zod)
 src/content/blog/*.mdx        the posts
 src/utils/content.ts          parses + validates the JSON below
-src/utils/links.ts            email + social links (hero shows the first three)
+src/utils/links.ts            email, social links (hero shows the first three), availability badge
 src/utils/*.json              portfolio content
 scripts/brand/og-card.html    source for og.png and the PNG app icons
 public/cv.pdf                 the public CV (redacted, see below)
@@ -84,7 +84,12 @@ tool, edit the JSON; `content.ts` rejects anything malformed.
   one line each.
 - `stack.json` — `{ name, group }`; `group` must be one of `STACK_GROUPS` in
   `content.ts`, which also sets the display order
+- `now.json` — `[{ label, text }]`, 1–4 items: the facts strip under the hero
+  ("Now", "Since 2023", "Currently tackling")
 - `poet.json` — short lines, one picked at build time for the 404 page
+
+The availability badge text and its mailto link are `AVAILABILITY` in
+`links.ts`; delete the badge markup in `index.astro` when not taking side work.
 
 ## Design
 
@@ -92,28 +97,38 @@ Redesigned 2026-10-26 ("direction A"). The site is about one idea, taken from
 Najmi's own line: *a message leaves one system, crosses three more, and still
 balances at the end.*
 
-- **Hero:** that sentence as the H1, then `MessageRoute` draws it as a
-  schematic: four systems (Client, Gateway, Switch, Ledger) on a dot grid
-  inside corner marks, a request lane and a dashed reply lane lit faintly in
-  the accent, comet-tailed packets flowing both ways through the chips, status
-  lights pulsing, and the ledger reading `Δ 0.00 balanced`. Deliberately
-  generic: no specific payment rail or message format.
-- **One motif:** outlined boxes joined by lines. The hero uses it large; each
-  work role and featured project repeats it small (`Route.astro`); the
-  employer's job-title ladder and the favicon reuse it too. Nothing else is
-  decorated — no cards, no stock photos, no icon chips.
+- **First screen** (`.first` in `index.astro`): an availability badge, then a
+  two-column hero (text left, illustration right) and the "Now" facts strip,
+  together filling the viewport. Text is left-aligned on purpose: a 13-word
+  headline plus a paragraph reads faster from a fixed left edge; the second
+  column is what balances the layout.
+- **Illustration** (`SignalField.astro`): eight named source systems (mobile
+  app, web checkout, QR scan, partner API, SWIFT, RTGS, batch file, Kafka
+  event) whose threads converge on one ledger reading `Δ 0.00`, with a single
+  settled line running off to the window edge. Generic on purpose: no specific
+  payment rail or message format.
+- **Backdrop** behind the first screen: a ledger-ruled grid faded around the
+  illustration, thin beams of light running along it, a soft accent glow and
+  fine grain. On narrow screens the beams are dropped and the grid/glow move
+  down to sit around the illustration.
+- **Lower sections** keep the box-and-line motif: each work role and featured
+  project has a small route (`Route.astro`); the employer ladder reuses it.
+  No cards, no stock photos, no icon chips.
 - **Work** is grouped by employer, then one row per engagement: outcome
   headline, project name + role, route, one visible result, Details for the
   rest.
 - **Palette** (`site.css` `:root`): cheque-ink navy on cool paper, and one
-  "settled" green used only for things that moved or completed (the message
-  trace, packets, status lights, Details toggles, focus rings, "Δ 0.00").
+  cobalt accent (`#2F5BD3` light / `#7FA2FF` dark) for things that move or
+  settle: pulses, the ledger, links' hover, Details toggles, focus rings.
+  Green was retired as too generic; it survives only as `--status`, the
+  "available" dot, because green-means-online is a convention worth keeping.
 - **Type:** IBM Plex Sans for everything; IBM Plex Mono only for machine
-  text (the lane notes and the ledger delta), never for page labels.
-- **Motion:** the hero traffic loops continuously (3.6 s per packet, three
-  per lane, staggered). The only other motion is the Details chevron. Under
-  `prefers-reduced-motion` the packets sit spread along their lanes and the
-  lights stay on, so the still picture tells the same story.
+  text (source names, the ledger delta), never for page labels.
+- **Motion:** one load moment — threads draw in (~1.4 s, staggered), then
+  labels, halo and pulses fade in — after which pulses, the ledger ring,
+  backdrop beams and the status dot loop quietly. The only user-triggered
+  motion is the Details chevron. Under `prefers-reduced-motion` everything
+  renders finished and still, and the beams are hidden.
 
 Things that were deliberately dropped in the redesign: the full-screen intro
 curtain, the pink → indigo gradient, the typed-out random quotes
@@ -128,12 +143,12 @@ without any JavaScript. The toggle writes `data-theme` on `<html>` (which pins
 `color-scheme`) and stores it in `localStorage` under `theme`; an inline
 script in `BaseLayout` re-applies it before first paint.
 
-**The hero is one inline SVG in a 720×180 viewBox.** It scales with its
-width (max 45rem), so phones get the same horizontal picture, smaller, rather
-than a re-laid-out version. Colours are CSS variables, so it follows the
-theme. Packets slide a whole lane and pass under the opaque middle chips,
-which is what makes them read as going *through* each system. Layout numbers
-(chip size, lanes, tail length) are constants at the top of the component.
+**The illustration is one inline SVG in a 560×440 viewBox.** It scales with
+its column, so phones get the same picture, smaller. Thread geometry, source
+names and pulse timings are computed in the component's frontmatter; colours
+are CSS variables, so it follows the theme. The settled line is drawn to
+x=1600 and `html { overflow-x: clip }` cuts it at the window edge without a
+horizontal scrollbar.
 
 **Shiki colours.** `defaultColor: false` makes Shiki emit both themes as CSS
 variables only; `prose.css` picks one with `light-dark()`, so code blocks

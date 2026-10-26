@@ -1,0 +1,113 @@
+---
+/*
+ * The hero illustration: eight named source systems whose threads converge
+ * on one ledger that reads Δ 0.00, and a single settled line leaving to the
+ * edge of the window. Many messages, one balanced book.
+ *
+ * Inline SVG in a 560x440 viewBox, so it scales with its column; colours are
+ * the site tokens. All motion is CSS (site.css, "signal field"): the threads
+ * draw in once on load, then pulses run along them. Under reduced motion the
+ * finished picture shows with the pulses at rest.
+ */
+const LEDGER = { x: 400, y: 220 };
+/** Where the threads start; labels sit just left of it. */
+const START_X = 80;
+const SOURCES = [
+  "mobile app",
+  "web checkout",
+  "QR scan",
+  "partner API",
+  "SWIFT",
+  "RTGS",
+  "batch file",
+  "Kafka event",
+];
+const ROWS = [30, 78, 126, 172, 268, 314, 362, 410];
+
+const threads = SOURCES.map((name, i) => {
+  const y = ROWS[i];
+  return {
+    name,
+    y,
+    d: `M${START_X} ${y} C 260 ${y}, 270 ${LEDGER.y}, ${LEDGER.x} ${LEDGER.y}`,
+    // Three pulse speeds and a stagger so the traffic never lines up.
+    duration: `${(2.6 + (i % 3) * 0.5).toFixed(1)}s`,
+    offset: `${(-i * 0.7).toFixed(1)}s`,
+  };
+});
+/** Far past the viewBox; html clips horizontal overflow, so it ends at the window edge. */
+const TRUNK = `M${LEDGER.x} ${LEDGER.y} H1600`;
+---
+
+<svg
+  class="signal"
+  viewBox="0 0 560 440"
+  role="img"
+  aria-label="Messages from many systems, such as mobile apps, QR scans, SWIFT and Kafka events, converging on one ledger that stays balanced at zero difference"
+>
+  <defs>
+    <linearGradient
+      id="signal-fade"
+      gradientUnits="userSpaceOnUse"
+      x1={START_X - 10}
+      x2="300"
+      y1="0"
+      y2="0"
+    >
+      <stop offset="0" class="signal-fade-from"></stop>
+      <stop offset="1" class="signal-fade-to"></stop>
+    </linearGradient>
+    <radialGradient id="signal-halo">
+      <stop offset="0" class="signal-halo-from"></stop>
+      <stop offset="1" class="signal-halo-to"></stop>
+    </radialGradient>
+    <filter id="signal-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2.5" result="blur"></feGaussianBlur>
+      <feMerge>
+        <feMergeNode in="blur"></feMergeNode>
+        <feMergeNode in="SourceGraphic"></feMergeNode>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <circle class="signal-halo signal-late" cx={LEDGER.x} cy={LEDGER.y} r="110"></circle>
+
+  {
+    threads.map((t, i) => (
+      <path class="signal-thread" d={t.d} pathLength="100" style={`--i: ${i}`} />
+    ))
+  }
+  {
+    threads.map((t, i) => (
+      <text class="signal-source" x={START_X - 8} y={t.y + 4} style={`--i: ${i}`}>
+        {t.name}
+      </text>
+    ))
+  }
+  <g class="signal-pulses" filter="url(#signal-glow)">
+    {
+      threads.map((t) => (
+        <path
+          class="signal-pulse"
+          d={t.d}
+          pathLength="100"
+          style={`--duration: ${t.duration}; --offset: ${t.offset}`}
+        />
+      ))
+    }
+  </g>
+
+  <path class="signal-trunk" d={TRUNK}></path>
+  <g class="signal-late">
+    <path
+      class="signal-pulse"
+      d={TRUNK}
+      pathLength="100"
+      filter="url(#signal-glow)"
+      style="--duration: 2.4s; --offset: 0s"></path>
+  </g>
+  <circle class="signal-ring" cx={LEDGER.x} cy={LEDGER.y} r="9"></circle>
+  <circle class="signal-node" cx={LEDGER.x} cy={LEDGER.y} r="9"></circle>
+  <text class="signal-delta signal-late" x={LEDGER.x} y={LEDGER.y - 34}>Δ 0.00</text>
+  <text class="signal-caption signal-late" x={LEDGER.x} y={LEDGER.y + 42}>ledger</text>
+</svg>

@@ -1,18 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Two systems and the message between them: the hero diagram as a mark.
-       Follows the browser's colour scheme like the site does. -->
+  <!-- The hero's signal field as a mark: three threads converging on the
+       ledger, one settled line leaving. Follows the browser's colour scheme. -->
   <style>
-    .box { fill: none; stroke: #1b2440; stroke-width: 2.5; }
-    .trace { stroke: #0b7a62; stroke-width: 3; }
-    .packet { fill: #0b7a62; }
+    .thread { fill: none; stroke: #1b2440; stroke-width: 2.4; stroke-linecap: round; }
+    .settled { fill: none; stroke: #2f5bd3; stroke-width: 2.4; stroke-linecap: round; }
+    .ledger { fill: #2f5bd3; }
     @media (prefers-color-scheme: dark) {
-      .box { stroke: #e4e8f1; }
-      .trace { stroke: #3fc8a4; }
-      .packet { fill: #3fc8a4; }
+      .thread { stroke: #e4e8f1; }
+      .settled { stroke: #7fa2ff; }
+      .ledger { fill: #7fa2ff; }
     }
   </style>
-  <rect class="box" x="2.5" y="10" width="9" height="12" rx="2" />
-  <rect class="box" x="20.5" y="10" width="9" height="12" rx="2" />
-  <path class="trace" d="M11.5 16h9" />
-  <rect class="packet" x="14" y="13.5" width="5" height="5" rx="1" />
+  <path class="thread" d="M3 6.5C12 6.5 13 16 19.5 16M3 16H19.5M3 25.5C12 25.5 13 16 19.5 16" />
+  <path class="settled" d="M22 16H29.5" />
+  <circle class="ledger" cx="21" cy="16" r="3.6" />
 </svg>

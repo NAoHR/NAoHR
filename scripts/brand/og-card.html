@@ -26,9 +26,7 @@
     background: #f5f6f8; color: #1b2440; font-family: "Plex", sans-serif;
   }
   #card h1 { margin: 0; font-size: 56px; font-weight: 500; line-height: 1.12; letter-spacing: -0.015em; max-width: 27ch; text-wrap: balance; }
-  .path { display: flex; align-items: center; }
-  .node { padding: 0 22px; height: 64px; display: flex; align-items: center; font-size: 24px; font-weight: 500; background: #fff; border: 2px solid #0b7a62; border-radius: 8px; white-space: nowrap; }
-  .hop { flex: 1; border-top: 2.5px solid #0b7a62; }
+  .signal { display: block; width: 100%; height: 150px; overflow: visible; }
   footer { display: flex; justify-content: space-between; font-size: 26px; }
   footer strong { font-weight: 600; }
   footer span { color: #596079; }
@@ -38,21 +36,26 @@
 <body>
   <div id="card">
     <h1>A message leaves one system, crosses three more, and still balances at the end.</h1>
-    <div class="path">
-      <span class="node">Client</span><span class="hop"></span>
-      <span class="node">Gateway</span><span class="hop"></span>
-      <span class="node">Switch</span><span class="hop"></span>
-      <span class="node">Ledger</span>
-    </div>
+    <svg class="signal" viewBox="0 0 1040 150" preserveAspectRatio="xMinYMid meet">
+      <g fill="none" stroke="#a9b0c2" stroke-width="2">
+        <path d="M0 10 C 380 10, 420 75, 640 75" />
+        <path d="M0 45 C 380 45, 420 75, 640 75" />
+        <path d="M0 105 C 380 105, 420 75, 640 75" />
+        <path d="M0 140 C 380 140, 420 75, 640 75" />
+      </g>
+      <path d="M640 75 H1040" stroke="#2f5bd3" stroke-width="3" fill="none" />
+      <circle cx="640" cy="75" r="40" fill="#2f5bd3" opacity="0.12" />
+      <circle cx="640" cy="75" r="11" fill="#fff" stroke="#2f5bd3" stroke-width="3" />
+      <text x="640" y="34" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="24" fill="#2f5bd3">Δ 0.00</text>
+    </svg>
     <footer><strong>Najmi, backend &amp; integration engineer</strong><span>naohr.site</span></footer>
   </div>
 
   <div id="icon">
     <svg viewBox="0 0 32 32" width="360" height="360">
-      <rect x="2.5" y="10" width="9" height="12" rx="2" fill="none" stroke="#e4e8f1" stroke-width="2.5" />
-      <rect x="20.5" y="10" width="9" height="12" rx="2" fill="none" stroke="#e4e8f1" stroke-width="2.5" />
-      <path d="M11.5 16h9" stroke="#3fc8a4" stroke-width="3" />
-      <rect x="14" y="13.5" width="5" height="5" rx="1" fill="#3fc8a4" />
+      <path d="M3 6.5C12 6.5 13 16 19.5 16M3 16H19.5M3 25.5C12 25.5 13 16 19.5 16" fill="none" stroke="#e4e8f1" stroke-width="2.4" stroke-linecap="round" />
+      <path d="M22 16H29.5" fill="none" stroke="#7fa2ff" stroke-width="2.4" stroke-linecap="round" />
+      <circle cx="21" cy="16" r="3.6" fill="#7fa2ff" />
     </svg>
   </div>
 </body>
