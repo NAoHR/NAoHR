@@ -255,294 +255,141 @@ main h2 {
   font-weight: 500;
 }
 
-/* Rail picker above the hero diagram. Only shown once the script runs. */
-.trip-rails {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 1.75rem;
-  margin-top: clamp(2.5rem, 6vw, 4rem);
-}
+/* The hero schematic (MessageRoute.astro): an inline SVG drawn in a 720x180
+   viewBox, so it scales with its width on every screen. Sizes below are in
+   viewBox units; colours are the site tokens, so both themes work. */
 
-.trip-rails[hidden] {
-  display: none;
-}
-
-.trip-rails button {
-  padding: 0.35rem 0 0.4rem;
-  color: var(--muted);
-  font: inherit;
-  font-size: 0.9375rem;
-  text-align: left;
-  background: none;
-  border: 0;
-  border-bottom: 1.5px solid transparent;
-  cursor: pointer;
-}
-
-.trip-rails small {
-  display: block;
-  font-size: 0.78rem;
-}
-
-.trip-rails button:hover,
-.trip-rails button[aria-pressed="true"] {
-  color: var(--ink);
-}
-
-.trip-rails button[aria-pressed="true"] {
-  border-bottom-color: var(--accent);
-}
-
-.trips {
+.trip {
   margin: clamp(2.5rem, 6vw, 4rem) 0;
 }
 
-.trip-rails:not([hidden]) + .trips {
-  margin-top: 1.75rem;
+.trip-svg {
+  display: block;
+  width: 100%;
+  max-width: 45rem;
+  height: auto;
+  overflow: visible;
 }
 
-.trip-replay {
-  padding: 0;
-  color: var(--accent);
-  font: inherit;
+.trip-dot {
+  fill: var(--line);
+  opacity: 0.5;
+}
+
+.trip-frame {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1.5;
+}
+
+/* Lanes are the channels themselves: lit faintly in the accent. */
+.trip-lane {
+  stroke: var(--accent);
+  stroke-opacity: 0.3;
+  stroke-width: 1.5;
+}
+
+.trip-lane.is-reply {
+  stroke-opacity: 0.22;
+  stroke-dasharray: 4 5;
+}
+
+.trip-tail-from {
+  stop-color: var(--accent);
+  stop-opacity: 0;
+}
+
+.trip-tail-to {
+  stop-color: var(--accent);
+  stop-opacity: 1;
+}
+
+.trip-chip rect {
+  fill: var(--surface);
+  stroke: var(--line);
+  stroke-width: 1.5;
+}
+
+.trip-chip text {
+  fill: var(--ink);
+  font-family: var(--sans);
+  font-size: 22px;
   font-weight: 500;
-  background: none;
-  border: 0;
-  cursor: pointer;
+  text-anchor: middle;
 }
 
-.trip-replay:hover {
-  text-decoration: underline;
-  text-underline-offset: 0.22em;
+.trip-led {
+  fill: var(--accent);
+  animation: trip-led 2.4s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.6s);
 }
 
-/* The trip: one payment drawn across four systems. Resting styles are the
-   finished state; the animations below only supply where things start. */
-
-.trip {
-  --start: 0.7s;
-  --step: 0.9s;
-  --travel: 0.7s;
-  --node-h: 3rem;
+.trip-note,
+.trip-delta {
+  font-family: var(--mono);
+  text-anchor: middle;
 }
 
-/* A trip the visitor asked for starts right away. */
-.trip[data-replayed] {
-  --start: 0.15s;
+.trip-note {
+  fill: var(--muted);
+  font-size: 15px;
 }
 
-.trip-path {
-  display: grid;
-  grid-template-columns:
-    auto minmax(8rem, 1fr) auto minmax(8rem, 1fr)
-    auto minmax(8rem, 1fr) auto;
-  align-items: start;
-  padding: 0;
-  list-style: none;
+.trip-delta {
+  fill: var(--accent);
+  font-size: 20px;
 }
 
-.trip-node {
-  display: flex;
-  align-items: center;
-  height: var(--node-h);
-  padding: 0 1rem;
-  font-size: 1rem;
-  font-weight: 500;
-  white-space: nowrap;
-  background: var(--surface);
-  border: 1.5px solid var(--accent);
-  border-radius: 6px;
-  animation: trip-reach 0.3s ease-out backwards;
-  animation-delay: calc(var(--start) + (var(--i) - 1) * var(--step) + var(--travel));
-}
-
-.trip-hop {
-  position: relative;
-}
-
-/* Dashed: the road. Solid: the trace the message leaves on it. */
-.trip-hop::before,
-.trip-hop::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(var(--node-h) / 2);
-}
-
-.trip-hop::before {
-  border-top: 1.5px dashed var(--line);
-}
-
-/* The trace and the packet animate layout properties (right, left, top,
-   visibility) instead of transform/opacity so nothing depends on compositor
-   layers; a few small elements, once per page load. */
-.trip-hop::after {
-  border-top: 1.5px solid var(--accent);
-  animation: trip-trace-x var(--travel) ease-in-out backwards;
-  animation-delay: calc(var(--start) + var(--i) * var(--step));
-}
-
+/* Three packets per lane, a third of a cycle apart, slide the whole lane and
+   pass under the middle chips. Replies run the other way, fainter. */
 .trip-packet {
-  position: absolute;
-  z-index: 1;
-  top: calc(var(--node-h) / 2 - 4.5px);
-  left: 0;
-  width: 9px;
-  height: 9px;
-  background: var(--accent);
-  border-radius: 2px;
-  visibility: hidden;
-  animation: trip-travel-x var(--travel) ease-in-out;
-  animation-delay: calc(var(--start) + var(--i) * var(--step));
+  --peak: 1;
+  opacity: 0;
+  animation: trip-flow 3.6s linear infinite;
+  animation-delay: calc(var(--p) * -1.2s);
 }
 
-.trip-label {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: calc(var(--node-h) / 2 + 0.85rem);
-  /* Room for a format line plus two field lines, so switching rails
-     doesn't move the page below. */
-  min-height: 4.4rem;
-  padding: 0 0.5rem;
-  animation: trip-appear 0.4s ease-out backwards;
-  animation-delay: calc(var(--start) + var(--i) * var(--step) + 0.35s);
+.trip-packet.is-reply {
+  --peak: 0.55;
+  animation-delay: calc(var(--p) * -1.2s - 0.6s);
 }
 
-.trip-format {
-  color: var(--muted);
-  font-size: 0.8125rem;
-}
-
-.trip-label code {
-  font-size: 0.84rem;
-  white-space: nowrap;
-}
-
-.trip-outcome {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  align-items: baseline;
-  gap: 0.25rem 0.75rem;
-  margin-top: 1.5rem;
-  font-size: 0.9375rem;
-  animation: trip-appear 0.5s ease-out backwards;
-  animation-delay: calc(var(--start) + 2 * var(--step) + var(--travel) + 0.2s);
-}
-
-.trip-outcome code {
-  font-size: 0.82rem;
-}
-
-.trip-outcome strong {
-  color: var(--accent);
-  font-weight: 600;
-}
-
-@keyframes trip-reach {
-  from {
-    border-color: var(--line);
+@keyframes trip-flow {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
   }
-}
-
-@keyframes trip-trace-x {
-  from {
-    right: 100%;
+  6%,
+  94% {
+    opacity: var(--peak);
   }
-}
-
-@keyframes trip-trace-y {
-  from {
-    bottom: 100%;
-  }
-}
-
-@keyframes trip-travel-x {
-  from {
-    left: 0;
-    visibility: visible;
-  }
-  to {
-    left: calc(100% - 9px);
-    visibility: visible;
-  }
-}
-
-@keyframes trip-travel-y {
-  from {
-    top: 0;
-    visibility: visible;
-  }
-  to {
-    top: calc(100% - 9px);
-    visibility: visible;
-  }
-}
-
-@keyframes trip-appear {
-  from {
+  100% {
+    transform: translateX(var(--dx));
     opacity: 0;
   }
 }
 
-/* Narrow screens: the same trip, top to bottom. */
-@media (max-width: 52rem) {
-  .trip-path {
-    grid-template-columns: 1fr;
+@keyframes trip-led {
+  0%,
+  100% {
+    opacity: 0.35;
   }
-
-  .trip-node {
-    justify-self: start;
-  }
-
-  .trip-hop {
-    min-height: 5.5rem;
-  }
-
-  .trip-hop::before,
-  .trip-hop::after {
-    left: 1.25rem;
-    right: auto;
-    top: 0;
-    bottom: 0;
-  }
-
-  .trip-hop::before {
-    border-top: 0;
-    border-left: 1.5px dashed var(--line);
-  }
-
-  .trip-hop::after {
-    border-top: 0;
-    border-left: 1.5px solid var(--accent);
-    animation-name: trip-trace-y;
-  }
-
-  .trip-packet {
-    top: 0;
-    left: calc(1.25rem - 3.75px);
-    animation-name: trip-travel-y;
-  }
-
-  .trip-label {
-    align-items: flex-start;
-    margin: 0;
-    min-height: 0;
-    padding: 0.75rem 0 0.75rem 2.75rem;
-  }
-
-  .trip-outcome {
-    justify-content: flex-start;
+  50% {
+    opacity: 1;
   }
 }
 
+/* No motion: the packets sit spread along their lanes and the lights stay
+   on, so the still picture shows the same traffic. */
 @media (prefers-reduced-motion: reduce) {
-  .trip *,
-  .trip *::before,
-  .trip *::after {
-    animation: none !important;
+  .trip-packet,
+  .trip-led {
+    animation: none;
+  }
+
+  .trip-packet {
+    opacity: var(--peak);
+    transform: translateX(calc(var(--dx) * (var(--p) + 0.5) / 3));
   }
 }
 

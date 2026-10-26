@@ -1,103 +1,116 @@
 ---
 /*
- * The hero: one payment travelling across four systems and coming back
- * balanced, for each rail in RAILS. Pure HTML + CSS draws and animates a
- * trip; the small script only switches rails and replays.
+ * The hero: four systems on a schematic grid with traffic running both ways,
+ * requests along the top lane and replies along the bottom, and a ledger that
+ * stays at zero difference. Inline SVG so it scales with its width on every
+ * screen; colours come from the site's CSS variables so it follows the theme.
  *
- * Every trip is rendered; all but the first carry `hidden`. CSS animations
- * restart whenever an element goes from display:none to rendered, so
- * switching rails replays the trip without any animation code. Without
- * JavaScript the rail buttons stay hidden and the first trip shows.
+ * Packets slide along a whole lane and pass under the middle chips (which are
+ * opaque), so they read as going through each system. All motion is CSS and
+ * stops under prefers-reduced-motion; the static picture still makes sense.
  */
-import { RAILS } from "../utils/rails";
+const W = 720;
+const H = 180;
+const CHIP = { w: 112, h: 56, y: 48, r: 10 };
+const LANE = { request: 66, reply: 86 };
+const nodes = ["Client", "Gateway", "Switch", "Ledger"];
+const xs = nodes.map((_, i) => Math.round((i * (W - CHIP.w)) / (nodes.length - 1)));
+const laneStart = CHIP.w;
+const laneEnd = xs[xs.length - 1];
+const ledgerCenter = laneEnd + CHIP.w / 2;
+const firstGap = (CHIP.w + xs[1]) / 2;
+const packets = [0, 1, 2];
+const mark = 12;
+/** Packet length; a gradient makes it a comet, bright at the leading edge. */
+const TAIL = 30;
 ---
 
-<div class="trip-rails" role="group" aria-label="Choose a payment rail" hidden>
-  {
-    RAILS.map((rail, r) => (
-      <button type="button" data-rail={rail.id} aria-pressed={r === 0 ? "true" : "false"}>
-        {rail.label}
-        <small>{rail.standard}</small>
-      </button>
-    ))
-  }
-</div>
+<figure class="trip">
+  <svg
+    class="trip-svg"
+    viewBox={`0 0 ${W} ${H}`}
+    role="img"
+    aria-label="Requests travelling from a client through a gateway and a switch to a ledger, replies travelling back, and the ledger balanced at zero difference"
+  >
+    <defs>
+      <pattern id="trip-grid" width="18" height="18" patternUnits="userSpaceOnUse">
+        <circle cx="1" cy="1" r="1" class="trip-dot"></circle>
+      </pattern>
+      <filter id="trip-glow" x="-100%" y="-300%" width="300%" height="700%">
+        <feGaussianBlur stdDeviation="3" result="blur"></feGaussianBlur>
+        <feMerge>
+          <feMergeNode in="blur"></feMergeNode>
+          <feMergeNode in="SourceGraphic"></feMergeNode>
+        </feMerge>
+      </filter>
+      {/* Comet tails: faint behind, bright at the leading edge. */}
+      <linearGradient id="trip-tail">
+        <stop offset="0" class="trip-tail-from"></stop>
+        <stop offset="1" class="trip-tail-to"></stop>
+      </linearGradient>
+      <linearGradient id="trip-tail-reply" x1="1" x2="0">
+        <stop offset="0" class="trip-tail-from"></stop>
+        <stop offset="1" class="trip-tail-to"></stop>
+      </linearGradient>
+    </defs>
 
-<div class="trips">
-  {
-    RAILS.map((rail, r) => (
-      <figure class="trip" data-rail={rail.id} aria-label={rail.description} hidden={r !== 0}>
-        <ol class="trip-path">
-          {rail.nodes.map((node, i) => (
-            <>
-              <li class="trip-node" style={`--i: ${i}`}>
-                {node}
-              </li>
-              {rail.hops[i] && (
-                <li class="trip-hop" style={`--i: ${i}`}>
-                  <span class="trip-packet" aria-hidden="true" />
-                  <span class="trip-label">
-                    <span class="trip-format">{rail.hops[i].format}</span>
-                    {rail.hops[i].lines.map((line) => (
-                      <code>{line}</code>
-                    ))}
-                  </span>
-                </li>
-              )}
-            </>
-          ))}
-        </ol>
-        <figcaption class="trip-outcome">
-          <code>{rail.reply}</code>
-          <span>
-            {rail.outcome} <strong>balanced</strong>.
-          </span>
-          <button class="trip-replay" type="button" hidden>
-            Send again
-          </button>
-        </figcaption>
-      </figure>
-    ))
-  }
-</div>
+    <rect width={W} height={H} fill="url(#trip-grid)"></rect>
+    <path
+      class="trip-frame"
+      d={`M0 ${mark}V0H${mark} M${W - mark} 0H${W}V${mark} M${W} ${H - mark}V${H}H${W - mark} M${mark} ${H}H0V${H - mark}`}
+    ></path>
 
-<script>
-  const rails = document.querySelector<HTMLElement>(".trip-rails");
-  const trips = document.querySelector<HTMLElement>(".trips");
+    <line class="trip-lane" x1={laneStart} y1={LANE.request} x2={laneEnd} y2={LANE.request}></line>
+    <line class="trip-lane is-reply" x1={laneStart} y1={LANE.reply} x2={laneEnd} y2={LANE.reply}
+    ></line>
 
-  if (rails && trips) {
-    rails.hidden = false;
-    for (const replay of trips.querySelectorAll<HTMLButtonElement>(".trip-replay")) {
-      replay.hidden = false;
+    <g filter="url(#trip-glow)">
+      {
+        packets.map((p) => (
+          <rect
+            class="trip-packet"
+            x={laneStart}
+            y={LANE.request - 2}
+            width={TAIL}
+            height="4"
+            rx="2"
+            fill="url(#trip-tail)"
+            style={`--p: ${p}; --dx: ${laneEnd - laneStart - TAIL}px`}
+          />
+        ))
+      }
+      {
+        packets.map((p) => (
+          <rect
+            class="trip-packet is-reply"
+            x={laneEnd - TAIL}
+            y={LANE.reply - 2}
+            width={TAIL}
+            height="4"
+            rx="2"
+            fill="url(#trip-tail-reply)"
+            style={`--p: ${p}; --dx: ${-(laneEnd - laneStart - TAIL)}px`}
+          />
+        ))
+      }
+    </g>
+
+    {
+      nodes.map((node, i) => (
+        <g class="trip-chip" style={`--i: ${i}`}>
+          <rect x={xs[i]} y={CHIP.y} width={CHIP.w} height={CHIP.h} rx={CHIP.r} />
+          <circle class="trip-led" cx={xs[i] + CHIP.w - 11} cy={CHIP.y + 11} r="3" />
+          <text x={xs[i] + CHIP.w / 2} y={CHIP.y + CHIP.h / 2 + 7}>
+            {node}
+          </text>
+        </g>
+      ))
     }
 
-    const show = (id: string) => {
-      for (const button of rails.querySelectorAll("button")) {
-        button.setAttribute("aria-pressed", String(button.dataset.rail === id));
-      }
-      for (const trip of trips.querySelectorAll<HTMLElement>(".trip")) {
-        // Hide every trip first so the chosen one is re-rendered, which
-        // restarts its CSS animations even when it is already showing.
-        trip.hidden = true;
-      }
-      void trips.offsetWidth;
-      const chosen = trips.querySelector<HTMLElement>(`.trip[data-rail="${id}"]`);
-      if (chosen) chosen.dataset.replayed = "";
-      if (chosen) chosen.hidden = false;
-      return chosen;
-    };
+    <text class="trip-note" x={firstGap} y={LANE.request - 10}>request</text>
+    <text class="trip-note" x={firstGap} y={LANE.reply + 20}>reply</text>
 
-    rails.addEventListener("click", (event) => {
-      const button = (event.target as Element).closest<HTMLButtonElement>("button[data-rail]");
-      if (button?.dataset.rail) show(button.dataset.rail);
-    });
-
-    trips.addEventListener("click", (event) => {
-      const replay = (event.target as Element).closest(".trip-replay");
-      const trip = replay?.closest<HTMLElement>(".trip");
-      if (!trip?.dataset.rail) return;
-      // Hiding the trip took focus away from the button; give it back.
-      show(trip.dataset.rail)?.querySelector<HTMLButtonElement>(".trip-replay")?.focus();
-    });
-  }
-</script>
+    <text class="trip-delta" x={ledgerCenter} y="134">Δ 0.00</text>
+    <text class="trip-note" x={ledgerCenter} y="154">balanced</text>
+  </svg>
+</figure>

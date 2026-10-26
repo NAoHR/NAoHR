@@ -47,7 +47,7 @@ astro.config.mjs              integrations, site URL, Shiki themes
 src/layouts/BaseLayout.astro  <head>, meta, theme bootstrap, header + footer
 src/components/Header.astro   name, nav, theme toggle (+ its script)
 src/components/Footer.astro   contact links
-src/components/MessageRoute.astro  the hero diagram + rail picker (+ its script)
+src/components/MessageRoute.astro  the hero schematic (inline SVG, CSS motion only)
 src/components/Route.astro    the miniature of that diagram under each role/project
 src/pages/index.astro         portfolio: hero, work, side projects, tools, writing
 src/pages/blog/index.astro    post list (empty state when nothing is published)
@@ -56,7 +56,6 @@ src/pages/404.astro           not-found page with a random line from poet.json
 src/content.config.ts         blog collection schema (Zod)
 src/content/blog/*.mdx        the posts
 src/utils/content.ts          parses + validates the JSON below
-src/utils/rails.ts            the hero's three trips (transfer, QRIS, SWIFT)
 src/utils/links.ts            email + social links (hero shows the first three)
 src/utils/*.json              portfolio content
 scripts/brand/og-card.html    source for og.png and the PNG app icons
@@ -93,11 +92,12 @@ Redesigned 2026-10-26 ("direction A"). The site is about one idea, taken from
 Najmi's own line: *a message leaves one system, crosses three more, and still
 balances at the end.*
 
-- **Hero:** that sentence as the H1, then `MessageRoute` draws it. Three rails
-  (`src/utils/rails.ts`), picked above the diagram: a Rp150.000 bank transfer
-  (SNAP JSON → ISO 8583), a QRIS payment (EMVCo QR → ISO 8583) and a
-  cross-border SWIFT MT103 ending in an MT910 credit confirmation. Field
-  formats are real; values are illustrative, not client configuration.
+- **Hero:** that sentence as the H1, then `MessageRoute` draws it as a
+  schematic: four systems (Client, Gateway, Switch, Ledger) on a dot grid
+  inside corner marks, a request lane and a dashed reply lane lit faintly in
+  the accent, comet-tailed packets flowing both ways through the chips, status
+  lights pulsing, and the ledger reading `Δ 0.00 balanced`. Deliberately
+  generic: no specific payment rail or message format.
 - **One motif:** outlined boxes joined by lines. The hero uses it large; each
   work role and featured project repeats it small (`Route.astro`); the
   employer's job-title ladder and the favicon reuse it too. Nothing else is
@@ -107,13 +107,13 @@ balances at the end.*
   rest.
 - **Palette** (`site.css` `:root`): cheque-ink navy on cool paper, and one
   "settled" green used only for things that moved or completed (the message
-  trace, the selected rail, Details toggles, focus rings, "balanced").
-- **Type:** IBM Plex Sans for everything; IBM Plex Mono only for real wire
-  data (message fields), never for labels.
-- **Motion:** one orchestrated moment — the hero trip plays once on load
-  (~4 s) and again when a visitor picks a rail or clicks "Send again" (then it
-  starts after 0.15 s instead of 0.7 s). The only other motion is the Details
-  chevron. Under `prefers-reduced-motion` the trip renders finished.
+  trace, packets, status lights, Details toggles, focus rings, "Δ 0.00").
+- **Type:** IBM Plex Sans for everything; IBM Plex Mono only for machine
+  text (the lane notes and the ledger delta), never for page labels.
+- **Motion:** the hero traffic loops continuously (3.6 s per packet, three
+  per lane, staggered). The only other motion is the Details chevron. Under
+  `prefers-reduced-motion` the packets sit spread along their lanes and the
+  lights stay on, so the still picture tells the same story.
 
 Things that were deliberately dropped in the redesign: the full-screen intro
 curtain, the pink → indigo gradient, the typed-out random quotes
@@ -128,18 +128,12 @@ without any JavaScript. The toggle writes `data-theme` on `<html>` (which pins
 `color-scheme`) and stores it in `localStorage` under `theme`; an inline
 script in `BaseLayout` re-applies it before first paint.
 
-**The hero animation uses layout properties, not transforms.** The trace grows
-by animating `right`/`bottom`, the packet moves by `left`/`top` and shows via
-`visibility`. Every element's resting style is its final state and the
-animations only use `backwards` fill, so if animations are off, unsupported
-or reduced, the finished diagram is what renders.
-
-**Rail switching needs no animation code.** All three trips are in the HTML;
-all but one carry `hidden`. CSS animations restart when an element goes from
-`display: none` to rendered, so the script just hides every trip, forces a
-reflow and unhides the chosen one. Without JavaScript the picker and "Send
-again" stay hidden and the bank-transfer trip shows. Trip labels reserve
-three lines of height so switching rails doesn't shift the page.
+**The hero is one inline SVG in a 720×180 viewBox.** It scales with its
+width (max 45rem), so phones get the same horizontal picture, smaller, rather
+than a re-laid-out version. Colours are CSS variables, so it follows the
+theme. Packets slide a whole lane and pass under the opaque middle chips,
+which is what makes them read as going *through* each system. Layout numbers
+(chip size, lanes, tail length) are constants at the top of the component.
 
 **Shiki colours.** `defaultColor: false` makes Shiki emit both themes as CSS
 variables only; `prose.css` picks one with `light-dark()`, so code blocks
