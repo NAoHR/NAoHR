@@ -1,50 +1,103 @@
 ---
 /*
- * The hero: one transfer travelling App -> Gateway -> Switch -> Core and
- * coming back approved and balanced. Pure HTML + CSS; the animation plays
- * once on load and every element's resting style is its final state, so
- * reduced motion (or no animation support) simply shows the finished trip.
+ * The hero: one payment travelling across four systems and coming back
+ * balanced, for each rail in RAILS. Pure HTML + CSS draws and animates a
+ * trip; the small script only switches rails and replays.
  *
- * The wire data is real ISO 8583:1987: MTI 0200 is a financial request,
- * DE3 400000 the transfer processing code, DE4 the amount in minor units
- * (IDR has two decimals), MTI 0210 the response and DE39 00 "approved".
+ * Every trip is rendered; all but the first carry `hidden`. CSS animations
+ * restart whenever an element goes from display:none to rendered, so
+ * switching rails replays the trip without any animation code. Without
+ * JavaScript the rail buttons stay hidden and the first trip shows.
  */
-const nodes = ["Mobile app", "API gateway", "Switch", "Core banking"];
-const hops = [
-  { format: "JSON", lines: ['"value": "150000.00"'] },
-  { format: "ISO 8583", lines: ["0200", "DE3 400000"] },
-  { format: "ISO 8583", lines: ["0200", "DE4 000015000000"] },
-];
+import { RAILS } from "../utils/rails";
 ---
 
-<figure
-  class="trip"
-  aria-label="A Rp150.000 transfer travelling from a mobile app through an API gateway and a switch to core banking"
->
-  <ol class="trip-path">
-    {
-      nodes.map((node, i) => (
-        <>
-          <li class="trip-node" style={`--i: ${i}`}>
-            {node}
-          </li>
-          {hops[i] && (
-            <li class="trip-hop" style={`--i: ${i}`}>
-              <span class="trip-packet" aria-hidden="true" />
-              <span class="trip-label">
-                <span class="trip-format">{hops[i].format}</span>
-                {hops[i].lines.map((line) => (
-                  <code>{line}</code>
-                ))}
-              </span>
-            </li>
-          )}
-        </>
-      ))
+<div class="trip-rails" role="group" aria-label="Choose a payment rail" hidden>
+  {
+    RAILS.map((rail, r) => (
+      <button type="button" data-rail={rail.id} aria-pressed={r === 0 ? "true" : "false"}>
+        {rail.label}
+        <small>{rail.standard}</small>
+      </button>
+    ))
+  }
+</div>
+
+<div class="trips">
+  {
+    RAILS.map((rail, r) => (
+      <figure class="trip" data-rail={rail.id} aria-label={rail.description} hidden={r !== 0}>
+        <ol class="trip-path">
+          {rail.nodes.map((node, i) => (
+            <>
+              <li class="trip-node" style={`--i: ${i}`}>
+                {node}
+              </li>
+              {rail.hops[i] && (
+                <li class="trip-hop" style={`--i: ${i}`}>
+                  <span class="trip-packet" aria-hidden="true" />
+                  <span class="trip-label">
+                    <span class="trip-format">{rail.hops[i].format}</span>
+                    {rail.hops[i].lines.map((line) => (
+                      <code>{line}</code>
+                    ))}
+                  </span>
+                </li>
+              )}
+            </>
+          ))}
+        </ol>
+        <figcaption class="trip-outcome">
+          <code>{rail.reply}</code>
+          <span>
+            {rail.outcome} <strong>balanced</strong>.
+          </span>
+          <button class="trip-replay" type="button" hidden>
+            Send again
+          </button>
+        </figcaption>
+      </figure>
+    ))
+  }
+</div>
+
+<script>
+  const rails = document.querySelector<HTMLElement>(".trip-rails");
+  const trips = document.querySelector<HTMLElement>(".trips");
+
+  if (rails && trips) {
+    rails.hidden = false;
+    for (const replay of trips.querySelectorAll<HTMLButtonElement>(".trip-replay")) {
+      replay.hidden = false;
     }
-  </ol>
-  <figcaption class="trip-outcome">
-    <code>0210 DE39 00</code>
-    <span>Approved. Debit Rp150.000, credit Rp150.000: <strong>balanced</strong>.</span>
-  </figcaption>
-</figure>
+
+    const show = (id: string) => {
+      for (const button of rails.querySelectorAll("button")) {
+        button.setAttribute("aria-pressed", String(button.dataset.rail === id));
+      }
+      for (const trip of trips.querySelectorAll<HTMLElement>(".trip")) {
+        // Hide every trip first so the chosen one is re-rendered, which
+        // restarts its CSS animations even when it is already showing.
+        trip.hidden = true;
+      }
+      void trips.offsetWidth;
+      const chosen = trips.querySelector<HTMLElement>(`.trip[data-rail="${id}"]`);
+      if (chosen) chosen.dataset.replayed = "";
+      if (chosen) chosen.hidden = false;
+      return chosen;
+    };
+
+    rails.addEventListener("click", (event) => {
+      const button = (event.target as Element).closest<HTMLButtonElement>("button[data-rail]");
+      if (button?.dataset.rail) show(button.dataset.rail);
+    });
+
+    trips.addEventListener("click", (event) => {
+      const replay = (event.target as Element).closest(".trip-replay");
+      const trip = replay?.closest<HTMLElement>(".trip");
+      if (!trip?.dataset.rail) return;
+      // Hiding the trip took focus away from the button; give it back.
+      show(trip.dataset.rail)?.querySelector<HTMLButtonElement>(".trip-replay")?.focus();
+    });
+  }
+</script>

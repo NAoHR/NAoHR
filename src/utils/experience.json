@@ -1,5 +1,6 @@
 [
   {
+    "headline": "One wallet platform for two countries",
     "title": "Internal E-Wallet Product",
     "company": "Indivara",
     "role": "Technical Consultant & Team Lead",
@@ -11,6 +12,7 @@
       "QRIS / QRPH",
       "Payment gateways"
     ],
+    "impact": "Merged the Indonesian and Philippine codebases into one platform switched by country config, and took phase 1 live with a team of six. Phase 2 landed about 35% under estimate.",
     "highlights": [
       "Designed the core balance model with three configurable modes — standard, shared and closed loop — serving as the single key behind every transaction and reporting flow.",
       "Built country-pluggable integration layers so one codebase can switch QR standards (QRIS and QRPH), route to different payment gateways and apply market-specific KYC by configuration.",
@@ -27,6 +29,7 @@
     ]
   },
   {
+    "headline": "Moving a bank’s payment middleware off MuleSoft",
     "title": "Middleware Integration System",
     "company": "Indivara",
     "role": "Team Lead",
@@ -38,6 +41,7 @@
       "Middleware Payment System",
       "SWIFT / RTGS"
     ],
+    "impact": "Led up to eight people through go-live. Cut one webMethods install, and its licence, out of the transaction path.",
     "highlights": [
       "Led a cross-functional team of up to 8 through development, SIT, UAT and production go-live, owning technical and business issue resolution through to launch.",
       "Drove a design change that removed a redundant webMethods installation on the government partner's infrastructure — cutting licence costs, removing a network hop from the transaction path and consolidating logs inside the bank's environment.",
@@ -56,6 +60,7 @@
     ]
   },
   {
+    "headline": "ISO 8583 ↔ SNAP gateway",
     "title": "API Gateway Project",
     "company": "Indivara",
     "role": "Technical Consultant",
@@ -67,6 +72,7 @@
       "ISO 8583 socket",
       "Core banking"
     ],
+    "impact": "Built eight services alone, on one multiplexed socket to the core instead of a connection per transaction.",
     "highlights": [
       "Built the asynchronous callback pipeline forwarding core-system results to client callback URIs, with a scheduler-driven status check that reconciles transactions when no callback arrives within a minute.",
       "Implemented ISO 8583 over a multiplexed TCP/IP connection, correlating concurrent request–response pairs by composite key on one persistent socket instead of a connection per transaction.",
@@ -84,6 +90,7 @@
     ]
   },
   {
+    "headline": "Onboarding and transaction services for an e-wallet",
     "title": "Internal E-Wallet Product",
     "company": "Indivara",
     "role": "Technical Consultant",
@@ -95,6 +102,7 @@
       "Kafka workers",
       "Wallet"
     ],
+    "impact": "Built the member Register API, a general-purpose balance deduction system and a QRIS translation API to the Rintis specification.",
     "highlights": [
       "Developed a general-purpose Balance Deduction System supporting direct-deduct transaction mechanisms.",
       "Built an inbound–outbound rule management system for principal and CO accounts over Kafka messaging.",
@@ -112,6 +120,7 @@
     ]
   },
   {
+    "headline": "Connecting SME platforms over Kafka",
     "title": "SME Suites",
     "company": "Indivara",
     "role": "Technical Consultant",
@@ -123,6 +132,7 @@
       "Kafka request–reply",
       "Payroll / payment"
     ],
+    "impact": "Introduced the first Kafka request–reply pattern between internal systems, linking merchant, payroll and payment platforms.",
     "highlights": [
       "Implemented the initial Kafka-based Request–Reply communication pattern across multiple internal systems.",
       "Refactored existing code to improve reliability, maintainability and performance."
@@ -135,6 +145,7 @@
     ]
   },
   {
+    "headline": "BI-SNAP middleware for bank payments",
     "title": "Internal Middleware Payment Rail",
     "company": "Indivara",
     "role": "Technical Consultant",
@@ -146,6 +157,7 @@
       "ISO 8583",
       "Mandiri API"
     ],
+    "impact": "Built SNAP inquiry, interbank transfer history and QRIS CPM services plus a two-way ISO 8583 converter, then stress-tested them with Locust under Kubernetes scaling.",
     "highlights": [
       "Enhanced Spring Boot OAuth2 authentication to meet BI-SNAP authentication standards, and integrated with the Mandiri API.",
       "Built an ISO 8583 message converter for interoperability with SNAP specifications and back again.",
@@ -162,6 +174,7 @@
     ]
   },
   {
+    "headline": "Send money, request money and cardless withdrawal",
     "title": "E-Wallet for Bank of the Philippines",
     "company": "Indivara",
     "role": "Technical Consultant",
@@ -173,6 +186,7 @@
       "Kafka balance deduction",
       "Bank accounts"
     ],
+    "impact": "Built the Kafka-driven balance deduction behind member-to-member transfers, plus account upgrade and cardless withdrawal.",
     "highlights": [
       "Implemented balance deduction backing the Send Money and Request Money between member features.",
       "Developed and integrated the peer-to-peer outgoing transaction inquiry process.",

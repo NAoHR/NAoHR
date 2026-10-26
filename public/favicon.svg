@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Two systems and the message between them: the hero diagram as a mark.
+       Follows the browser's colour scheme like the site does. -->
+  <style>
+    .box { fill: none; stroke: #1b2440; stroke-width: 2.5; }
+    .trace { stroke: #0b7a62; stroke-width: 3; }
+    .packet { fill: #0b7a62; }
+    @media (prefers-color-scheme: dark) {
+      .box { stroke: #e4e8f1; }
+      .trace { stroke: #3fc8a4; }
+      .packet { fill: #3fc8a4; }
+    }
+  </style>
+  <rect class="box" x="2.5" y="10" width="9" height="12" rx="2" />
+  <rect class="box" x="20.5" y="10" width="9" height="12" rx="2" />
+  <path class="trace" d="M11.5 16h9" />
+  <rect class="packet" x="14" y="13.5" width="5" height="5" rx="1" />
+</svg>

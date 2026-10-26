@@ -47,8 +47,8 @@ astro.config.mjs              integrations, site URL, Shiki themes
 src/layouts/BaseLayout.astro  <head>, meta, theme bootstrap, header + footer
 src/components/Header.astro   name, nav, theme toggle (+ its script)
 src/components/Footer.astro   contact links
-src/components/MessageRoute.astro  the hero diagram
-src/components/Route.astro    the per-role miniature of that diagram
+src/components/MessageRoute.astro  the hero diagram + rail picker (+ its script)
+src/components/Route.astro    the miniature of that diagram under each role/project
 src/pages/index.astro         portfolio: hero, work, side projects, tools, writing
 src/pages/blog/index.astro    post list (empty state when nothing is published)
 src/pages/blog/[...id].astro  one post
@@ -56,21 +56,33 @@ src/pages/404.astro           not-found page with a random line from poet.json
 src/content.config.ts         blog collection schema (Zod)
 src/content/blog/*.mdx        the posts
 src/utils/content.ts          parses + validates the JSON below
+src/utils/rails.ts            the hero's three trips (transfer, QRIS, SWIFT)
 src/utils/links.ts            email + social links (hero shows the first three)
 src/utils/*.json              portfolio content
+scripts/brand/og-card.html    source for og.png and the PNG app icons
 public/cv.pdf                 the public CV (redacted, see below)
-public/assets/profile.jpg     favicon + link-preview image
+public/favicon.svg|.ico       the mark; SVG follows the browser's colour scheme
+public/og.png                 1200x630 link-preview card
+public/icon-*.png, apple-touch-icon.png   app / home-screen icons
 ```
 
 **All portfolio content lives in `src/utils/`.** To add a role, project or
 tool, edit the JSON; `content.ts` rejects anything malformed.
 
-- `experience.json` — `{ title, company, role, period, description, route[],
-  highlights[], tag[] }`, reverse-chronological, transcribed from Najmi's CV.
-  `route` is the chain of systems the engagement connected, in message order;
-  it renders as the small box-and-line diagram under each role. The routes
-  were written by reading the CV — Najmi should correct any that are off.
-- `projects.json` — `{ title, link, description, tag[] }`, the side projects
+- `employers.json` — `{ name, place, period, summary, ladder[{ title, since }] }`.
+  Work is grouped under these; the ladder is the job titles held there.
+- `experience.json` — `{ headline, title, company, role, period, description,
+  route[], impact, highlights[], tag[] }`, reverse-chronological, transcribed
+  from Najmi's CV. `company` must match an employer `name` (the build fails
+  otherwise). `headline` says what the work achieved and is the visible
+  heading; `title` is the project's own name, shown under it. `impact` is the
+  one result shown without opening Details. `route` is the chain of systems
+  the engagement connected, in message order. Headlines, impacts and routes
+  were written from the CV — Najmi should correct any that are off.
+- `projects.json` — `{ featured[], earlier[] }`. Featured: `{ title, year,
+  note?, link?, route[], description, tag[] }`, shown like work rows (no link
+  for private repos; `note` says why). Earlier: `{ title, link, summary }`,
+  one line each.
 - `stack.json` — `{ name, group }`; `group` must be one of `STACK_GROUPS` in
   `content.ts`, which also sets the display order
 - `poet.json` — short lines, one picked at build time for the 404 page
@@ -81,23 +93,27 @@ Redesigned 2026-10-26 ("direction A"). The site is about one idea, taken from
 Najmi's own line: *a message leaves one system, crosses three more, and still
 balances at the end.*
 
-- **Hero:** that sentence as the H1, then `MessageRoute` draws it: a Rp150.000
-  transfer going Mobile app → API gateway → Switch → Core banking, the payload
-  changing format on the way (JSON, then ISO 8583), ending with the 0210
-  response and a balanced debit/credit. The wire data is real ISO 8583:1987
-  (MTI 0200/0210, DE3 400000 = transfer, DE4 in minor units, DE39 00 =
-  approved).
+- **Hero:** that sentence as the H1, then `MessageRoute` draws it. Three rails
+  (`src/utils/rails.ts`), picked above the diagram: a Rp150.000 bank transfer
+  (SNAP JSON → ISO 8583), a QRIS payment (EMVCo QR → ISO 8583) and a
+  cross-border SWIFT MT103 ending in an MT910 credit confirmation. Field
+  formats are real; values are illustrative, not client configuration.
 - **One motif:** outlined boxes joined by lines. The hero uses it large; each
-  role in Work repeats it small (`Route.astro`). Nothing else is decorated —
-  no cards, no stock photos, no icon chips.
+  work role and featured project repeats it small (`Route.astro`); the
+  employer's job-title ladder and the favicon reuse it too. Nothing else is
+  decorated — no cards, no stock photos, no icon chips.
+- **Work** is grouped by employer, then one row per engagement: outcome
+  headline, project name + role, route, one visible result, Details for the
+  rest.
 - **Palette** (`site.css` `:root`): cheque-ink navy on cool paper, and one
   "settled" green used only for things that moved or completed (the message
-  trace, the "What I did" toggles, focus rings, "balanced").
+  trace, the selected rail, Details toggles, focus rings, "balanced").
 - **Type:** IBM Plex Sans for everything; IBM Plex Mono only for real wire
   data (message fields), never for labels.
-- **Motion:** exactly one orchestrated moment — the hero trip plays once on
-  load (~4 s). The only other motion is the details chevron rotating when
-  clicked. Under `prefers-reduced-motion` the trip renders finished.
+- **Motion:** one orchestrated moment — the hero trip plays once on load
+  (~4 s) and again when a visitor picks a rail or clicks "Send again" (then it
+  starts after 0.15 s instead of 0.7 s). The only other motion is the Details
+  chevron. Under `prefers-reduced-motion` the trip renders finished.
 
 Things that were deliberately dropped in the redesign: the full-screen intro
 curtain, the pink → indigo gradient, the typed-out random quotes
@@ -118,9 +134,22 @@ by animating `right`/`bottom`, the packet moves by `left`/`top` and shows via
 animations only use `backwards` fill, so if animations are off, unsupported
 or reduced, the finished diagram is what renders.
 
+**Rail switching needs no animation code.** All three trips are in the HTML;
+all but one carry `hidden`. CSS animations restart when an element goes from
+`display: none` to rendered, so the script just hides every trip, forces a
+reflow and unhides the chosen one. Without JavaScript the picker and "Send
+again" stay hidden and the bank-transfer trip shows. Trip labels reserve
+three lines of height so switching rails doesn't shift the page.
+
 **Shiki colours.** `defaultColor: false` makes Shiki emit both themes as CSS
 variables only; `prose.css` picks one with `light-dark()`, so code blocks
 follow the toggle too.
+
+**Brand images are static exports.** `og.png`, `icon-192/512.png` and
+`apple-touch-icon.png` were screenshotted from `scripts/brand/og-card.html`
+at device scale 1; `favicon.ico` is `favicon.svg` rasterised (16/32/48).
+When the headline or the mark changes, re-export them as that file
+describes.
 
 **The CV is `public/cv.pdf`.** It is a redacted copy of
 `Najmi - Software Engineer- Q2 2026.pdf`: the phone number and street address
@@ -157,8 +186,10 @@ is only prose and code ships no JavaScript.
 - **`src/content/blog/iso-8583-and-json-apis.mdx` is `draft: true`** (unpublished
   2026-10-26). It was written by Claude as a pipeline demo, not by Najmi —
   rewrite or delete it before publishing.
-- **Routes in `experience.json` need Najmi's check** (see above).
+- **Headlines, impacts and routes in `experience.json`, and the Indivara
+  summary in `employers.json`, need Najmi's check** (written from the CV).
+- **naohr-lab copy in `projects.json` describes the plan**, not a running
+  tunnel; update it once the Cloudflare Tunnel is live.
+- **Telminder's repo is private**, so its entry has no link.
 - **`Spring Boot` in `stack.json`** was added during the 2026-09 pass because
   the site's own copy already referenced it. Unconfirmed with Najmi.
-- **Favicon is the profile photo.** A purpose-made icon would read better at
-  16 px.

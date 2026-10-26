@@ -12,15 +12,14 @@ import Header from "../components/Header.astro";
 interface Props {
   title: string;
   description: string;
-  /** Absolute or root-relative image for link previews. */
-  image?: string;
   /** Set for blog posts so the OG type and article dates are emitted. */
   publishedDate?: Date;
 }
 
-const { title, description, image = "/assets/profile.jpg", publishedDate } = Astro.props;
+const { title, description, publishedDate } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const ogImage = new URL(image, Astro.site);
+/** Static export of scripts/brand/og-card.html. */
+const ogImage = new URL("/og.png", Astro.site);
 const hasPosts = (await getCollection("blog", ({ data }) => !data.draft)).length > 0;
 ---
 
@@ -39,17 +38,24 @@ const hasPosts = (await getCollection("blog", ({ data }) => !data.draft)).length
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="A message leaves one system, crosses three more, and still balances at the end."
+    />
     {publishedDate && (
       <meta property="article:published_time" content={publishedDate.toISOString()} />
     )}
 
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <link rel="icon" href="/assets/profile.jpg" />
-    <link rel="apple-touch-icon" href="/assets/profile.jpg" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="theme-color" content="#f5f6f8" media="(prefers-color-scheme: light)" />

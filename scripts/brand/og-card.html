@@ -1,0 +1,59 @@
+<!doctype html>
+<!--
+  Source for the static brand images in public/. Regenerate by hand when the
+  headline or the mark changes:
+
+    python3 -m http.server 8000          # from the repo root
+    open http://localhost:8000/scripts/brand/og-card.html
+    screenshot #card at device scale 1   -> public/og.png        (1200x630)
+    screenshot #icon at 512, 192 and 180 -> public/icon-512.png, icon-192.png,
+                                            apple-touch-icon.png
+    public/favicon.ico is the 32px mark, light colours, from favicon.svg.
+
+  Fonts load from node_modules so the card uses the site's IBM Plex files.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+  @font-face { font-family: "Plex"; font-weight: 500; src: url("../../node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-500-normal.woff2") format("woff2"); }
+  @font-face { font-family: "Plex"; font-weight: 600; src: url("../../node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-600-normal.woff2") format("woff2"); }
+  @font-face { font-family: "Plex"; font-weight: 400; src: url("../../node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-400-normal.woff2") format("woff2"); }
+  body { margin: 0; background: #ccc; }
+  #card {
+    box-sizing: border-box; width: 1200px; height: 630px; padding: 72px 80px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    background: #f5f6f8; color: #1b2440; font-family: "Plex", sans-serif;
+  }
+  #card h1 { margin: 0; font-size: 56px; font-weight: 500; line-height: 1.12; letter-spacing: -0.015em; max-width: 27ch; text-wrap: balance; }
+  .path { display: flex; align-items: center; }
+  .node { padding: 0 22px; height: 64px; display: flex; align-items: center; font-size: 24px; font-weight: 500; background: #fff; border: 2px solid #0b7a62; border-radius: 8px; white-space: nowrap; }
+  .hop { flex: 1; border-top: 2.5px solid #0b7a62; }
+  footer { display: flex; justify-content: space-between; font-size: 26px; }
+  footer strong { font-weight: 600; }
+  footer span { color: #596079; }
+  #icon { width: 512px; height: 512px; display: grid; place-items: center; background: #0f1420; }
+</style>
+</head>
+<body>
+  <div id="card">
+    <h1>A message leaves one system, crosses three more, and still balances at the end.</h1>
+    <div class="path">
+      <span class="node">Mobile app</span><span class="hop"></span>
+      <span class="node">API gateway</span><span class="hop"></span>
+      <span class="node">Switch</span><span class="hop"></span>
+      <span class="node">Core banking</span>
+    </div>
+    <footer><strong>Najmi, backend &amp; integration engineer</strong><span>naohr.site</span></footer>
+  </div>
+
+  <div id="icon">
+    <svg viewBox="0 0 32 32" width="360" height="360">
+      <rect x="2.5" y="10" width="9" height="12" rx="2" fill="none" stroke="#e4e8f1" stroke-width="2.5" />
+      <rect x="20.5" y="10" width="9" height="12" rx="2" fill="none" stroke="#e4e8f1" stroke-width="2.5" />
+      <path d="M11.5 16h9" stroke="#3fc8a4" stroke-width="3" />
+      <rect x="14" y="13.5" width="5" height="5" rx="1" fill="#3fc8a4" />
+    </svg>
+  </div>
+</body>
+</html>

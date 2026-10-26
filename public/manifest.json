@@ -2,11 +2,8 @@
   "short_name": "Najmi",
   "name": "Najmi — Backend & Integration Engineer",
   "icons": [
-    {
-      "src": "/assets/profile.jpg",
-      "type": "image/jpeg",
-      "sizes": "any"
-    }
+    { "src": "/icon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "/icon-512.png", "type": "image/png", "sizes": "512x512" }
   ],
   "start_url": "/",
   "display": "standalone",

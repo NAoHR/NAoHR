@@ -64,6 +64,7 @@ body {
 h1,
 h2,
 h3,
+h4,
 p,
 ul,
 ol,
@@ -254,7 +255,68 @@ main h2 {
   font-weight: 500;
 }
 
-/* The trip: one transfer drawn across four systems. Resting styles are the
+/* Rail picker above the hero diagram. Only shown once the script runs. */
+.trip-rails {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.75rem;
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+}
+
+.trip-rails[hidden] {
+  display: none;
+}
+
+.trip-rails button {
+  padding: 0.35rem 0 0.4rem;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.9375rem;
+  text-align: left;
+  background: none;
+  border: 0;
+  border-bottom: 1.5px solid transparent;
+  cursor: pointer;
+}
+
+.trip-rails small {
+  display: block;
+  font-size: 0.78rem;
+}
+
+.trip-rails button:hover,
+.trip-rails button[aria-pressed="true"] {
+  color: var(--ink);
+}
+
+.trip-rails button[aria-pressed="true"] {
+  border-bottom-color: var(--accent);
+}
+
+.trips {
+  margin: clamp(2.5rem, 6vw, 4rem) 0;
+}
+
+.trip-rails:not([hidden]) + .trips {
+  margin-top: 1.75rem;
+}
+
+.trip-replay {
+  padding: 0;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 500;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.trip-replay:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
+}
+
+/* The trip: one payment drawn across four systems. Resting styles are the
    finished state; the animations below only supply where things start. */
 
 .trip {
@@ -262,8 +324,11 @@ main h2 {
   --step: 0.9s;
   --travel: 0.7s;
   --node-h: 3rem;
+}
 
-  margin: clamp(2.5rem, 6vw, 4rem) 0;
+/* A trip the visitor asked for starts right away. */
+.trip[data-replayed] {
+  --start: 0.15s;
 }
 
 .trip-path {
@@ -337,6 +402,9 @@ main h2 {
   flex-direction: column;
   align-items: center;
   margin-top: calc(var(--node-h) / 2 + 0.85rem);
+  /* Room for a format line plus two field lines, so switching rails
+     doesn't move the page below. */
+  min-height: 4.4rem;
   padding: 0 0.5rem;
   animation: trip-appear 0.4s ease-out backwards;
   animation-delay: calc(var(--start) + var(--i) * var(--step) + 0.35s);
@@ -461,6 +529,7 @@ main h2 {
   .trip-label {
     align-items: flex-start;
     margin: 0;
+    min-height: 0;
     padding: 0.75rem 0 0.75rem 2.75rem;
   }
 
@@ -477,9 +546,10 @@ main h2 {
   }
 }
 
-/* ------------------------------------------------------------------ work */
+/* ------------------------------------------------------- work + projects */
+/* Both sections are rows: a date column, then the entry. */
 
-.work {
+.rows {
   display: flex;
   flex-direction: column;
   gap: 3rem;
@@ -487,30 +557,96 @@ main h2 {
   list-style: none;
 }
 
-.work > li {
+.row {
   display: grid;
   grid-template-columns: 11rem minmax(0, 1fr);
   gap: 0.25rem 2rem;
 }
 
-.work-when {
+.when {
   padding-top: 0.15rem;
   color: var(--muted);
   font-size: 0.875rem;
   font-variant-numeric: tabular-nums;
 }
 
-.work-body {
+.row-body {
   max-width: var(--measure);
 }
 
-.work h3 {
+.row h3,
+.row h4 {
   font-size: 1.125rem;
   font-weight: 600;
   line-height: 1.4;
 }
 
-.work-role {
+.subtitle,
+.employer-summary {
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.impact {
+  margin-top: 0.75rem;
+}
+
+.row-body > .tech {
+  margin-top: 0.6rem;
+}
+
+.employer-head {
+  margin-bottom: 3rem;
+}
+
+/* Job titles held at the employer, joined like the route diagrams. */
+.ladder {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  row-gap: 0.4rem;
+  margin-top: 0.85rem;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+}
+
+.ladder li {
+  display: flex;
+  align-items: center;
+}
+
+.ladder li + li::before {
+  content: "";
+  width: 2.5rem;
+  margin: 0 0.6rem;
+  border-top: 1.5px solid var(--accent);
+}
+
+.ladder span {
+  margin-left: 0.4rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.earlier {
+  margin-top: 3.5rem;
+}
+
+.earlier ul {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.earlier li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.75rem;
+}
+
+.earlier li span {
   color: var(--muted);
   font-size: 0.9375rem;
 }
@@ -603,32 +739,9 @@ details li + li {
 }
 
 @media (max-width: 40rem) {
-  .work > li {
+  .row {
     grid-template-columns: 1fr;
   }
-}
-
-/* -------------------------------------------------------------- projects */
-
-.projects {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
-  gap: 2.25rem 2.5rem;
-  padding: 0;
-  list-style: none;
-}
-
-.projects h3 {
-  font-size: 1.0625rem;
-  font-weight: 600;
-}
-
-.projects p {
-  margin-top: 0.35rem;
-}
-
-.projects h3 + p {
-  font-size: 1rem;
 }
 
 /* ----------------------------------------------------------------- stack */

@@ -1,64 +1,70 @@
-[
-  {
-    "title": "Banking Mini Project",
-    "link": "https://github.com/NAoHR/nbank-m5-najmi",
-    "description": "Mini project I submitted for a company selection. A REST API with Spring Boot as its backbone.",
-    "tag": [
-      "Java",
-      "Spring Boot",
-      "PostgreSQL",
-      "Spring Security",
-      "Spring JPA",
-      "Unit Testing"
-    ]
-  },
-  {
-    "title": "Lyrics-Finder-Bot",
-    "link": "https://github.com/NAoHR/lyrics-bot",
-    "description": "A bot that finds lyrics by title or by a fragment of the lyrics themselves, scraping the AZLyrics website. To make this bot work, get your own AZLyrics X parameter.",
-    "tag": [
-      "TypeScript",
-      "Cheerio",
-      "Bot"
-    ]
-  },
-  {
-    "title": "Synchronize-media-server",
-    "link": "https://github.com/NAoHR/synchronize-media-server",
-    "description": "An Express.js based server built for a friend's project.",
-    "tag": [
-      "Express.js",
-      "Node.js",
-      "MongoDB",
-      "Mongoose"
-    ]
-  },
-  {
-    "title": "Detailku-Sija",
-    "link": "https://github.com/NAoHR/detailku-sija",
-    "description": "A Next.js website showing the details of each vocation in a vocational high school, including the school, its students and jobs. The platform gathers every project, skill and certificate belonging to each student.",
-    "tag": [
-      "Node.js",
-      "Next.js"
-    ]
-  },
-  {
-    "title": "Detailku-Server",
-    "link": "https://github.com/NAoHR/detailku-server",
-    "description": "An Express.js based server for reserving the school Aula, with synchronised dates, automatic cancellation and automatic active status. Also my first attempt at using the Express library.",
-    "tag": [
-      "Node.js",
-      "Express.js",
-      "MongoDB",
-      "Mongoose"
-    ]
-  },
-  {
-    "title": "ppdbData",
-    "link": "https://github.com/NAoHR/ppdbData",
-    "description": "A Python dataset creator that parses every student on the PPDB website and structures them by vocational type (currently Jakarta only).",
-    "tag": [
-      "Python"
-    ]
-  }
-]
+{
+  "featured": [
+    {
+      "title": "Telminder",
+      "year": "2026",
+      "note": "private",
+      "route": [
+        "Moodle (SSO)",
+        "Browser session",
+        "SQLite history",
+        "Dashboard"
+      ],
+      "description": "Tracks Telkom University coursework deadlines. Moodle there offers no API token and no “submitted” flag, so Telminder infers overdue and submitted work from the history it stores. Its first run found eight overdue assignments, two still submittable.",
+      "tag": [
+        "Python",
+        "Playwright",
+        "SQLite"
+      ]
+    },
+    {
+      "title": "naohr-lab",
+      "year": "2026",
+      "note": "in progress",
+      "route": [
+        "Laptop at home",
+        "Cloudflare Tunnel",
+        "*.naohr.site"
+      ],
+      "description": "An old laptop turned home server, with no open ports and reachable only over Tailscale. Public services will go out through a Cloudflare Tunnel on *.naohr.site, on the same Cloudflare account that serves this site.",
+      "tag": [
+        "Linux",
+        "Docker",
+        "Cloudflare",
+        "Tailscale"
+      ]
+    }
+  ],
+  "earlier": [
+    {
+      "title": "Banking Mini Project",
+      "link": "https://github.com/NAoHR/nbank-m5-najmi",
+      "summary": "Spring Boot REST API for a hiring test"
+    },
+    {
+      "title": "Lyrics-Finder-Bot",
+      "link": "https://github.com/NAoHR/lyrics-bot",
+      "summary": "finds lyrics from a title or a line"
+    },
+    {
+      "title": "Detailku-Sija",
+      "link": "https://github.com/NAoHR/detailku-sija",
+      "summary": "Next.js showcase for a vocational school"
+    },
+    {
+      "title": "Detailku-Server",
+      "link": "https://github.com/NAoHR/detailku-server",
+      "summary": "hall booking API, my first Express app"
+    },
+    {
+      "title": "Synchronize-media-server",
+      "link": "https://github.com/NAoHR/synchronize-media-server",
+      "summary": "Express server for a friend’s project"
+    },
+    {
+      "title": "ppdbData",
+      "link": "https://github.com/NAoHR/ppdbData",
+      "summary": "dataset builder from Jakarta school admissions"
+    }
+  ]
+}

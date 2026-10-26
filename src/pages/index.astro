@@ -4,7 +4,7 @@ import { getCollection } from "astro:content";
 import MessageRoute from "../components/MessageRoute.astro";
 import Route from "../components/Route.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { experience, projects, stack } from "../utils/content";
+import { projects, stack, work } from "../utils/content";
 import { LINKS } from "../utils/links";
 
 const description =
@@ -21,6 +21,10 @@ const dateFormat = new Intl.DateTimeFormat("en-GB", {
 });
 
 const heroLinks = LINKS.slice(0, 3);
+
+/** "Seven engagements so far" reads better than a sentence opening on "7". */
+const NUMBER_WORDS = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve"];
+const spelled = (n: number) => NUMBER_WORDS[n] ?? String(n);
 ---
 
 <BaseLayout title="Najmi — Backend & Integration Engineer" description={description}>
@@ -77,53 +81,106 @@ const heroLinks = LINKS.slice(0, 3);
 
   <section id="work" aria-labelledby="work-title">
     <h2 id="work-title">Work</h2>
-    <ol class="work">
-      {
-        experience.map((role) => (
-          <li>
-            <p class="work-when">{role.period}</p>
-            <div class="work-body">
-              <h3>{role.title}</h3>
-              <p class="work-role">
-                {role.role}, {role.company}
+    {
+      work.map((employer) => (
+        <div class="employer">
+          <div class="row employer-head">
+            <p class="when">{employer.period}</p>
+            <div class="row-body">
+              <h3>
+                {employer.name}, {employer.place}
+              </h3>
+              <p class="employer-summary">
+                {employer.summary} {spelled(employer.roles.length)}{" "}
+                {employer.roles.length === 1 ? "engagement" : "engagements"} so far.
               </p>
-              <Route nodes={role.route} />
-              <details>
-                <summary>
-                  What I did<span class="visually-hidden"> on {role.title}, {role.period}</span>
-                </summary>
-                <p>{role.description}</p>
-                <ul>
-                  {role.highlights.map((highlight) => (
-                    <li>{highlight}</li>
-                  ))}
-                </ul>
-                <p class="tech">{role.tag.join(", ")}</p>
-              </details>
+              <ol class="ladder" aria-label={`Job titles at ${employer.name}`}>
+                {employer.ladder.map(({ title, since }) => (
+                  <li>
+                    {title}
+                    <span>{since}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+
+          <ol class="rows">
+            {employer.roles.map((role) => (
+              <li class="row">
+                <p class="when">{role.period}</p>
+                <div class="row-body">
+                  <h4>{role.headline}</h4>
+                  <p class="subtitle">
+                    {role.title}, {role.role}
+                  </p>
+                  <Route nodes={role.route} />
+                  <p class="impact">{role.impact}</p>
+                  <details>
+                    <summary>
+                      Details<span class="visually-hidden"> about {role.headline}</span>
+                    </summary>
+                    <p>{role.description}</p>
+                    <ul>
+                      {role.highlights.map((highlight) => (
+                        <li>{highlight}</li>
+                      ))}
+                    </ul>
+                    <p class="tech">{role.tag.join(", ")}</p>
+                  </details>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      ))
+    }
+  </section>
+
+  <section id="projects" aria-labelledby="projects-title">
+    <h2 id="projects-title">Side projects</h2>
+    <ol class="rows">
+      {
+        projects.featured.map((project) => (
+          <li class="row">
+            <p class="when">
+              {project.year}
+              {project.note && `, ${project.note}`}
+            </p>
+            <div class="row-body">
+              <h3>
+                {project.link ? (
+                  <a href={project.link} target="_blank" rel="noopener noreferrer">
+                    {project.title}
+                  </a>
+                ) : (
+                  project.title
+                )}
+              </h3>
+              <Route nodes={project.route} />
+              <p class="impact">{project.description}</p>
+              <p class="tech">{project.tag.join(", ")}</p>
             </div>
           </li>
         ))
       }
     </ol>
-  </section>
 
-  <section id="projects" aria-labelledby="projects-title">
-    <h2 id="projects-title">Side projects</h2>
-    <ul class="projects">
-      {
-        projects.map((project) => (
-          <li>
-            <h3>
+    <div class="row earlier">
+      <p class="when">Earlier</p>
+      <ul class="row-body">
+        {
+          projects.earlier.map((project) => (
+            <li>
               <a href={project.link} target="_blank" rel="noopener noreferrer">
                 {project.title}
               </a>
-            </h3>
-            <p>{project.description}</p>
-            <p class="tech">{project.tag.join(", ")}</p>
-          </li>
-        ))
-      }
-    </ul>
+              <span>{project.summary}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
   </section>
 
   <section id="stack" aria-labelledby="stack-title">
