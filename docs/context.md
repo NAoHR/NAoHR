@@ -5,8 +5,8 @@ Last updated: 2026-09-03.
 
 ## What this is
 
-The source of **https://naohr.vercel.app/** — Najmi's personal portfolio / CV
-site plus a blog. Deployed on Vercel from `main`.
+The source of **https://naohr.site/** — Najmi's personal portfolio / CV
+site plus a blog. Deployed on Cloudflare (Workers static assets) from `main`.
 
 Astro owns the document and routing. The site is **two very different things
 under one build**:
@@ -32,7 +32,7 @@ analytics, no CI. All content is committed to the repo as JSON and MDX.
 | Language | TypeScript, `astro/tsconfigs/strict` |
 | Icons | `@tabler/icons-react` for UI, `simple-icons` for brand marks |
 | Tests | Vitest + Testing Library (jsdom), `vitest.config.ts` |
-| Deploy | Vercel, pinned by `vercel.json` (framework `astro`, output `dist`) |
+| Deploy | Cloudflare Workers static assets, `wrangler.jsonc` (serves `dist`, custom domain `naohr.site`); Node pinned by `.node-version`. How-to: `docs/deployment.md` |
 
 There is **no router library**. Astro's file-based routing replaced
 react-router; a link out of the island is a plain `<a href>`.

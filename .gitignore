@@ -29,3 +29,6 @@ yarn-error.log*
 
 # astro
 .astro/
+
+# cloudflare wrangler local state
+.wrangler/
