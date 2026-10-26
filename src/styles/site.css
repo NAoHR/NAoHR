@@ -47,7 +47,8 @@ html {
   /* The hero's settled line runs to the window edge; never scroll sideways. */
   overflow-x: clip;
   scroll-behavior: smooth;
-  scroll-padding-top: 1.5rem;
+  /* Anchored sections land below the sticky header. */
+  scroll-padding-top: 5.5rem;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -156,14 +157,42 @@ main h2 {
 
 /* ---------------------------------------------------------------- header */
 
+/* Sticky. Transparent at the top of the page so the hero backdrop shows
+   through; once scrolled (data-scrolled, set by Header.astro) it gets a
+   frosted full-width bar and a hairline. */
 .site-header {
-  /* Above the hero backdrop, which extends up behind it. */
-  position: relative;
-  z-index: 1;
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
   gap: 1.75rem;
   padding: 1.5rem 0;
+}
+
+/* Full-bleed bar behind the header's content-width box. */
+.site-header::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0 calc(50% - 50vw);
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color 0.2s ease-out,
+    border-color 0.2s ease-out;
+}
+
+.site-header[data-scrolled]::before {
+  background-color: color-mix(in srgb, var(--bg) 82%, transparent);
+  border-bottom-color: var(--rule);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  backdrop-filter: blur(12px) saturate(140%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header::before {
+    transition: none;
+  }
 }
 
 .site-name {

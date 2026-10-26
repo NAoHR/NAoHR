@@ -143,6 +143,12 @@ without any JavaScript. The toggle writes `data-theme` on `<html>` (which pins
 `color-scheme`) and stores it in `localStorage` under `theme`; an inline
 script in `BaseLayout` re-applies it before first paint.
 
+**The header is sticky.** It stays transparent at the top so the hero
+backdrop shows through; after the first few pixels of scroll a small script in
+`Header.astro` sets `data-scrolled`, which fades in a full-width frosted bar
+with a hairline. `scroll-padding-top` matches its height so nav jumps
+(`/#work`, `/#projects`) land below it.
+
 **The illustration is one inline SVG in a 560×440 viewBox.** It scales with
 its column, so phones get the same picture, smaller. Thread geometry, source
 names and pulse timings are computed in the component's frontmatter; colours

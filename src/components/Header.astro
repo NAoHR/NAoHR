@@ -67,4 +67,10 @@ const { hasPosts } = Astro.props;
     } catch {}
     label();
   });
+
+  // Sticky header: show its bar only once the page has moved.
+  const header = document.querySelector<HTMLElement>(".site-header");
+  const markScrolled = () => header?.toggleAttribute("data-scrolled", window.scrollY > 4);
+  markScrolled();
+  window.addEventListener("scroll", markScrolled, { passive: true });
 </script>
