@@ -1,6 +1,6 @@
 {
-  "short_name": "NAoHR",
-  "name": "Najmi — Full-stack Developer",
+  "short_name": "Najmi",
+  "name": "Najmi — Backend & Integration Engineer",
   "icons": [
     {
       "src": "/assets/profile.jpg",
@@ -10,6 +10,6 @@
   ],
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#1a1b1e",
-  "background_color": "#1a1b1e"
+  "theme_color": "#f5f6f8",
+  "background_color": "#f5f6f8"
 }

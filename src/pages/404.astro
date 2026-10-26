@@ -1,16 +1,18 @@
 ---
-import BlogLayout from "../layouts/BlogLayout.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
 import poetList from "../utils/poet.json";
 
 const poem = poetList[Math.floor(Math.random() * poetList.length)];
 ---
 
-<BlogLayout title="404 — Najmi" description="That page does not exist.">
-  <div style="text-align:center; padding:4rem 0">
-    <h1 class="page-title">404</h1>
-    <p class="meta" style="max-width:32rem; margin:1rem auto">{poem}</p>
-    <p style="margin-top:2rem">
-      <a href="/" style="color:var(--accent)">Take me home</a>
+<BaseLayout title="Page not found — Najmi" description="That page does not exist.">
+  <div class="simple">
+    <h1>This page doesn’t exist.</h1>
+    <p class="lede">
+      The link may be old or mistyped. Go to the <a href="/">homepage</a> or <a href="/#work"
+        >see my work</a
+      >.
     </p>
+    <blockquote class="poem">{poem}</blockquote>
   </div>
-</BlogLayout>
+</BaseLayout>

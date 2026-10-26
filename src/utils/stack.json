@@ -1,25 +1,25 @@
 [
-  { "name": "Java", "icon": "openjdk", "group": "Languages" },
-  { "name": "TypeScript", "icon": "typescript", "group": "Languages" },
-  { "name": "JavaScript", "icon": "javascript", "group": "Languages" },
-  { "name": "Python", "icon": "python", "group": "Languages" },
+  { "name": "Java", "group": "Languages" },
+  { "name": "TypeScript", "group": "Languages" },
+  { "name": "JavaScript", "group": "Languages" },
+  { "name": "Python", "group": "Languages" },
 
-  { "name": "Spring Boot", "icon": "spring", "group": "Frameworks" },
-  { "name": "Node.js", "icon": "nodedotjs", "group": "Frameworks" },
-  { "name": "Express.js", "icon": "express", "group": "Frameworks" },
-  { "name": "React", "icon": "react", "group": "Frameworks" },
-  { "name": "Next.js", "icon": "nextdotjs", "group": "Frameworks" },
+  { "name": "Spring Boot", "group": "Frameworks" },
+  { "name": "Node.js", "group": "Frameworks" },
+  { "name": "Express.js", "group": "Frameworks" },
+  { "name": "React", "group": "Frameworks" },
+  { "name": "Next.js", "group": "Frameworks" },
 
-  { "name": "Oracle", "icon": "oracle", "group": "Data" },
-  { "name": "PostgreSQL", "icon": "postgresql", "group": "Data" },
-  { "name": "MongoDB", "icon": "mongodb", "group": "Data" },
-  { "name": "Redis", "icon": "redis", "group": "Data" },
+  { "name": "Oracle", "group": "Data" },
+  { "name": "PostgreSQL", "group": "Data" },
+  { "name": "MongoDB", "group": "Data" },
+  { "name": "Redis", "group": "Data" },
 
-  { "name": "Apache Kafka", "icon": "apachekafka", "group": "Integration & Ops" },
-  { "name": "webMethods", "icon": "webmethods", "group": "Integration & Ops" },
-  { "name": "Docker", "icon": "docker", "group": "Integration & Ops" },
-  { "name": "RHEL", "icon": "redhat", "group": "Integration & Ops" },
+  { "name": "Apache Kafka", "group": "Integration & Ops" },
+  { "name": "webMethods", "group": "Integration & Ops" },
+  { "name": "Docker", "group": "Integration & Ops" },
+  { "name": "RHEL", "group": "Integration & Ops" },
 
-  { "name": "Claude", "icon": "claude", "group": "AI" },
-  { "name": "Hermes", "icon": "hermes", "group": "AI" }
+  { "name": "Claude", "group": "AI" },
+  { "name": "Hermes", "group": "AI" }
 ]

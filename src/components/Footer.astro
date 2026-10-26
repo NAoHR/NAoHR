@@ -1,0 +1,22 @@
+---
+import { LINKS } from "../utils/links";
+---
+
+<footer class="site-footer">
+  <p>Najmi, Jakarta</p>
+  <ul>
+    {
+      LINKS.map(({ label, href }) => (
+        <li>
+          {href.startsWith("mailto:") ? (
+            <a href={href}>{label}</a>
+          ) : (
+            <a href={href} target="_blank" rel="noopener noreferrer">
+              {label}
+            </a>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+</footer>

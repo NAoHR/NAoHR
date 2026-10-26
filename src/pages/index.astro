@@ -1,10 +1,26 @@
 ---
-import "@mantine/core/styles.css";
+import { getCollection } from "astro:content";
+
+import MessageRoute from "../components/MessageRoute.astro";
+import Route from "../components/Route.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Portfolio from "../app/Portfolio";
+import { experience, projects, stack } from "../utils/content";
+import { LINKS } from "../utils/links";
 
 const description =
   "Najmi (NAoHR) — software engineer specialising in backend development and system integration. Middleware, payment platforms and e-wallets in Java and Spring Boot.";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const dateFormat = new Intl.DateTimeFormat("en-GB", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
+
+const heroLinks = LINKS.slice(0, 3);
 ---
 
 <BaseLayout title="Najmi — Backend & Integration Engineer" description={description}>
@@ -27,5 +43,118 @@ const description =
     })}
   />
 
-  <Portfolio client:load />
+  <section class="hero" aria-labelledby="hero-title">
+    <h1 id="hero-title">
+      A message leaves one system, crosses three more, and still balances at the end.
+    </h1>
+
+    <MessageRoute />
+
+    <div class="intro">
+      <p>
+        I’m Najmi, a backend and integration engineer at Indivara in Jakarta. I build that
+        path in Java and Spring Boot: e-wallets, middleware and payment rails, and lately I
+        lead the teams that build them.
+      </p>
+      <ul class="intro-links">
+        {
+          heroLinks.map(({ label, href }) => (
+            <li>
+              {href.startsWith("mailto:") ? (
+                <a href={href}>{label}</a>
+              ) : (
+                <a href={href} target="_blank" rel="noopener noreferrer">
+                  {label}
+                </a>
+              )}
+            </li>
+          ))
+        }
+        <li><a href="/cv.pdf">CV (PDF)</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="work" aria-labelledby="work-title">
+    <h2 id="work-title">Work</h2>
+    <ol class="work">
+      {
+        experience.map((role) => (
+          <li>
+            <p class="work-when">{role.period}</p>
+            <div class="work-body">
+              <h3>{role.title}</h3>
+              <p class="work-role">
+                {role.role}, {role.company}
+              </p>
+              <Route nodes={role.route} />
+              <details>
+                <summary>
+                  What I did<span class="visually-hidden"> on {role.title}, {role.period}</span>
+                </summary>
+                <p>{role.description}</p>
+                <ul>
+                  {role.highlights.map((highlight) => (
+                    <li>{highlight}</li>
+                  ))}
+                </ul>
+                <p class="tech">{role.tag.join(", ")}</p>
+              </details>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section id="projects" aria-labelledby="projects-title">
+    <h2 id="projects-title">Side projects</h2>
+    <ul class="projects">
+      {
+        projects.map((project) => (
+          <li>
+            <h3>
+              <a href={project.link} target="_blank" rel="noopener noreferrer">
+                {project.title}
+              </a>
+            </h3>
+            <p>{project.description}</p>
+            <p class="tech">{project.tag.join(", ")}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section id="stack" aria-labelledby="stack-title">
+    <h2 id="stack-title">Tools</h2>
+    <dl class="stack">
+      {
+        stack.map(({ group, items }) => (
+          <div>
+            <dt>{group}</dt>
+            <dd>{items.join(", ")}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  {
+    posts.length > 0 && (
+      <section id="writing" aria-labelledby="writing-title">
+        <h2 id="writing-title">Writing</h2>
+        <ul class="post-list">
+          {posts.map((post) => (
+            <li>
+              <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+              <time datetime={post.data.date.toISOString()}>
+                {dateFormat.format(post.data.date)}
+              </time>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
 </BaseLayout>

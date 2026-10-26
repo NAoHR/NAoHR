@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import BlogLayout from "../../layouts/BlogLayout.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
@@ -13,39 +13,30 @@ const dateFormat = new Intl.DateTimeFormat("en-GB", {
 });
 ---
 
-<BlogLayout
-  title="Blog — Najmi"
-  description="Coming Soon."
+<BaseLayout
+  title="Writing — Najmi"
+  description="Notes on payment integration and backend work by Najmi."
 >
-  <h1 class="page-title">Blog</h1>
-  <p class="meta">
-    Coming Soon...
-  </p>
-
-  {posts.length === 0 && <p class="meta" style="margin-top:2rem">No posts yet.</p>}
-
-  <ul class="post-list" style="margin-top:2.5rem">
+  <div class="simple">
+    <h1>Writing</h1>
     {
-      posts.map((post) => (
-        <li>
-          <a href={`/blog/${post.id}/`}>
-            <h2>{post.data.title}</h2>
-            <p class="meta">
+      posts.length === 0 ? (
+        <p class="lede">
+          Nothing published yet. Meanwhile, the <a href="/#work">work section</a> shows what
+          I build.
+        </p>
+      ) : (
+        <ul class="post-list">
+          {posts.map((post) => (
+            <li>
+              <a href={`/blog/${post.id}/`}>{post.data.title}</a>
               <time datetime={post.data.date.toISOString()}>
                 {dateFormat.format(post.data.date)}
               </time>
-            </p>
-            <p>{post.data.description}</p>
-          </a>
-          {post.data.tags.length > 0 && (
-            <ul class="tags">
-              {post.data.tags.map((tag) => (
-                <li>{tag}</li>
-              ))}
-            </ul>
-          )}
-        </li>
-      ))
+            </li>
+          ))}
+        </ul>
+      )
     }
-  </ul>
-</BlogLayout>
+  </div>
+</BaseLayout>

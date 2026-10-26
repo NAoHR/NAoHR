@@ -1,6 +1,8 @@
 ---
+import "../../styles/prose.css";
+
 import { getCollection, render } from "astro:content";
-import BlogLayout from "../../layouts/BlogLayout.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog", ({ data }) => !data.draft);
@@ -17,36 +19,26 @@ const dateFormat = new Intl.DateTimeFormat("en-GB", {
 });
 ---
 
-<BlogLayout
+<BaseLayout
   title={`${post.data.title} — Najmi`}
   description={post.data.description}
   publishedDate={post.data.date}
 >
-  <article>
+  <article class="simple">
     <header>
-      <h1 class="post-title">{post.data.title}</h1>
-      <p class="meta">
-        <time datetime={post.data.date.toISOString()}>
-          {dateFormat.format(post.data.date)}
-        </time>
+      <h1>{post.data.title}</h1>
+      <p class="lede">
+        <time datetime={post.data.date.toISOString()}>{dateFormat.format(post.data.date)}</time>
+        {post.data.tags.length > 0 && <span>, filed under {post.data.tags.join(", ")}</span>}
       </p>
-      {
-        post.data.tags.length > 0 && (
-          <ul class="tags">
-            {post.data.tags.map((tag) => (
-              <li>{tag}</li>
-            ))}
-          </ul>
-        )
-      }
     </header>
 
     <div class="prose">
       <Content />
     </div>
-  </article>
 
-  <p class="meta" style="margin-top:3rem">
-    <a href="/blog/" style="color:var(--accent)">← All posts</a>
-  </p>
-</BlogLayout>
+    <p class="lede" style="margin-top: 3rem">
+      <a href="/blog/">All writing</a>
+    </p>
+  </article>
+</BaseLayout>

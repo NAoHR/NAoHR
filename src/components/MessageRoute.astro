@@ -1,0 +1,50 @@
+---
+/*
+ * The hero: one transfer travelling App -> Gateway -> Switch -> Core and
+ * coming back approved and balanced. Pure HTML + CSS; the animation plays
+ * once on load and every element's resting style is its final state, so
+ * reduced motion (or no animation support) simply shows the finished trip.
+ *
+ * The wire data is real ISO 8583:1987: MTI 0200 is a financial request,
+ * DE3 400000 the transfer processing code, DE4 the amount in minor units
+ * (IDR has two decimals), MTI 0210 the response and DE39 00 "approved".
+ */
+const nodes = ["Mobile app", "API gateway", "Switch", "Core banking"];
+const hops = [
+  { format: "JSON", lines: ['"value": "150000.00"'] },
+  { format: "ISO 8583", lines: ["0200", "DE3 400000"] },
+  { format: "ISO 8583", lines: ["0200", "DE4 000015000000"] },
+];
+---
+
+<figure
+  class="trip"
+  aria-label="A Rp150.000 transfer travelling from a mobile app through an API gateway and a switch to core banking"
+>
+  <ol class="trip-path">
+    {
+      nodes.map((node, i) => (
+        <>
+          <li class="trip-node" style={`--i: ${i}`}>
+            {node}
+          </li>
+          {hops[i] && (
+            <li class="trip-hop" style={`--i: ${i}`}>
+              <span class="trip-packet" aria-hidden="true" />
+              <span class="trip-label">
+                <span class="trip-format">{hops[i].format}</span>
+                {hops[i].lines.map((line) => (
+                  <code>{line}</code>
+                ))}
+              </span>
+            </li>
+          )}
+        </>
+      ))
+    }
+  </ol>
+  <figcaption class="trip-outcome">
+    <code>0210 DE39 00</code>
+    <span>Approved. Debit Rp150.000, credit Rp150.000: <strong>balanced</strong>.</span>
+  </figcaption>
+</figure>

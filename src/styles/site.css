@@ -1,0 +1,733 @@
+/*
+ * One stylesheet for every page. Colours are light-dark() pairs: with no saved
+ * choice they follow the OS through color-scheme; the theme toggle pins
+ * data-theme on <html>, which pins color-scheme.
+ *
+ * Palette: cheque-ink navy on cool paper, and one "settled" green that only
+ * marks things that moved or completed (the message trace, links, focus).
+ */
+:root {
+  color-scheme: light dark;
+
+  --bg: light-dark(#f5f6f8, #0f1420);
+  --surface: light-dark(#ffffff, #161c2b);
+  --ink: light-dark(#1b2440, #e4e8f1);
+  --muted: light-dark(#596079, #9aa3b8);
+  --rule: light-dark(#d8dce5, #262f45);
+  --line: light-dark(#a9b0c2, #3d4863);
+  --accent: light-dark(#0b7a62, #3fc8a4);
+
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  --measure: 40rem;
+  --wide: 60rem;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 1.5rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+
+code {
+  font-family: var(--mono);
+}
+
+a {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-color: var(--line);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+
+a:hover {
+  color: var(--accent);
+  text-decoration-color: currentColor;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -3rem;
+  z-index: 10;
+  padding: 0.5rem 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--accent);
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* ---------------------------------------------------------------- layout */
+
+.page {
+  max-width: calc(var(--wide) + 3rem);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+main > section + section {
+  margin-top: 6rem;
+}
+
+main h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 2rem;
+}
+
+.tech {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+/* ---------------------------------------------------------------- header */
+
+.site-header {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  padding: 1.5rem 0;
+}
+
+.site-name {
+  font-weight: 600;
+  text-decoration: none;
+  margin-right: auto;
+}
+
+.site-header ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+  list-style: none;
+  padding: 0;
+}
+
+.site-header nav a {
+  text-decoration: none;
+}
+
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-right: -0.5rem;
+  padding: 0;
+  color: inherit;
+  background: none;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  color: var(--accent);
+}
+
+.icon-sun {
+  display: none;
+}
+
+[data-theme="dark"] .icon-sun {
+  display: block;
+}
+
+[data-theme="dark"] .icon-moon {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .icon-sun {
+    display: block;
+  }
+  :root:not([data-theme="light"]) .icon-moon {
+    display: none;
+  }
+}
+
+@media (max-width: 30rem) {
+  .site-header {
+    gap: 1rem;
+  }
+  .site-header ul {
+    column-gap: 1rem;
+  }
+}
+
+/* ------------------------------------------------------------------ hero */
+
+.hero {
+  padding-top: clamp(3rem, 8vw, 6rem);
+}
+
+.hero h1 {
+  max-width: 30ch;
+  font-size: clamp(1.85rem, 1.2rem + 2.6vw, 2.9rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.intro {
+  max-width: var(--measure);
+}
+
+.intro p {
+  font-size: 1.125rem;
+}
+
+.intro-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin-top: 1.25rem;
+  padding: 0;
+  list-style: none;
+  font-weight: 500;
+}
+
+/* The trip: one transfer drawn across four systems. Resting styles are the
+   finished state; the animations below only supply where things start. */
+
+.trip {
+  --start: 0.7s;
+  --step: 0.9s;
+  --travel: 0.7s;
+  --node-h: 3rem;
+
+  margin: clamp(2.5rem, 6vw, 4rem) 0;
+}
+
+.trip-path {
+  display: grid;
+  grid-template-columns:
+    auto minmax(8rem, 1fr) auto minmax(8rem, 1fr)
+    auto minmax(8rem, 1fr) auto;
+  align-items: start;
+  padding: 0;
+  list-style: none;
+}
+
+.trip-node {
+  display: flex;
+  align-items: center;
+  height: var(--node-h);
+  padding: 0 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  white-space: nowrap;
+  background: var(--surface);
+  border: 1.5px solid var(--accent);
+  border-radius: 6px;
+  animation: trip-reach 0.3s ease-out backwards;
+  animation-delay: calc(var(--start) + (var(--i) - 1) * var(--step) + var(--travel));
+}
+
+.trip-hop {
+  position: relative;
+}
+
+/* Dashed: the road. Solid: the trace the message leaves on it. */
+.trip-hop::before,
+.trip-hop::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--node-h) / 2);
+}
+
+.trip-hop::before {
+  border-top: 1.5px dashed var(--line);
+}
+
+/* The trace and the packet animate layout properties (right, left, top,
+   visibility) instead of transform/opacity so nothing depends on compositor
+   layers; a few small elements, once per page load. */
+.trip-hop::after {
+  border-top: 1.5px solid var(--accent);
+  animation: trip-trace-x var(--travel) ease-in-out backwards;
+  animation-delay: calc(var(--start) + var(--i) * var(--step));
+}
+
+.trip-packet {
+  position: absolute;
+  z-index: 1;
+  top: calc(var(--node-h) / 2 - 4.5px);
+  left: 0;
+  width: 9px;
+  height: 9px;
+  background: var(--accent);
+  border-radius: 2px;
+  visibility: hidden;
+  animation: trip-travel-x var(--travel) ease-in-out;
+  animation-delay: calc(var(--start) + var(--i) * var(--step));
+}
+
+.trip-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: calc(var(--node-h) / 2 + 0.85rem);
+  padding: 0 0.5rem;
+  animation: trip-appear 0.4s ease-out backwards;
+  animation-delay: calc(var(--start) + var(--i) * var(--step) + 0.35s);
+}
+
+.trip-format {
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+
+.trip-label code {
+  font-size: 0.84rem;
+  white-space: nowrap;
+}
+
+.trip-outcome {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+  margin-top: 1.5rem;
+  font-size: 0.9375rem;
+  animation: trip-appear 0.5s ease-out backwards;
+  animation-delay: calc(var(--start) + 2 * var(--step) + var(--travel) + 0.2s);
+}
+
+.trip-outcome code {
+  font-size: 0.82rem;
+}
+
+.trip-outcome strong {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+@keyframes trip-reach {
+  from {
+    border-color: var(--line);
+  }
+}
+
+@keyframes trip-trace-x {
+  from {
+    right: 100%;
+  }
+}
+
+@keyframes trip-trace-y {
+  from {
+    bottom: 100%;
+  }
+}
+
+@keyframes trip-travel-x {
+  from {
+    left: 0;
+    visibility: visible;
+  }
+  to {
+    left: calc(100% - 9px);
+    visibility: visible;
+  }
+}
+
+@keyframes trip-travel-y {
+  from {
+    top: 0;
+    visibility: visible;
+  }
+  to {
+    top: calc(100% - 9px);
+    visibility: visible;
+  }
+}
+
+@keyframes trip-appear {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Narrow screens: the same trip, top to bottom. */
+@media (max-width: 52rem) {
+  .trip-path {
+    grid-template-columns: 1fr;
+  }
+
+  .trip-node {
+    justify-self: start;
+  }
+
+  .trip-hop {
+    min-height: 5.5rem;
+  }
+
+  .trip-hop::before,
+  .trip-hop::after {
+    left: 1.25rem;
+    right: auto;
+    top: 0;
+    bottom: 0;
+  }
+
+  .trip-hop::before {
+    border-top: 0;
+    border-left: 1.5px dashed var(--line);
+  }
+
+  .trip-hop::after {
+    border-top: 0;
+    border-left: 1.5px solid var(--accent);
+    animation-name: trip-trace-y;
+  }
+
+  .trip-packet {
+    top: 0;
+    left: calc(1.25rem - 3.75px);
+    animation-name: trip-travel-y;
+  }
+
+  .trip-label {
+    align-items: flex-start;
+    margin: 0;
+    padding: 0.75rem 0 0.75rem 2.75rem;
+  }
+
+  .trip-outcome {
+    justify-content: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trip *,
+  .trip *::before,
+  .trip *::after {
+    animation: none !important;
+  }
+}
+
+/* ------------------------------------------------------------------ work */
+
+.work {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding: 0;
+  list-style: none;
+}
+
+.work > li {
+  display: grid;
+  grid-template-columns: 11rem minmax(0, 1fr);
+  gap: 0.25rem 2rem;
+}
+
+.work-when {
+  padding-top: 0.15rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.work-body {
+  max-width: var(--measure);
+}
+
+.work h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.work-role {
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.route {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  row-gap: 0.5rem;
+  margin-top: 0.85rem;
+  padding: 0;
+  list-style: none;
+}
+
+.route li {
+  position: relative;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.8125rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+/* The connector hangs off the right of every node but the last, so when the
+   route wraps the line trails off the end of the row instead of dangling
+   at the start of the next one. */
+.route li:not(:last-child) {
+  margin-right: 1.25rem;
+}
+
+.route li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: calc(100% + 1px);
+  top: 50%;
+  width: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+details {
+  margin-top: 0.85rem;
+}
+
+summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--accent);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  list-style: none;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary::before {
+  content: "";
+  width: 0.4rem;
+  height: 0.4rem;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 0.15s ease-out;
+}
+
+details[open] summary::before {
+  transform: rotate(45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  summary::before {
+    transition: none;
+  }
+}
+
+details > p,
+details > ul {
+  margin-top: 0.85rem;
+}
+
+details ul {
+  padding-left: 1.1rem;
+}
+
+details li + li {
+  margin-top: 0.45rem;
+}
+
+@media (max-width: 40rem) {
+  .work > li {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* -------------------------------------------------------------- projects */
+
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: 2.25rem 2.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.projects h3 {
+  font-size: 1.0625rem;
+  font-weight: 600;
+}
+
+.projects p {
+  margin-top: 0.35rem;
+}
+
+.projects h3 + p {
+  font-size: 1rem;
+}
+
+/* ----------------------------------------------------------------- stack */
+
+.stack {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.stack > div {
+  display: grid;
+  grid-template-columns: 11rem minmax(0, 1fr);
+  gap: 0 2rem;
+}
+
+.stack dt {
+  color: var(--muted);
+}
+
+@media (max-width: 40rem) {
+  .stack > div {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --------------------------------------------------------------- writing */
+
+.post-list {
+  display: grid;
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.post-list li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0 1.5rem;
+  max-width: var(--measure);
+}
+
+.post-list time {
+  color: var(--muted);
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------------------------------------------------------------- simple */
+/* Blog index, posts and 404: one readable column. */
+
+.simple {
+  max-width: var(--measure);
+  padding-top: clamp(2.5rem, 6vw, 4rem);
+}
+
+.simple h1 {
+  font-size: clamp(1.7rem, 1.3rem + 1.6vw, 2.3rem);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.simple .lede {
+  margin-top: 0.75rem;
+  color: var(--muted);
+}
+
+.simple .post-list {
+  margin-top: 2.5rem;
+}
+
+.simple .poem {
+  margin: 3rem 0 0;
+  padding-left: 1rem;
+  color: var(--muted);
+  font-style: italic;
+  border-left: 2px solid var(--line);
+}
+
+/* ---------------------------------------------------------------- footer */
+
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem 2rem;
+  margin-top: 7rem;
+  padding: 2rem 0 3rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+  border-top: 1px solid var(--rule);
+}
+
+.site-footer ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  padding: 0;
+  list-style: none;
+}

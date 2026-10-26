@@ -1,0 +1,12 @@
+---
+/** The hero's diagram in miniature: the systems one engagement connected. */
+interface Props {
+  nodes: string[];
+}
+
+const { nodes } = Astro.props;
+---
+
+<ol class="route" aria-label={`Systems connected: ${nodes.join(", then ")}`}>
+  {nodes.map((node) => <li>{node}</li>)}
+</ol>

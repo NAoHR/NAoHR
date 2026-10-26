@@ -5,7 +5,12 @@
     "role": "Technical Consultant & Team Lead",
     "period": "Dec 2025 — Present",
     "description": "Led the convergence of two separate wallet codebases serving the Philippines and Indonesia into a single runtime-configurable platform, driven by a YAML country configuration that decides which market-specific behaviours apply per deployment.",
-    "image": "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=75&w=900",
+    "route": [
+      "Wallet apps (ID, PH)",
+      "Wallet core",
+      "QRIS / QRPH",
+      "Payment gateways"
+    ],
     "highlights": [
       "Designed the core balance model with three configurable modes — standard, shared and closed loop — serving as the single key behind every transaction and reporting flow.",
       "Built country-pluggable integration layers so one codebase can switch QR standards (QRIS and QRPH), route to different payment gateways and apply market-specific KYC by configuration.",
@@ -27,7 +32,12 @@
     "role": "Team Lead",
     "period": "Apr 2025 — Present",
     "description": "Promoted from developer to Tech Lead mid-project to take over a platform migration at an export-import financial institution — replacing MuleSoft with IBM webMethods and moving the legacy Middleware Payment System onto a React and Spring Boot stack.",
-    "image": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=75&w=900",
+    "route": [
+      "External apps",
+      "webMethods DMZ",
+      "Middleware Payment System",
+      "SWIFT / RTGS"
+    ],
     "highlights": [
       "Led a cross-functional team of up to 8 through development, SIT, UAT and production go-live, owning technical and business issue resolution through to launch.",
       "Drove a design change that removed a redundant webMethods installation on the government partner's infrastructure — cutting licence costs, removing a network hop from the transaction path and consolidating logs inside the bank's environment.",
@@ -51,7 +61,12 @@
     "role": "Technical Consultant",
     "period": "Jan 2025 — Apr 2025",
     "description": "Independently built an ISO 8583 ↔ SNAP message converter against the bank's core system specification, delivering eight services spanning inquiry, intrabank and interbank transfer, settlement, echo and status check.",
-    "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=75&w=900",
+    "route": [
+      "SNAP clients",
+      "API gateway",
+      "ISO 8583 socket",
+      "Core banking"
+    ],
     "highlights": [
       "Built the asynchronous callback pipeline forwarding core-system results to client callback URIs, with a scheduler-driven status check that reconciles transactions when no callback arrives within a minute.",
       "Implemented ISO 8583 over a multiplexed TCP/IP connection, correlating concurrent request–response pairs by composite key on one persistent socket instead of a connection per transaction.",
@@ -74,7 +89,12 @@
     "role": "Technical Consultant",
     "period": "Dec 2024 — Mar 2025",
     "description": "Built transaction and onboarding services for the internal e-wallet, from the member Register API through to Kafka-based transaction workers.",
-    "image": "https://images.unsplash.com/photo-1633158829585-23ba8f7c8caf?auto=format&fit=crop&q=75&w=900",
+    "route": [
+      "Member app",
+      "Register API",
+      "Kafka workers",
+      "Wallet"
+    ],
     "highlights": [
       "Developed a general-purpose Balance Deduction System supporting direct-deduct transaction mechanisms.",
       "Built an inbound–outbound rule management system for principal and CO accounts over Kafka messaging.",
@@ -97,7 +117,12 @@
     "role": "Technical Consultant",
     "period": "Nov 2024",
     "description": "Developed integration APIs connecting a range of SME platforms, including merchant applications and payroll or payment systems.",
-    "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=75&w=900",
+    "route": [
+      "Merchant apps",
+      "Integration APIs",
+      "Kafka request–reply",
+      "Payroll / payment"
+    ],
     "highlights": [
       "Implemented the initial Kafka-based Request–Reply communication pattern across multiple internal systems.",
       "Refactored existing code to improve reliability, maintainability and performance."
@@ -115,7 +140,12 @@
     "role": "Technical Consultant",
     "period": "Mar 2024 — Dec 2024",
     "description": "Developed BI-SNAP compliant middleware services — internal and external inquiry, interbank transfer transaction history and QRIS CPM.",
-    "image": "https://images.unsplash.com/photo-1601597111158-2fceff292cdc?auto=format&fit=crop&q=75&w=900",
+    "route": [
+      "SNAP clients",
+      "BI-SNAP middleware",
+      "ISO 8583",
+      "Mandiri API"
+    ],
     "highlights": [
       "Enhanced Spring Boot OAuth2 authentication to meet BI-SNAP authentication standards, and integrated with the Mandiri API.",
       "Built an ISO 8583 message converter for interoperability with SNAP specifications and back again.",
@@ -137,7 +167,12 @@
     "role": "Technical Consultant",
     "period": "Jul 2023 — Dec 2024",
     "description": "Built transaction features for a Philippine bank's e-wallet, centred on a Kafka-driven Balance Deduction System.",
-    "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=75&w=900",
+    "route": [
+      "Members",
+      "E-wallet",
+      "Kafka balance deduction",
+      "Bank accounts"
+    ],
     "highlights": [
       "Implemented balance deduction backing the Send Money and Request Money between member features.",
       "Developed and integrated the peer-to-peer outgoing transaction inquiry process.",

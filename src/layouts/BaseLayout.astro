@@ -1,5 +1,13 @@
 ---
-import "../styles/index.css";
+import "@fontsource/ibm-plex-sans/latin-400.css";
+import "@fontsource/ibm-plex-sans/latin-500.css";
+import "@fontsource/ibm-plex-sans/latin-600.css";
+import "@fontsource/ibm-plex-mono/latin-400.css";
+import "../styles/site.css";
+
+import { getCollection } from "astro:content";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
 
 interface Props {
   title: string;
@@ -13,6 +21,7 @@ interface Props {
 const { title, description, image = "/assets/profile.jpg", publishedDate } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
+const hasPosts = (await getCollection("blog", ({ data }) => !data.draft)).length > 0;
 ---
 
 <html lang="en">
@@ -43,35 +52,31 @@ const ogImage = new URL(image, Astro.site);
     <link rel="apple-touch-icon" href="/assets/profile.jpg" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <meta name="theme-color" content="#1a1b1e" />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <meta name="theme-color" content="#f5f6f8" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)" />
 
     <slot name="head" />
 
-    {/* Apply the saved colour scheme before first paint to avoid a flash.
-        Shares Mantine's storage key so the toggle carries across pages. */}
+    {/* A saved choice wins over the OS setting. Runs before first paint so
+        the page never flashes the other theme. Without a saved choice the CSS
+        follows the OS through color-scheme + light-dark(). */}
     <script is:inline>
-      (function () {
-        try {
-          var saved = localStorage.getItem("mantine-color-scheme-value");
-          var scheme =
-            saved === "light" || saved === "dark"
-              ? saved
-              : window.matchMedia("(prefers-color-scheme: light)").matches
-                ? "light"
-                : "dark";
-          document.documentElement.setAttribute("data-mantine-color-scheme", scheme);
-        } catch (e) {}
-      })();
+      try {
+        var saved = localStorage.getItem("theme");
+        if (saved === "light" || saved === "dark") {
+          document.documentElement.dataset.theme = saved;
+        }
+      } catch (e) {}
     </script>
   </head>
   <body>
-    <slot />
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="page">
+      <Header hasPosts={hasPosts} />
+      <main id="main">
+        <slot />
+      </main>
+      <Footer />
+    </div>
   </body>
 </html>
